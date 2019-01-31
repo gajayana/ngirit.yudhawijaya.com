@@ -11,6 +11,18 @@
 |
 */
 
+Route::group( [ 'middleware' => [ 'web', 'guest' ] ], function() {
+    
+    Route::post( 'catat_masuk', 'Auth\LoginController@login');
+    
+} );
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+
+
+Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
