@@ -12,7 +12,7 @@ v-app
               div Nguthek-uthek data...
               v-progress-linear.mb-0(color='white', indeterminate)
         v-flex(v-else, sm-12)
-          v-card.mb-4
+          v-card.mb-4(v-if='items')
             v-card-title 
               h1.headline Pengeluaran
             v-card-text
@@ -22,7 +22,7 @@ v-app
               div
                 span.mr-1 Bulan ini:
                 span.font-weight-bold Rp {{ spendingMonthly | digitGrouping }}
-          v-card
+          v-card(v-if='items')
             v-list(two-line, subheader)
               v-subheader(inset)
                 span.font-weight-bold Rekap {{ dateRecap | dateFormal }}
@@ -65,16 +65,20 @@ export default {
       user: state => state.user,
     }),
     dateRecap() {
+      if (!this.items.length) return;
       return this.items[0].created_at
     },
     filteredItems() {
+      if (!this.items.length) return;
       return this.items.filter((row) => row.created_at.substring(0,10) === this.today).sort( (a, b) => new Date(b.created_at) - new Date(a.created_at) )
     },
     spendingMonthly() {
+      if (!this.items.length) return;
       let res = this.items.reduce( ( a,b ) => ({ amount : a.amount + b.amount }) )
       return res.amount
     },
     spendingToday() {
+      if (!this.items.length) return;
       let objs = this.items.filter((row) => row.created_at.substring(0,10) === this.today)
       let res = objs.reduce( (a, b) => ({ amount : a.amount + b.amount }) )
       return res.amount
