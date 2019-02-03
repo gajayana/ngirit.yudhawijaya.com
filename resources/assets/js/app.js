@@ -36,6 +36,7 @@ import Vuetify, {
   VListTileContent,
   VListTileSubTitle,
   VListTileTitle,
+  VProgressLinear,
   VSpacer,
   VSubheader,
   VTextField,
@@ -78,6 +79,7 @@ Vue.use(Vuetify, {
     VListTileContent,
     VListTileSubTitle,
     VListTileTitle,
+    VProgressLinear,
     VSpacer,
     VSubheader,
     VTextField,
@@ -132,10 +134,12 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
-    user: null
+    today: null,
+    user: null,
   },
   mutations: {
     updateState(state, payload) {
+      state.today = payload.today
       state.user = payload.user
     }
   },
@@ -150,6 +154,7 @@ const store = new Vuex.Store({
           context.commit(
             'updateState',
             {
+              today: window.Ngirit.today,
               user: user,
             }
           )

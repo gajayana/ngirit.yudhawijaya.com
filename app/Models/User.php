@@ -33,4 +33,12 @@ class User extends Authenticatable
     ];
 
     public $incrementing = false;
+
+    public function parse() {
+        return (object)[
+            'is_admin' => $this->is_admin,
+            'uuid' => $this->id,
+            'name' => $this->name,
+        ];
+    }
 }

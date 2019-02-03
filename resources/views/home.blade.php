@@ -23,6 +23,7 @@
       window.Laravel = @json(['csrf_token' => csrf_token()]);
       @if(\Auth::check())
         window.Ngirit = @json([
+          'today' => \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d'),
           'uuid' => \Auth::user()->id,
         ]);
       @endif
