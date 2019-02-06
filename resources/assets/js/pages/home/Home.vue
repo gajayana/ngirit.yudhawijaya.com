@@ -25,7 +25,7 @@ v-app
           v-card(v-if='items')
             v-list(two-line, subheader)
               v-subheader(inset)
-                span.font-weight-bold Rekap {{ dateRecap | dateFormal }}
+                span.font-weight-bold Rekap Hari Ini
               v-divider(inset)
               v-list-tile(v-if='items', v-for='item in filteredItems', :key='item.id', avatar)
                 v-list-tile-avatar(color='red')
@@ -64,12 +64,8 @@ export default {
       today: state => state.today,
       user: state => state.user,
     }),
-    dateRecap() {
-      if (!this.items.length) return;
-      return this.items[0].created_at
-    },
     filteredItems() {
-      if (!this.items.length) return;
+      if (!this.items) return;
       return this.items.filter((row) => row.created_at.substring(0,10) === this.today).sort( (a, b) => new Date(b.created_at) - new Date(a.created_at) )
     },
     spendingMonthly() {
@@ -78,9 +74,9 @@ export default {
       return res.amount
     },
     spendingToday() {
-      if (!this.items.length) return;
+      if (!this.items) return;
       let objs = this.items.filter((row) => row.created_at.substring(0,10) === this.today)
-      let res = objs.reduce( (a, b) => ({ amount : a.amount + b.amount }) )
+      let res = objs.length ? objs.reduce( (a, b) => ({ amount : a.amount + b.amount }) ) : 0
       return res.amount
     },
   },
