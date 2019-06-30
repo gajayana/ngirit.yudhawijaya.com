@@ -1,12 +1,21 @@
-let colors;_d40‍.x([["default",()=>_d40‍.o]]);_d40‍.w("vuetify/es5/util/colors",[["default",["colors"],function(v){colors=v}]]);
+require('dotenv').config()
 
-_d40‍.d({
+export default {
   mode: 'spa',
+  env: {
+    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY || '',
+    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN || '',
+    FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL || '',
+    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID || '',
+    FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET || '',
+    // eslint-disable-next-line prettier/prettier
+    FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+    FIREBASE_APP_ID: process.env.FIREBASE_APP_ID || ''
+  },
   /*
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -21,8 +30,8 @@ _d40‍.d({
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        // eslint-disable-next-line prettier/prettier
+        href: 'https://fonts.googleapis.com/css?family=Open+Sans|Roboto:700&display=swap'
       }
     ]
   },
@@ -33,48 +42,44 @@ _d40‍.d({
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/css/app.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/firebase'],
+  router: {
+    middleware: 'authenticated'
+  },
   /*
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/vuetify',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    'nuxt-purgecss'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
-  /*
-   ** vuetify module configuration
-   ** https://github.com/nuxt-community/vuetify-module
-   */
-  vuetify: {
-    theme: {
-      primary: colors.blue.darken2,
-      accent: colors.grey.darken3,
-      secondary: colors.amber.darken3,
-      info: colors.teal.lighten1,
-      warning: colors.amber.base,
-      error: colors.deepOrange.accent4,
-      success: colors.green.accent3
-    }
+  purgeCSS: {
+    whitelist: ['html', 'body']
   },
   /*
    ** Build configuration
    */
   build: {
+    postcss: {
+      plugins: {
+        tailwindcss: './tailwind.config.js'
+      }
+    },
     /*
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
   }
-});
+}
