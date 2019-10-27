@@ -1,7 +1,9 @@
-// eslint-disable-next-line prettier/prettier
-export default function ({ store, redirect }) {
-  // If the user is not authenticated
-  if (!store.state.user) {
-    return redirect('/login')
+/* eslint-disable space-before-function-paren */
+export default function({ store, redirect, route }) {
+  if (store.state.auth.user !== null && route.name === 'login') {
+    redirect('/')
+  }
+  if (store.state.auth.user === null) {
+    redirect('/login')
   }
 }

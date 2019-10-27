@@ -1,5 +1,8 @@
-import firebase from 'firebase/app'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/database'
+
 const configs = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -10,10 +13,12 @@ const configs = {
   appId: process.env.FIREBASE_APP_ID
 }
 
-firebase.initializeApp(configs)
-const db = firebase.firestore()
-const settings = {
-  // timestampsInSnapshots: true
+if (!firebase.apps.length) {
+  firebase.initializeApp(configs)
 }
-db.settings(settings)
-export { db }
+
+export const GoogleProvider = new firebase.auth.GoogleAuthProvider()
+export const auth = firebase.auth()
+export const DB = firebase.database()
+export const StoreDB = firebase.firestore()
+export default firebase
