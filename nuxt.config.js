@@ -48,17 +48,13 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify',
-    'nuxt-purgecss'
+    '@nuxtjs/vuetify'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
-  purgeCSS: {
-    whitelist: ['html', 'body']
-  },
   /*
    ** Build configuration
    */
