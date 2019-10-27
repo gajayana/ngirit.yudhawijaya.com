@@ -1,3 +1,4 @@
+/* eslint-disable space-before-function-paren */
 require('dotenv').config()
 
 export default {
@@ -8,8 +9,8 @@ export default {
     FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL || '',
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID || '',
     FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET || '',
-    // eslint-disable-next-line prettier/prettier
-    FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+    FIREBASE_MESSAGING_SENDER_ID:
+      process.env.FIREBASE_MESSAGING_SENDER_ID || '',
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID || ''
   },
   /*
@@ -25,14 +26,6 @@ export default {
         name: 'description',
         content: process.env.npm_package_description || ''
       }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        // eslint-disable-next-line prettier/prettier
-        href: 'https://fonts.googleapis.com/css?family=Open+Sans|Roboto:700&display=swap'
-      }
     ]
   },
   /*
@@ -42,19 +35,20 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/css/app.css'],
+  css: [],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/firebase'],
+  plugins: ['~/plugins/fireauth'],
   /*
    ** Nuxt.js modules
    */
-  modules: [
+  buildModules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/eslint-module',
+    '@nuxtjs/vuetify',
     'nuxt-purgecss'
   ],
   /*
@@ -70,9 +64,7 @@ export default {
    */
   build: {
     postcss: {
-      plugins: {
-        tailwindcss: './tailwind.config.js'
-      }
+      plugins: {}
     },
     /*
      ** You can extend webpack config here
