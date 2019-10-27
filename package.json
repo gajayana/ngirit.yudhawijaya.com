@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.0.0-beta.19",
     "@nuxtjs/vuetify": "^1.9.0",
     "firebase": "^7.2.2",
@@ -22,7 +23,6 @@
     "vuefire": "^2.2.0"
   },
   "devDependencies": {
-    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config": "^1.1.2",
     "@nuxtjs/eslint-module": "^1.1.0",
     "@vue/test-utils": "^1.0.0-beta.27",
