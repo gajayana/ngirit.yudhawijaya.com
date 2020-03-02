@@ -20,7 +20,7 @@ export default {
     redirect,
     error
   }) {},
-  middleware: 'authenticated',
+  // middleware: 'authenticated',
   // data() {
   //   return {
   //     user: '',
