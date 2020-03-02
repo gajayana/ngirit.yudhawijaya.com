@@ -1,7 +1,6 @@
 <template lang="pug">
  v-app
-  div ini halaman terlindungi
-  button(@click='signOut') keluwar
+  div something cool is in progress
 </template>
 
 <script>
