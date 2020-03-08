@@ -5,7 +5,9 @@ export default (context) => {
 
   return new Promise((resolve, reject) => {
     auth.onAuthStateChanged((user) => {
-      store.commit('auth/setUser', user)
+      if (user) {
+        store.commit('auth/setUser', { uid: user.uid, email: user.email })
+      }
       resolve()
     })
   })

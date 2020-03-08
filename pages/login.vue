@@ -2,7 +2,7 @@
 v-app
   v-content
     v-container.fill-height(fluid)
-      v-row(align='center', justify='center')
+      v-row(align='center', justify='center', no-gutters)
         v-col(cols='12', sm='8', md='5')
           v-form
             v-card.elevation-12
@@ -36,7 +36,10 @@ export default {
         return state.auth.errors
       },
       is_processing: (state) => {
-        return state.auth.isProcessing
+        return state.auth.is_processing
+      },
+      user: (state) => {
+        return state.auth.user
       }
     }),
     ...mapFields(['email', 'password'])

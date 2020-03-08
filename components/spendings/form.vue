@@ -7,7 +7,7 @@ v-form
       v-toolbar-title Tambah Entri
     v-container
       v-col.mx-2
-        v-text-field(v-model.trim='form_item', :disabled='is_processing', autofocus, label='Barang/Jasa', type='text')
+        v-text-field(v-model.trim='form_item', :disabled='is_processing', label='Barang/Jasa', type='text')
         v-text-field(v-model.trim='form_value', :disabled='is_processing', label='Harga', type='number')
     v-card-actions
       v-spacer

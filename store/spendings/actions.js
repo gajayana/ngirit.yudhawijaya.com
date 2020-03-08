@@ -1,37 +1,64 @@
 /* eslint-disable space-before-function-paren */
 import { StoreDB } from '~/services/fireinit.js'
 export default {
-  create({ commit, state }, user) {
+  async create({ commit, state }, user) {
     commit('setIsProcessing', true)
     const collection =
       process.env.NODE_ENV === 'development' ? 'dev-spendings' : 'spendings'
-    const dt = new Date()
-    StoreDB.collection(collection)
-      .add({
+    const ts = Math.round(new Date().getTime() / 1000)
+    // StoreDB.collection(collection)
+    //   .add({
+    //     label: state.form_item,
+    //     value: parseFloat(state.form_value),
+    //     user: user.uid,
+    //     created_at: ts,
+    //     updated_at: ts
+    //   })
+    //   .then(() => {
+    //     commit('reset', false)
+    //   })
+    //   .catch((err) => {
+    //     commit('setError', { location: 'form', message: err })
+    //   })
+
+    try {
+      await StoreDB.collection(collection).add({
         label: state.form_item,
         value: parseFloat(state.form_value),
         user: user.uid,
-        created_at: dt.getTime()
+        created_at: ts,
+        updated_at: ts
       })
-      .then(() => {
-        commit('reset', false)
-      })
-      .catch((err) => {
-        commit('setError', { location: 'form', message: err })
-      })
+      commit('reset', false)
+    } catch (error) {
+      commit('setIsProcessing', false)
+      commit('setError', { location: 'form', message: error })
+    }
   },
-  fetch({ commit }) {
+  async fetch({ commit, state }) {
     const collection =
       process.env.NODE_ENV === 'development' ? 'dev-spendings' : 'spendings'
-    StoreDB.collection(collection)
-      .doc()
-      .onSnapshot((item) => {
-        console.log(item)
-      })
-    // .catch((err) => {
-    //   commit('setError', { location: 'list', message: err })
-    // })
+    await StoreDB.collection(collection)
+      .orderBy('created_at', 'desc')
+      .onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === 'added') {
+            const item = change.doc.data()
+            const index = state.items.findIndex((ob) => {
+              return ob.id === change.doc.id
+            })
 
-    // console.log(doc)
+            if (index < 0) {
+              commit('pushToItems', {
+                created_at: item.created_at,
+                id: change.doc.id,
+                label: item.label,
+                user: item.user,
+                value: item.value
+              })
+            }
+          }
+        })
+      })
   }
 }

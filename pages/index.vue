@@ -2,20 +2,40 @@
 div
   v-content
     v-container.grey.lighten-4.fill-height(fluid)
-      v-row(align='center', justify='center')
-        div something cool is in progress
-
+      v-col(no-gutters)
+        v-card.mb-4
+          v-card-title Pengeluaran
+          v-list-item(v-if='todaysSpendings')
+            v-list-item-content
+              v-list-item-title Hari Ini
+            span.block.text-right Rp {{ todaysSpendings | digitGrouping }}
+          //- v-list-item
+            v-list-item-content
+              v-list-item-title Bulan Ini
+        v-card
+          v-card-title Rincian
+          v-list-item(v-for='item in todaysItems', :key='item.id')
+            v-list-item-content
+              v-list-item-title {{ item.label }}
+              v-list-item-subtitle {{ item.created_at | dtFormatHour }}
+            v-list-item-content
+              span.block.text-right Rp {{ item.value | digitGrouping }}
   v-dialog(v-model='dialog_create', fullscreen, hide-overlay, transition='dialog-bottom-transition')
     template(v-slot:activator='{ on }')
       v-btn(v-on='on', bottom, color='pink', dark, fab, fixed, right)
         v-icon mdi-plus
     spending-form(intent='create')
+  //- v-dialog(v-model='dialog_create', fullscreen, hide-overlay, transition='dialog-bottom-transition')
+    spending-form(intent='update')
+
 </template>
 
 <script>
 /* eslint-disable space-before-function-paren */
-// import { mapActions } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
+import digitGrouping from '~/mixins/filters/digitGrouping'
+import dtFormatHour from '~/mixins/filters/dtFormatHour'
 import SpendingForm from '~/components/spendings/form'
 
 const { mapFields } = createHelpers({
@@ -27,6 +47,7 @@ export default {
   components: {
     SpendingForm
   },
+  mixins: [digitGrouping, dtFormatHour],
   asyncData({
     isDev,
     route,
@@ -44,7 +65,16 @@ export default {
   layout: 'dashboard',
   middleware: 'authenticated',
   computed: {
-    ...mapFields(['dialog_create'])
+    ...mapFields(['dialog_create', 'dialog_update']),
+    ...mapGetters({
+      todaysItems: 'spendings/todaysItems',
+      todaysSpendings: 'spendings/todaysSpendings'
+    }),
+    ...mapState({
+      items: (state) => {
+        return state.spendings.items
+      }
+    })
   }
 }
 </script>
