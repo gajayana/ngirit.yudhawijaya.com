@@ -1,17 +1,17 @@
 /* eslint-disable space-before-function-paren */
 import { auth } from '~/services/fireinit.js'
 export default {
-  signIn({ commit }, payload) {
+  signIn({ commit, state }) {
     commit('setIsProcessing', true)
     auth
-      .signInWithEmailAndPassword(payload.email, payload.password)
-      .then((user) => {
-        commit('setUser', user)
-        commit('setIsProcessing', false)
+      .signInWithEmailAndPassword(state.email, state.password)
+      .then((res) => {
+        // console.log(user)
+        commit('setUser', { uid: res.user.uid, email: res.user.email })
+        commit('reset')
         this.$router.replace('/')
       })
       .catch((error) => {
-        // Handle Errors here.
         commit('setIsProcessing', false)
         commit('setErrors', {
           code: error.code,
@@ -19,18 +19,16 @@ export default {
         })
       })
   },
-  signOut({ commit }, payload) {
-    auth
-      .signOut()
-      .then(() => {
-        commit('setUser', null)
-        this.$router.replace('/login')
+  async signOut({ commit }) {
+    try {
+      await auth.signOut()
+      commit('setUser', '')
+      this.$router.replace('/login')
+    } catch (error) {
+      commit('setErrors', {
+        code: error.code,
+        message: error.message
       })
-      .catch((error) => {
-        commit('setErrors', {
-          code: error.code,
-          message: error.message
-        })
-      })
+    }
   }
 }

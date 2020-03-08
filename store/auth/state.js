@@ -1,5 +1,7 @@
 export default () => ({
-  errors: {},
+  email: '',
+  errors: '',
   is_processing: false,
+  password: '',
   user: ''
 })

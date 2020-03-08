@@ -2,20 +2,21 @@
 import { updateField } from 'vuex-map-fields'
 export default {
   reset(state) {
-    state.email = ''
-    state.errors = ''
+    state.dialog_create = false
+    state.dialog_update = false
+    state.error = ''
+    state.form_item = ''
+    state.form_value = ''
     state.is_processing = false
-    state.password = ''
-    state.user = ''
   },
-  setErrors(state, payload) {
-    state.errors = payload
+  setError(state, payload) {
+    state.error = payload
   },
   setIsProcessing(state, payload) {
     state.is_processing = payload
   },
-  setUser(state, payload) {
-    state.user = payload
+  pushToItems(state, payload) {
+    state.items.push(payload)
   },
   updateField
 }

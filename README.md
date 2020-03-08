@@ -1,11 +1,12 @@
 # ngirit
 
-> an app to track family&#39;s daily spendings
+> an app to track family&#39;s daily expenses
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
+$ cp .env.example .env
 $ yarn install
 
 # serve with hot reload at localhost:3000
