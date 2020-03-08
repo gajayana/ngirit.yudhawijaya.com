@@ -20,7 +20,7 @@
     "@nuxtjs/vuetify": "^1.11.0",
     "firebase": "^7.9.3",
     "nuxt": "^2.11.0",
-    "vuefire": "^2.2.1"
+    "vuex-map-fields": "^1.4.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.2",

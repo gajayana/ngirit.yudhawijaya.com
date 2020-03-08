@@ -79,7 +79,7 @@ dist
 
 # IDE / Editor
 .idea
-.editorconfig
+# .editorconfig
 
 # Service worker
 sw.*
@@ -87,3 +87,4 @@ sw.*
 # Mac OSX
 .DS_Store
 yarn.lock
+.vscode/

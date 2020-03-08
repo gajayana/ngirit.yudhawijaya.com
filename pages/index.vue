@@ -1,12 +1,32 @@
 <template lang="pug">
- v-app
-  div something cool is in progress
+div
+  v-content
+    v-container.grey.lighten-4.fill-height(fluid)
+      v-row(align='center', justify='center')
+        div something cool is in progress
+
+  v-dialog(v-model='dialog_create', fullscreen, hide-overlay, transition='dialog-bottom-transition')
+    template(v-slot:activator='{ on }')
+      v-btn(v-on='on', bottom, color='pink', dark, fab, fixed, right)
+        v-icon mdi-plus
+    spending-form(intent='create')
 </template>
 
 <script>
 /* eslint-disable space-before-function-paren */
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
+import { createHelpers } from 'vuex-map-fields'
+import SpendingForm from '~/components/spendings/form'
+
+const { mapFields } = createHelpers({
+  getterType: 'spendings/getField',
+  mutationType: 'spendings/updateField'
+})
+
 export default {
+  components: {
+    SpendingForm
+  },
   asyncData({
     isDev,
     route,
@@ -18,21 +38,13 @@ export default {
     res,
     redirect,
     error
-  }) {},
-  // middleware: 'authenticated',
-  // data() {
-  //   return {
-  //     user: '',
-  //     users: []
-  //   }
-  // },
-  methods: {
-    ...mapActions({
-      signOut: 'auth/signOut'
-    }),
-    logout() {
-      this.$store.commit('SIGN_USER_OUT')
-    }
+  }) {
+    store.dispatch('spendings/fetch')
+  },
+  layout: 'dashboard',
+  middleware: 'authenticated',
+  computed: {
+    ...mapFields(['dialog_create'])
   }
 }
 </script>

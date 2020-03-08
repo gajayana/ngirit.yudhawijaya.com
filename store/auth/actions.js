@@ -1,17 +1,16 @@
 /* eslint-disable space-before-function-paren */
 import { auth } from '~/services/fireinit.js'
 export default {
-  signIn({ commit }, payload) {
+  signIn({ commit, state }) {
     commit('setIsProcessing', true)
     auth
-      .signInWithEmailAndPassword(payload.email, payload.password)
+      .signInWithEmailAndPassword(state.email, state.password)
       .then((user) => {
         commit('setUser', user)
-        commit('setIsProcessing', false)
+        commit('reset')
         this.$router.replace('/')
       })
       .catch((error) => {
-        // Handle Errors here.
         commit('setIsProcessing', false)
         commit('setErrors', {
           code: error.code,
