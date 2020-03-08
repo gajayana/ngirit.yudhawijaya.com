@@ -18,25 +18,6 @@ export default {
           message: error.message
         })
       })
-    // console.log(this.$router)
-    // try {
-    //   const res = await auth.signInWithEmailAndPassword(
-    //     state.email,
-    //     state.password
-    //   )
-    //   // console.log(res.user)
-    //   if (res) {
-    // commit('setUser', { uid: res.user.uid, email: res.user.email })
-    //     commit('reset')
-    //     this.$router.replace('/')
-    //   }
-    // } catch (error) {
-    //   commit('setIsProcessing', false)
-    //   commit('setErrors', {
-    //     code: error.code,
-    //     message: error.message
-    //   })
-    // }
   },
   async signOut({ commit }) {
     try {
