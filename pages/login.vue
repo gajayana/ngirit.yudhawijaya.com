@@ -3,7 +3,7 @@ v-app
   v-content
     v-container.fill-height(fluid)
       v-row(align='center', justify='center', no-gutters)
-        v-col(cols='12', sm='8', md='5')
+        v-col(cols='12', sm='6', md='5', lg='3')
           v-form
             v-card.elevation-12
               v-toolbar(color='primary', dark, flat)
@@ -20,12 +20,13 @@ v-app
 </template>
 <script>
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { mapActions, mapState } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 
 const { mapFields } = createHelpers({
   getterType: 'auth/getField',
-  mutationType: 'auth/updateField'
+  mutationType: 'auth/updateField',
 })
 
 export default {
@@ -40,14 +41,14 @@ export default {
       },
       user: (state) => {
         return state.auth.user
-      }
+      },
     }),
-    ...mapFields(['email', 'password'])
+    ...mapFields(['email', 'password']),
   },
   methods: {
     ...mapActions({
-      signIn: 'auth/signIn'
-    })
-  }
+      signIn: 'auth/signIn',
+    }),
+  },
 }
 </script>

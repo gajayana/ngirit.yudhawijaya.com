@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 export default () => ({
   dialog_create: false,
   dialog_update: false,
@@ -5,5 +6,5 @@ export default () => ({
   form_item: '',
   form_value: '',
   is_processing: false,
-  items: []
+  items: [],
 })

@@ -32,6 +32,7 @@ div
 
 <script>
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { mapGetters, mapState } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 import digitGrouping from '~/mixins/filters/digitGrouping'
@@ -40,12 +41,12 @@ import SpendingForm from '~/components/spendings/form'
 
 const { mapFields } = createHelpers({
   getterType: 'spendings/getField',
-  mutationType: 'spendings/updateField'
+  mutationType: 'spendings/updateField',
 })
 
 export default {
   components: {
-    SpendingForm
+    SpendingForm,
   },
   mixins: [digitGrouping, dtFormatHour],
   asyncData({
@@ -58,7 +59,7 @@ export default {
     req,
     res,
     redirect,
-    error
+    error,
   }) {
     store.dispatch('spendings/fetch')
   },
@@ -68,13 +69,13 @@ export default {
     ...mapFields(['dialog_create', 'dialog_update']),
     ...mapGetters({
       todaysItems: 'spendings/todaysItems',
-      todaysSpendings: 'spendings/todaysSpendings'
+      todaysSpendings: 'spendings/todaysSpendings',
     }),
     ...mapState({
       items: (state) => {
         return state.spendings.items
-      }
-    })
-  }
+      },
+    }),
+  },
 }
 </script>

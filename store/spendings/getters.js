@@ -1,4 +1,5 @@
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { getField } from 'vuex-map-fields'
 import format from 'date-fns/format'
 import getUnixTime from 'date-fns/getUnixTime'
@@ -14,11 +15,11 @@ export default {
     const { year, month, day } = {
       year: format(dt, 'yyyy'),
       month: format(dt, 'M') - 1,
-      day: format(dt, 'd')
+      day: format(dt, 'd'),
     }
     const { start, end } = {
       start: getUnixTime(new Date(year, month, day, 0, 0, 0)),
-      end: getUnixTime(new Date(year, month, day, 23, 59, 59))
+      end: getUnixTime(new Date(year, month, day, 23, 59, 59)),
     }
 
     return state.items
@@ -37,5 +38,5 @@ export default {
     return getters.todaysItems.reduce((sum, ob) => {
       return sum + ob.value
     }, 0)
-  }
+  },
 }

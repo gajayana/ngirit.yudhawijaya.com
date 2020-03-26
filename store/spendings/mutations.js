@@ -1,4 +1,5 @@
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { updateField } from 'vuex-map-fields'
 export default {
   reset(state) {
@@ -18,5 +19,5 @@ export default {
   pushToItems(state, payload) {
     state.items.push(payload)
   },
-  updateField
+  updateField,
 }
