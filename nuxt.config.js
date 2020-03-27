@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable space-before-function-paren */
 require('dotenv').config()
 
@@ -40,6 +41,14 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: ['~/plugins/fireauth'],
+  /**
+   * PWA
+   */
+  pwa: {
+    manifest: {
+      display: 'standalone'
+    }
+  },
   /*
    ** Nuxt.js modules
    */

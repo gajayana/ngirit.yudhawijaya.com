@@ -1,6 +1,6 @@
 <template lang="pug">
-div
-  v-content
+div.fill-height
+  v-content.fill-height
     v-container.grey.lighten-4.fill-height(fluid)
       v-col(v-if='is_loading')
         v-sheet.mb-4

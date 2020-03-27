@@ -47,5 +47,7 @@ export default {
           }
         })
       })
+
+    commit('setIsLoading', false)
   },
 }
