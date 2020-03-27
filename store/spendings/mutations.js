@@ -13,6 +13,9 @@ export default {
   setError(state, payload) {
     state.error = payload
   },
+  setIsLoading(state, payload) {
+    state.is_loading = payload
+  },
   setIsProcessing(state, payload) {
     state.is_processing = payload
   },

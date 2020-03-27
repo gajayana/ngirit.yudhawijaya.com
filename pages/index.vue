@@ -2,7 +2,23 @@
 div
   v-content
     v-container.grey.lighten-4.fill-height(fluid)
-      v-col(no-gutters)
+      v-col(v-if='is_loading')
+        v-sheet.mb-4
+          div.pa-4
+            v-skeleton-loader.mb-2(type='heading')
+            v-skeleton-loader(type='text')
+          div.pa-4
+            v-skeleton-loader.mb-2(type='heading')
+            v-skeleton-loader(type='text')
+        v-sheet.mb-4
+          v-container
+            v-row(v-for='i in 5', :key='i')
+              v-col(cols='8')
+                v-skeleton-loader(type='text@2')
+              v-col(cols='4')
+                v-skeleton-loader(type='text')
+
+      v-col(v-else, no-gutters)
         v-card.mb-4
           v-card-title Pengeluaran
           v-list-item(v-if='todaysSpendings')
@@ -72,6 +88,9 @@ export default {
       todaysSpendings: 'spendings/todaysSpendings',
     }),
     ...mapState({
+      is_loading: (state) => {
+        return state.spendings.is_loading
+      },
       items: (state) => {
         return state.spendings.items
       },

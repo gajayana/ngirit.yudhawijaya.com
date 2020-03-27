@@ -5,6 +5,7 @@ export default () => ({
   error: '',
   form_item: '',
   form_value: '',
+  is_loading: true,
   is_processing: false,
   items: [],
 })
