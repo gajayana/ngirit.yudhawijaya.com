@@ -15,20 +15,21 @@ v-form
 </template>
 <script>
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { createHelpers } from 'vuex-map-fields'
 import { mapActions, mapState } from 'vuex'
 
 const { mapFields } = createHelpers({
   getterType: 'spendings/getField',
-  mutationType: 'spendings/updateField'
+  mutationType: 'spendings/updateField',
 })
 
 export default {
   props: {
     intent: {
       type: String,
-      default: 'create'
-    }
+      default: 'create',
+    },
   },
   computed: {
     ...mapFields(['dialog_create', 'form_item', 'form_value']),
@@ -38,12 +39,12 @@ export default {
       },
       user: (state) => {
         return state.auth.user
-      }
-    })
+      },
+    }),
   },
   methods: {
     ...mapActions({
-      createSpending: 'spendings/create'
+      createSpending: 'spendings/create',
     }),
     submit() {
       if (this.is_processing) {
@@ -53,7 +54,7 @@ export default {
       if (this.intent === 'create') {
         this.createSpending(this.user)
       }
-    }
-  }
+    },
+  },
 }
 </script>

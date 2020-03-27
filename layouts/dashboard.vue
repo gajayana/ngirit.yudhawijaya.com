@@ -10,12 +10,13 @@ v-app
 </template>
 <script>
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { mapActions } from 'vuex'
 export default {
   methods: {
     ...mapActions({
-      signOut: 'auth/signOut'
-    })
-  }
+      signOut: 'auth/signOut',
+    }),
+  },
 }
 </script>

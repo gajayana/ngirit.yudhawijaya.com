@@ -1,8 +1,24 @@
 <template lang="pug">
-div
-  v-content
+div.fill-height
+  v-content.fill-height
     v-container.grey.lighten-4.fill-height(fluid)
-      v-col(no-gutters)
+      v-col(v-if='is_loading')
+        v-sheet.mb-4
+          div.pa-4
+            v-skeleton-loader.mb-2(type='heading')
+            v-skeleton-loader(type='text')
+          div.pa-4
+            v-skeleton-loader.mb-2(type='heading')
+            v-skeleton-loader(type='text')
+        v-sheet.mb-4
+          v-container
+            v-row(v-for='i in 5', :key='i')
+              v-col(cols='8')
+                v-skeleton-loader(type='text@2')
+              v-col(cols='4')
+                v-skeleton-loader(type='text')
+
+      v-col(v-else, no-gutters)
         v-card.mb-4
           v-card-title Pengeluaran
           v-list-item(v-if='todaysSpendings')
@@ -32,6 +48,7 @@ div
 
 <script>
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { mapGetters, mapState } from 'vuex'
 import { createHelpers } from 'vuex-map-fields'
 import digitGrouping from '~/mixins/filters/digitGrouping'
@@ -40,12 +57,12 @@ import SpendingForm from '~/components/spendings/form'
 
 const { mapFields } = createHelpers({
   getterType: 'spendings/getField',
-  mutationType: 'spendings/updateField'
+  mutationType: 'spendings/updateField',
 })
 
 export default {
   components: {
-    SpendingForm
+    SpendingForm,
   },
   mixins: [digitGrouping, dtFormatHour],
   asyncData({
@@ -58,7 +75,7 @@ export default {
     req,
     res,
     redirect,
-    error
+    error,
   }) {
     store.dispatch('spendings/fetch')
   },
@@ -68,13 +85,16 @@ export default {
     ...mapFields(['dialog_create', 'dialog_update']),
     ...mapGetters({
       todaysItems: 'spendings/todaysItems',
-      todaysSpendings: 'spendings/todaysSpendings'
+      todaysSpendings: 'spendings/todaysSpendings',
     }),
     ...mapState({
+      is_loading: (state) => {
+        return state.spendings.is_loading
+      },
       items: (state) => {
         return state.spendings.items
-      }
-    })
-  }
+      },
+    }),
+  },
 }
 </script>

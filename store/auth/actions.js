@@ -1,4 +1,5 @@
 /* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
 import { auth } from '~/services/fireinit.js'
 export default {
   signIn({ commit, state }) {
@@ -15,7 +16,7 @@ export default {
         commit('setIsProcessing', false)
         commit('setErrors', {
           code: error.code,
-          message: error.message
+          message: error.message,
         })
       })
   },
@@ -27,8 +28,8 @@ export default {
     } catch (error) {
       commit('setErrors', {
         code: error.code,
-        message: error.message
+        message: error.message,
       })
     }
-  }
+  },
 }
