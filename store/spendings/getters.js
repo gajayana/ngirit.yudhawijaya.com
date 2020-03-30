@@ -6,6 +6,14 @@ import getUnixTime from 'date-fns/getUnixTime'
 
 export default {
   getField,
+  thisMonthSpendings(state) {
+    if (!state.items) {
+      return
+    }
+    return state.items.reduce((sum, ob) => {
+      return sum + ob.value
+    }, 0)
+  },
   todaysItems(state) {
     if (!state.items.length) {
       return
@@ -39,4 +47,5 @@ export default {
       return sum + ob.value
     }, 0)
   },
+  test() {},
 }
