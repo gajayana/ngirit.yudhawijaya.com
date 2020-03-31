@@ -25,9 +25,10 @@ div.fill-height
             v-list-item-content
               v-list-item-title Hari Ini
             span.block.text-right Rp {{ todaysSpendings | digitGrouping }}
-          //- v-list-item
+          v-list-item(v-if='thisMonthsSpendings')
             v-list-item-content
               v-list-item-title Bulan Ini
+            span.block.text-right Rp {{ thisMonthsSpendings | digitGrouping }}
         v-card
           v-card-title Rincian
           v-list-item(v-for='item in todaysItems', :key='item.id')
@@ -84,6 +85,7 @@ export default {
   computed: {
     ...mapFields(['dialog_create', 'dialog_update']),
     ...mapGetters({
+      thisMonthsSpendings: 'spendings/thisMonthsSpendings',
       todaysItems: 'spendings/todaysItems',
       todaysSpendings: 'spendings/todaysSpendings',
     }),
