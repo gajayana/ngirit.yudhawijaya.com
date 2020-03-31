@@ -28,6 +28,7 @@ export default {
     await StoreDB.collection(collection)
       .orderBy('created_at', 'desc')
       .onSnapshot((snapshot) => {
+        commit('setIsLoading', false)
         snapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
             const item = change.doc.data()
@@ -47,7 +48,5 @@ export default {
           }
         })
       })
-
-    commit('setIsLoading', false)
   },
 }
