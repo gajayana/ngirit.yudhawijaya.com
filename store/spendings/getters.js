@@ -48,4 +48,5 @@ export default {
       return sum + ob.value
     }, 0)
   },
+  test() {},
 }
