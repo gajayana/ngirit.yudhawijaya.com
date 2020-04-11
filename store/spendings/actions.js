@@ -1,5 +1,6 @@
 /* eslint-disable space-before-function-paren */
 /* eslint-disable comma-dangle */
+import getUnixTime from 'date-fns/getUnixTime'
 import { StoreDB } from '~/services/fireinit.js'
 export default {
   async create({ commit, state }, user) {
@@ -25,7 +26,13 @@ export default {
   async fetch({ commit, state }) {
     const collection =
       process.env.NODE_ENV === 'development' ? 'dev-spendings' : 'spendings'
+    const dt = new Date()
     await StoreDB.collection(collection)
+      .where(
+        'created_at',
+        '>=',
+        getUnixTime(new Date(dt.getFullYear(), dt.getMonth(), 1, 0, 0, 0))
+      )
       .orderBy('created_at', 'desc')
       .onSnapshot((snapshot) => {
         commit('setIsLoading', false)
