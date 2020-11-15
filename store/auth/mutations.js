@@ -1,22 +1,22 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable comma-dangle */
-import { updateField } from 'vuex-map-fields'
 export default {
-  reset(state) {
-    state.email = ''
-    state.errors = ''
-    state.is_processing = false
-    state.password = ''
+  onAuthStateChanged (state, { authUser, claims }) {
+    if (!authUser) {
+      claims = null
+      state.user = ''
+    } else {
+      const { uid, email, emailVerified, displayName, photoURL } = authUser
+      state.user = {
+        uid,
+        displayName,
+        email,
+        emailVerified,
+        photoURL: photoURL || null, // results in photoURL being null for server auth
+        // use custom claims to control access (see https://firebase.google.com/docs/auth/admin/custom-claims)
+        isAdmin: claims.custom_claim
+      }
+    }
+  },
+  reset (state) {
     state.user = ''
-  },
-  setErrors(state, payload) {
-    state.errors = payload
-  },
-  setIsProcessing(state, payload) {
-    state.is_processing = payload
-  },
-  setUser(state, payload) {
-    state.user = payload
-  },
-  updateField,
+  }
 }
