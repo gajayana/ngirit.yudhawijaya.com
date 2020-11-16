@@ -18,26 +18,9 @@
           <page-home-month-chart :items="items" />
         </v-col>
       </v-row>
+      <page-home-form-create />
     </v-container>
   </v-main>
-  <!--
-  <v-dialog v-model="dialog_create" fullscreen="fullscreen" hide-overlay="hide-overlay" transition="dialog-bottom-transition">
-    <template v-slot:activator="{ on }">
-      <v-btn
-        bottom="bottom"
-        color="pink"
-        dark="dark"
-        fab="fab"
-        fixed="fixed"
-        right="right"
-        v-on="on"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </template>
-    <spending-form intent="create" />
-  </v-dialog>
-  -->
 </template>
 
 <script>
@@ -53,9 +36,8 @@ export default {
     items: []
   }),
   fetch () {
-    // const { nodeEnv } = this.$config
-    const collection = 'spendings'
-    // nodeEnv === 'development' ? 'dev-spendings' : 'spendings'
+    const { nodeEnv } = this.$config
+    const collection = nodeEnv === 'development' ? 'dev-spendings' : 'spendings'
     const now = new Date()
     const start = getUnixTime(startOfMonth(now))
 
