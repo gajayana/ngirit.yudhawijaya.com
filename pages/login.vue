@@ -1,54 +1,105 @@
-<template lang="pug">
-v-app
-  v-content
-    v-container.fill-height(fluid)
-      v-row(align='center', justify='center', no-gutters)
-        v-col(cols='12', sm='6', md='5', lg='3')
-          v-form
-            v-card.elevation-12
-              v-toolbar(color='primary', dark, flat)
-                v-toolbar-title Catat Masuk
-              v-card-text
-                v-text-field(v-model.trim='email', :autofocus='true', :disabled='is_processing', label='Email', name='email', type='text')
-                v-text-field(v-model.trim='password', :disabled='is_processing', label='Sandi', name='password', type='password')
-              div.col-12(v-if='errors', :style='{ paddingBottom: 0, paddingTop: 0 }')
-                v-alert(:style='{ marginBottom: 0 }', dense, type='error') {{ errors.message }}
-              v-card-actions
-                v-spacer
-                v-btn(@click='signIn', :disabled='is_processing', :loading='is_processing', color='primary') Masuk
-
+<template>
+  <v-app>
+    <v-main>
+      <v-container class="fill-height" fluid="fluid">
+        <v-row align="center" justify="center" no-gutters="no-gutters">
+          <v-col cols="12" sm="6" md="5" lg="3">
+            <v-form>
+              <v-card class="elevation-12">
+                <v-toolbar color="primary" dark="dark" flat="flat">
+                  <v-toolbar-title>Catat Masuk</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                  <v-text-field
+                    v-model.trim="email"
+                    :autofocus="true"
+                    :disabled="isProcessing"
+                    autocomplete="username"
+                    label="Email"
+                    name="email"
+                    type="text"
+                  />
+                  <v-text-field
+                    v-model.trim="password"
+                    :disabled="isProcessing"
+                    autocomplete="current-password"
+                    label="Sandi"
+                    name="password"
+                    type="password"
+                  />
+                </v-card-text>
+                <div v-if="error" class="col-12" :style="{ paddingBottom: 0, paddingTop: 0 }">
+                  <v-alert
+                    :style="{ marginBottom: 0 }"
+                    dense="dense"
+                    type="error"
+                  >
+                    {{ error.message }}
+                  </v-alert>
+                </div>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    :disabled="isProcessing"
+                    :loading="isProcessing"
+                    color="primary"
+                    @click="signIn"
+                  >
+                    Masuk
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-form>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 <script>
-/* eslint-disable space-before-function-paren */
-/* eslint-disable comma-dangle */
-import { mapActions, mapState } from 'vuex'
-import { createHelpers } from 'vuex-map-fields'
-
-const { mapFields } = createHelpers({
-  getterType: 'auth/getField',
-  mutationType: 'auth/updateField',
-})
-
+import { mapState } from 'vuex'
 export default {
-  middleware: 'authenticated',
+  data: () => ({
+    email: '',
+    error: '',
+    isProcessing: false,
+    password: ''
+  }),
+  head () {
+    return {
+      title: 'Login'
+    }
+  },
   computed: {
     ...mapState({
-      errors: (state) => {
-        return state.auth.errors
-      },
-      is_processing: (state) => {
-        return state.auth.is_processing
-      },
-      user: (state) => {
-        return state.auth.user
-      },
-    }),
-    ...mapFields(['email', 'password']),
+      user: state => state.auth.user
+    })
+  },
+  watch: {
+    user (val) {
+      if (val) { this.$router.push('/') }
+    }
   },
   methods: {
-    ...mapActions({
-      signIn: 'auth/signIn',
-    }),
-  },
+    signIn () {
+      try {
+        this.error = ''
+        this.isProcessing = true
+        this.$fire
+          .auth
+          .signInWithEmailAndPassword(this.email, this.password)
+          .catch((error) => {
+            this.isProcessing = false
+            this.error = {
+              message: error.message
+            }
+          })
+      } catch (err) {
+        this.error = {
+          message: err.message
+        }
+      }
+    }
+  }
 }
 </script>
