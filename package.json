@@ -5,53 +5,34 @@
   "author": "Yosef Yudha Wijaya",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "yarn lint",
-    "test": "jest",
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "yarn lint:js",
+    "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.9.7",
-    "@nuxtjs/dotenv": "^1.4.1",
-    "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "@nuxtjs/vuetify": "^1.11.0",
-    "date-fns": "^2.11.1",
-    "firebase": "^7.13.2",
-    "nuxt": "^2.12.2",
-    "vuex-map-fields": "^1.4.0"
+    "@nuxtjs/firebase": "^7.1.1",
+    "@nuxtjs/pwa": "^3.2.2",
+    "@nuxtjs/vuetify": "^1.11.2",
+    "core-js": "^3.7.0",
+    "date-fns": "^2.16.1",
+    "firebase": "^8.0.2",
+    "nuxt": "^2.14.7"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^2.0.2",
-    "@nuxtjs/eslint-module": "^1.1.0",
-    "@vue/test-utils": "^1.0.0-beta.33",
+    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.1",
+    "@vue/test-utils": "^1.1.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.3.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-config-standard": ">=14.1.1",
-    "eslint-plugin-import": ">=2.20.2",
-    "eslint-plugin-jest": ">=23.8.2",
-    "eslint-plugin-node": ">=11.1.0",
-    "eslint-plugin-nuxt": ">=0.5.2",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-promise": ">=4.2.1",
-    "eslint-plugin-standard": ">=4.0.1",
-    "eslint-plugin-vue": "^6.2.2",
-    "jest": "^25.3.0",
-    "nodemon": "^2.0.3",
-    "nuxt-purgecss": "^0.2.1",
-    "prettier": "^2.0.4",
-    "pug": "^2.0.4",
-    "pug-plain-loader": "^1.0.0",
-    "sass": "^1.26.3",
-    "sass-loader": "^8.0.2",
-    "vue-jest": "^3.0.5"
-  },
-  "engines": {
-    "node": ">=10.9.0"
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.13.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "jest": "^26.6.3",
+    "vue-jest": "^3.0.7"
   }
 }

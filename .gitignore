@@ -90,3 +90,4 @@ yarn.lock
 .vscode/
 
 .now
+firebase-auth-sw.js
