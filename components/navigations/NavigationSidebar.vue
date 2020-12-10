@@ -9,7 +9,7 @@
     </v-list-item>
     <v-divider />
     <v-list dense nav>
-      <v-list-item v-for="(item, key) in menuItems" :key="`menu-sidebar-${key}`" link>
+      <v-list-item v-for="(item, key) in menuItems" :key="`menu-sidebar-${key}`" nuxt :to="item.to">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -34,13 +34,16 @@ export default {
   name: 'NavigationSidebar',
   computed: {
     menuItems () {
-      return [
+      // const now = new Date()
+      const res = [
         {
           icon: 'mdi-view-dashboard',
           label: 'Dasbor',
           to: '/'
         }
       ]
+
+      return res
     }
   },
   methods: {
