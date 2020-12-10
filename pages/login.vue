@@ -3,7 +3,7 @@
     <v-container class="fill-height" fluid="fluid">
       <v-row align="center" justify="center" no-gutters="no-gutters">
         <v-col cols="12" sm="6" md="5" lg="3">
-          <v-form>
+          <v-form @submit.prevent="signIn">
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark="dark" flat="flat">
                 <v-toolbar-title>Catat Masuk</v-toolbar-title>
@@ -42,7 +42,8 @@
                   :disabled="isProcessing"
                   :loading="isProcessing"
                   color="primary"
-                  @click="signIn"
+                  type="submit"
+                  @click.prevent="signIn"
                 >
                   Masuk
                 </v-btn>
