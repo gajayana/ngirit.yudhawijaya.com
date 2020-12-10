@@ -29,7 +29,6 @@ import getUnixTime from 'date-fns/getUnixTime'
 import startOfMonth from 'date-fns/startOfMonth'
 export default {
   name: 'PageHome',
-  layout: 'dashboard',
   middleware: 'authenticated',
   data: () => ({
     isLoading: true,

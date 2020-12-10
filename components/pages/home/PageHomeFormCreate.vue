@@ -59,7 +59,7 @@ export default {
       this.dialogCreate = false
       this.error = ''
       this.formItem = ''
-      this.formValue = 0
+      this.formValue = ''
       this.isProcessing = false
     },
     submit () {

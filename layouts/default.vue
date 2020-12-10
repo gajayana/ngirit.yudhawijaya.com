@@ -1,3 +1,7 @@
 <template>
-  <nuxt />
+  <v-app>
+    <header-bar />
+    <nuxt />
+    <snackbar-app-reload />
+  </v-app>
 </template>
