@@ -14,13 +14,13 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/firebase": "^7.1.1",
-    "@nuxtjs/pwa": "^3.2.2",
+    "@nuxtjs/firebase": "^7.1.2",
+    "@nuxtjs/pwa": "^3.3.2",
     "@nuxtjs/vuetify": "^1.11.2",
-    "core-js": "^3.7.0",
+    "core-js": "^3.8.1",
     "date-fns": "^2.16.1",
-    "firebase": "^8.0.2",
-    "nuxt": "^2.14.7"
+    "firebase": "^8.1.2",
+    "nuxt": "^2.14.10"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",
@@ -29,7 +29,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.13.0",
+    "eslint": "^7.15.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-nuxt": "^2.0.0",
     "jest": "^26.6.3",
