@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/ui',
     '@nuxt/test-utils',
-    '@nuxt/scripts'
+    '@nuxt/scripts',
+    '@nuxtjs/supabase'
   ]
 })
