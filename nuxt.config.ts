@@ -11,6 +11,20 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/test-utils',
     '@nuxt/scripts',
-    '@nuxtjs/supabase'
-  ]
-})
+    '@nuxtjs/supabase',
+  ],
+
+  supabase: {
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      exclude: ['/'],
+    },
+  },
+
+  runtimeConfig: {
+    public: {
+      host: process.env.NUXT_PUBLIC_HOST,
+    },
+  },
+});
