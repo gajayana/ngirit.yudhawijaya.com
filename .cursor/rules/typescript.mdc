@@ -1,7 +1,7 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
 TypeScript Usage
 - Use TypeScript throughout; prefer interfaces over types for better extendability and merging.
