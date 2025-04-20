@@ -32,6 +32,6 @@ Fetching Data
 
 Naming Conventions
 - Utilize composables, naming them as use<MyComposable>.
-- Use **PascalCase** for component file names (e.g., components/MyComponent.vue).
+- Use **kebab-case** for component file names (e.g., components/my-component.vue).
 - Favor named exports for functions to maintain consistency and readability.
       
