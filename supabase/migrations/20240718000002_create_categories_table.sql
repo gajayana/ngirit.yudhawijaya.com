@@ -12,9 +12,11 @@ CREATE TABLE IF NOT EXISTS categories (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   deleted_at TIMESTAMPTZ DEFAULT NULL,
   created_by UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  UNIQUE(name, created_by) WHERE deleted_at IS NULL
+  is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
+
+-- Create a partial unique index instead of using WHERE in the UNIQUE constraint
+CREATE UNIQUE INDEX categories_name_created_by_idx ON categories (name, created_by) WHERE deleted_at IS NULL;
 
 -- Add RLS (Row Level Security) policies
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
@@ -86,23 +88,25 @@ EXECUTE FUNCTION update_categories_updated_at();
 CREATE OR REPLACE FUNCTION soft_delete_category()
 RETURNS TRIGGER AS $$
 BEGIN
-  UPDATE categories
-  SET deleted_at = NOW()
-  WHERE id = OLD.id AND created_by = auth.uid();
-  RETURN NULL;
+  -- Check if user is superadmin, if not, perform soft delete
+  IF NOT EXISTS (
+    SELECT 1 FROM user_roles
+    WHERE user_id = auth.uid() AND role = 'superadmin'
+  ) THEN
+    UPDATE categories
+    SET deleted_at = NOW()
+    WHERE id = OLD.id AND created_by = auth.uid();
+    RETURN NULL;
+  END IF;
+  -- If user is superadmin, allow the hard delete to proceed
+  RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
--- Create trigger to catch normal user delete attempts and convert them to soft deletes
+-- Create trigger to catch delete attempts and convert them to soft deletes for non-superadmins
 CREATE TRIGGER soft_delete_categories_trigger
 BEFORE DELETE ON categories
 FOR EACH ROW
-WHEN (
-  NOT EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
-  )
-)
 EXECUTE FUNCTION soft_delete_category();
 
 -- Add comment to the table
