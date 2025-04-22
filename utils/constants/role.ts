@@ -2,20 +2,19 @@
  * User role types and interfaces
  */
 
-// Define user role type based on the enum in the database
-export type UserRole = 'superadmin' | 'manager' | 'user';
+import type { Database } from './database';
+
+export type UserRole = Database['public']['Enums']['user_role'];
+export const USER_ROLE = {
+  SUPERADMIN: 'superadmin',
+  MANAGER: 'manager',
+  USER: 'user',
+} as const satisfies Record<string, UserRole>;
 
 /**
  * Interface representing user role data from the database
  */
-export interface UserRoleData {
-  id: string;
-  user_id: string;
-  role: UserRole;
-  is_blocked: boolean;
-  created_at: string;
-  updated_at: string;
-}
+export type UserRoleData = Database['public']['Tables']['user_roles']['Row'];
 
 /**
  * Interface for the user role state context
@@ -31,16 +30,3 @@ export interface UserRoleState {
   isSuperAdmin: ComputedRef<boolean>;
   fetchUserRole: () => Promise<UserRoleData | null>;
 }
-
-/**
- * Role constants for use throughout the application
- */
-export const ROLE = {
-  SUPERADMIN: 'superadmin' as const,
-  MANAGER: 'manager' as const,
-  USER: 'user' as const,
-};
-
-export type Role = (typeof ROLE)[keyof typeof ROLE];
-
-export default ROLE;

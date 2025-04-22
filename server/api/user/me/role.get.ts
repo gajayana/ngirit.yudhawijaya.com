@@ -1,5 +1,5 @@
 import type { UserRoleData } from '~/utils/constants/role';
-import { serverSupabaseClient } from '#supabase/server';
+import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
 
 interface ApiError {
   statusCode?: number;
@@ -11,13 +11,11 @@ export default defineEventHandler(async event => {
     // Get the Supabase client using the recommended approach
     const supabase = await serverSupabaseClient(event);
 
-    // Get the user from the session
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    // Get the user
+    const user = await serverSupabaseUser(event);
 
     // Return unauthorized if no user is authenticated
-    if (!session || !session.user) {
+    if (!user) {
       throw createError({
         statusCode: 401,
         message: 'Unauthorized',
@@ -28,7 +26,7 @@ export default defineEventHandler(async event => {
     const { data, error: supabaseError } = await supabase
       .from('user_roles')
       .select('id, user_id, role, is_blocked, created_at, updated_at')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .single();
 
     if (supabaseError) {

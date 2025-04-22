@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import type { UserRole, UserRoleData } from '~/utils/constants/role';
-import { ROLE } from '~/utils/constants/role';
+import { USER_ROLE } from '~/utils/constants/role';
 
 /**
  * Pinia store for user authentication and role management
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       // Use the server API endpoint instead of direct Supabase call
-      const data = await $fetch<UserRoleData>('/api/user/role');
+      const data = await $fetch<UserRoleData>('/api/user/me/role');
 
       userRole.value = data.role;
       isBlocked.value = data.is_blocked;
@@ -84,8 +84,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   // Computed properties
-  const isAdmin = computed(() => hasRole([ROLE.SUPERADMIN, ROLE.MANAGER]));
-  const isSuperAdmin = computed(() => hasRole(ROLE.SUPERADMIN));
+  const isAdmin = computed(() => hasRole([USER_ROLE.SUPERADMIN, USER_ROLE.MANAGER]));
+  const isSuperAdmin = computed(() => hasRole(USER_ROLE.SUPERADMIN));
 
   /**
    * Check if user can access a feature based on required roles
