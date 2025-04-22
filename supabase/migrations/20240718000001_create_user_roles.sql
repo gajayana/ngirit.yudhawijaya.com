@@ -19,20 +19,10 @@ CREATE TABLE IF NOT EXISTS user_roles (
 -- Add RLS (Row Level Security) policies
 ALTER TABLE user_roles ENABLE ROW LEVEL SECURITY;
 
--- Policy to allow users to view their own role
-CREATE POLICY "Users can view their own role"
+-- Policy to allow any authenticated user to view all roles
+CREATE POLICY "Any authenticated user can view all roles"
 ON user_roles FOR SELECT
-USING (auth.uid() = user_id);
-
--- Policy to allow superadmins and managers to view all roles
-CREATE POLICY "Superadmins and managers can view all roles"
-ON user_roles FOR SELECT
-USING (
-  EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
-  )
-);
+USING (auth.uid() IS NOT NULL);
 
 -- Policy to allow superadmins and managers to insert roles
 CREATE POLICY "Superadmins and managers can insert roles"
