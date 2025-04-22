@@ -8,7 +8,6 @@ import { ROLE } from '~/utils/constants/role';
  */
 export const useAuthStore = defineStore('auth', () => {
   // Auto-imported from Nuxt
-  const supabase = useSupabaseClient();
   const user = useSupabaseUser();
 
   // State
@@ -19,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isFetched = ref(false);
 
   /**
-   * Fetch the current user's role from Supabase
+   * Fetch the current user's role from server API
    */
   async function fetchUserRole() {
     // Skip if already fetching or already fetched for current user
@@ -34,19 +33,8 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      const { data, error: supabaseError } = await supabase
-        .from('user_roles')
-        .select('id, user_id, role, is_blocked, created_at, updated_at')
-        .eq('user_id', user.value.id)
-        .single<UserRoleData>();
-
-      if (supabaseError) {
-        throw new Error(supabaseError.message);
-      }
-
-      if (!data) {
-        throw new Error('No role found for user');
-      }
+      // Use the server API endpoint instead of direct Supabase call
+      const data = await $fetch<UserRoleData>('/api/user/role');
 
       userRole.value = data.role;
       isBlocked.value = data.is_blocked;
@@ -89,7 +77,8 @@ export const useAuthStore = defineStore('auth', () => {
    * Sign out the current user
    */
   async function signOut() {
-    const { error: logoutError } = await supabase.auth.signOut();
+    const client = useSupabaseClient();
+    const { error: logoutError } = await client.auth.signOut();
     resetState();
     if (logoutError) throw logoutError;
   }

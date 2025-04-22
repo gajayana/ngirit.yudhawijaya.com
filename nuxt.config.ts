@@ -26,6 +26,10 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Private keys that are only available on the server
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
+
+    // Public keys that are available on both client and server
     public: {
       host: process.env.NUXT_PUBLIC_HOST,
     },
