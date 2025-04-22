@@ -1,0 +1,146 @@
+import { defineStore } from 'pinia';
+import type { UserRole, UserRoleData } from '~/utils/constants/role';
+import { ROLE } from '~/utils/constants/role';
+
+/**
+ * Pinia store for user authentication and role management
+ * Follows the official Pinia pattern with Nuxt 3 integration
+ */
+export const useAuthStore = defineStore('auth', () => {
+  // Auto-imported from Nuxt
+  const supabase = useSupabaseClient();
+  const user = useSupabaseUser();
+
+  // State
+  const userRole = ref<UserRole | null>(null);
+  const isBlocked = ref(false);
+  const isLoading = ref(false);
+  const error = ref<Error | null>(null);
+  const isFetched = ref(false);
+
+  /**
+   * Fetch the current user's role from Supabase
+   */
+  async function fetchUserRole() {
+    // Skip if already fetching or already fetched for current user
+    if (isLoading.value || (user.value && isFetched.value)) return null;
+
+    if (!user.value) {
+      resetState();
+      return null;
+    }
+
+    isLoading.value = true;
+    error.value = null;
+
+    try {
+      const { data, error: supabaseError } = await supabase
+        .from('user_roles')
+        .select('id, user_id, role, is_blocked, created_at, updated_at')
+        .eq('user_id', user.value.id)
+        .single<UserRoleData>();
+
+      if (supabaseError) {
+        throw new Error(supabaseError.message);
+      }
+
+      if (!data) {
+        throw new Error('No role found for user');
+      }
+
+      userRole.value = data.role;
+      isBlocked.value = data.is_blocked;
+      isFetched.value = true;
+      return data;
+    } catch (err) {
+      error.value = err instanceof Error ? err : new Error('Failed to fetch user role');
+      userRole.value = null;
+      return null;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /**
+   * Reset the store state
+   */
+  function resetState() {
+    userRole.value = null;
+    isBlocked.value = false;
+    isLoading.value = false;
+    isFetched.value = false;
+    error.value = null;
+  }
+
+  /**
+   * Check if the current user has the specified role
+   */
+  function hasRole(role: UserRole | UserRole[]): boolean {
+    if (!userRole.value) return false;
+
+    if (Array.isArray(role)) {
+      return role.includes(userRole.value);
+    }
+
+    return userRole.value === role;
+  }
+
+  /**
+   * Sign out the current user
+   */
+  async function signOut() {
+    const { error: logoutError } = await supabase.auth.signOut();
+    resetState();
+    if (logoutError) throw logoutError;
+  }
+
+  // Computed properties
+  const isAdmin = computed(() => hasRole([ROLE.SUPERADMIN, ROLE.MANAGER]));
+  const isSuperAdmin = computed(() => hasRole(ROLE.SUPERADMIN));
+
+  /**
+   * Check if user can access a feature based on required roles
+   */
+  function canAccess(requiredRoles: UserRole | UserRole[]): boolean {
+    // Deny access to blocked users
+    if (isBlocked.value) return false;
+
+    // Check if user has the required role(s)
+    return hasRole(requiredRoles);
+  }
+
+  // Watch for user changes and fetch role when needed
+  if (import.meta.client) {
+    watch(
+      () => user.value?.id,
+      (newId, oldId) => {
+        if (newId && newId !== oldId) {
+          isFetched.value = false;
+          fetchUserRole();
+        } else if (!newId) {
+          resetState();
+        }
+      },
+      { immediate: true }
+    );
+  }
+
+  return {
+    user,
+    userRole,
+    isBlocked,
+    isLoading,
+    error,
+
+    // Actions
+    fetchUserRole,
+    resetState,
+    hasRole,
+    signOut,
+    canAccess,
+
+    // Computed
+    isAdmin,
+    isSuperAdmin,
+  };
+});

@@ -1,14 +1,17 @@
 <script setup lang="ts">
   import type { DropdownMenuItem } from '@nuxt/ui';
 
-  const user = useSupabaseUser();
-  const supabase = useSupabaseClient();
+  const authStore = useAuthStore();
+  const user = computed(() => authStore.user);
   const router = useRouter();
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) console.log(error);
-    router.push('/login');
+    try {
+      await authStore.signOut();
+      router.push('/login');
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   };
 
   const dropdownItems = computed<DropdownMenuItem[][]>(() => [
@@ -43,8 +46,6 @@
       },
     ],
   ]);
-
-  console.log({ user: user.value, dropdownItems: dropdownItems.value });
 </script>
 
 <template>
