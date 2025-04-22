@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <UApp>
     <NuxtRouteAnnouncer />
-    <NuxtPage />
-  </div>
+    <PageHeader />
+    <main class="flex flex-col min-h-screen w-full">
+      <NuxtPage />
+    </main>
+  </UApp>
 </template>

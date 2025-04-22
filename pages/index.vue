@@ -32,5 +32,3 @@
     router.push('/login');
   };
 </script>
-
-<style></style>

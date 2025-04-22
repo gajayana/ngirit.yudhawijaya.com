@@ -6,7 +6,6 @@
 
   // If user is already logged in, redirect to home page
   watchEffect(() => {
-    console.log({ user: user.value });
     if (user.value) {
       router.push('/');
     }
@@ -31,15 +30,12 @@
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center">
-    <div class="w-full max-w-md rounded-lg border p-8 shadow-md">
-      <h1 class="mb-6 text-center text-2xl font-bold">Welcome</h1>
-      <button
-        class="flex w-full items-center justify-center gap-2 rounded-md bg-white px-4 py-2 font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-        @click="signIn"
-      >
-        <span>Continue with Google</span>
-      </button>
-    </div>
+  <div class="flex grow h-full items-center justify-center w-full">
+    <UCard>
+      <UButton variant="outline" @click="signIn">
+        <UIcon name="i-logos-google-icon" class="mr-2 h-5 w-5" />
+        Continue with Google
+      </UButton>
+    </UCard>
   </div>
 </template>
