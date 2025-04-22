@@ -6,7 +6,6 @@
   const router = useRouter();
 
   const signOut = async () => {
-    console.log('signing out');
     const { error } = await supabase.auth.signOut();
     if (error) console.log(error);
     router.push('/login');
@@ -20,6 +19,7 @@
           ? { src: user.value.user_metadata.avatar_url }
           : undefined,
         type: 'label',
+        provider: 'ipx',
       },
     ],
     [
@@ -43,6 +43,8 @@
       },
     ],
   ]);
+
+  console.log({ user: user.value, dropdownItems: dropdownItems.value });
 </script>
 
 <template>
@@ -56,16 +58,20 @@
       <UButton variant="ghost" size="md" class="flex items-center">
         <UAvatar
           v-if="user.user_metadata?.avatar_url"
-          :src="user.user_metadata.avatar_url"
+          :src="user.user_metadata?.avatar_url"
           size="xs"
           class="mr-2"
+          :alt="user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'"
+          provider="ipx"
         />
+
         <span
           v-else
           class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-800 flex items-center justify-center mr-2"
         >
           {{ user.email?.[0].toUpperCase() || 'U' }}
         </span>
+
         <span class="hidden sm:inline text-sm truncate max-w-[100px]">
           {{ user.user_metadata?.full_name || user.email?.split('@')[0] || 'User' }}
         </span>
