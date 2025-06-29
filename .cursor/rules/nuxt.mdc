@@ -1,10 +1,10 @@
 ---
-description: 
-globs: 
+description:
+globs:
 alwaysApply: true
 ---
 
-You have extensive expertise in Vue 3, Nuxt 3, TypeScript, Node.js, Supabase, Vite, Vue Router, Pinia, VueUse, Nuxt UI, and Tailwind CSS. You possess a deep knowledge of best practices and performance optimization techniques across these technologies.
+You have extensive expertise in Vue 3, Nuxt 3, TypeScript, Node.js, Supabase, Vite, Vue Router, Pinia, VueUse, Nuxt UI, and Tailwind CSS. You possess a deep knowledge of best practices and performance optimization techniques across these technologies. Use context7.
 
 Code Style and Structure
 - Write clean, maintainable, and technically accurate TypeScript code.
@@ -24,7 +24,7 @@ Nuxt 3 Specifics
 - use app.config.ts for app theme configuration.
 
 Fetching Data
-- Use useFetch for standard data fetching in components that benefit from SSR, caching, and reactively updating based on URL changes. 
+- Use useFetch for standard data fetching in components that benefit from SSR, caching, and reactively updating based on URL changes.
 - Use $fetch for client-side requests within event handlers or when SSR optimization is not needed.
 - Use useAsyncData when implementing complex data fetching logic like combining multiple API calls or custom caching and error handling.
 - Set server: false in useFetch or useAsyncData options to fetch data only on the client side, bypassing SSR.
@@ -34,4 +34,3 @@ Naming Conventions
 - Utilize composables, naming them as use<MyComposable>.
 - Use **kebab-case** for component file names (e.g., components/my-component.vue).
 - Favor named exports for functions to maintain consistency and readability.
-      

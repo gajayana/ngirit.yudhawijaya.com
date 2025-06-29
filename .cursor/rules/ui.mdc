@@ -1,8 +1,9 @@
 ---
-description: 
-globs: 
+description:
+globs:
 alwaysApply: true
 ---
 UI and Styling
 - Use Nuxt UI and Tailwind CSS for components and styling.
 - Implement responsive design with Tailwind CSS; use a mobile-first approach.
+- Use context7.
