@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "firestore:fetch": "tsx scripts/firestore.ts"
   },
   "dependencies": {
     "@nuxt/eslint": "1.4.1",
@@ -19,8 +20,11 @@
     "@nuxt/ui": "3.2.0",
     "@nuxtjs/supabase": "1.5.3",
     "@pinia/nuxt": "^0.11.1",
+    "@types/node": "^24.0.7",
     "@unhead/vue": "^2.0.11",
+    "dotenv": "^17.0.0",
     "eslint": "^9.30.0",
+    "firebase": "^11.9.1",
     "nuxt": "^3.17.5",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.11",
@@ -28,5 +32,8 @@
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
   },
-  "packageManager": "pnpm@^10.12.4"
+  "packageManager": "pnpm@^10.12.4",
+  "devDependencies": {
+    "tsx": "^4.20.3"
+  }
 }
