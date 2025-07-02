@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS categories (
   description TEXT,
   color VARCHAR(50),
   icon VARCHAR(50),
+  type VARCHAR(10) NOT NULL DEFAULT 'expense' CHECK (type IN ('income', 'expense')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   deleted_at TIMESTAMPTZ DEFAULT NULL,
@@ -16,7 +17,10 @@ CREATE TABLE IF NOT EXISTS categories (
 );
 
 -- Create a partial unique index instead of using WHERE in the UNIQUE constraint
-CREATE UNIQUE INDEX categories_name_created_by_idx ON categories (name, created_by) WHERE deleted_at IS NULL;
+CREATE UNIQUE INDEX categories_name_type_created_by_idx ON categories (name, type, created_by) WHERE deleted_at IS NULL;
+
+-- Create index for better performance when filtering by type
+CREATE INDEX categories_type_idx ON categories (type);
 
 -- Add RLS (Row Level Security) policies
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
@@ -109,5 +113,6 @@ BEFORE DELETE ON categories
 FOR EACH ROW
 EXECUTE FUNCTION soft_delete_category();
 
--- Add comment to the table
-COMMENT ON TABLE categories IS 'Table to store categories with different permissions for users and superadmins.';
+-- Add comments to the table and columns
+COMMENT ON TABLE categories IS 'Table to store income and expense categories with different permissions for users and superadmins.';
+COMMENT ON COLUMN categories.type IS 'Category type: income or expense';
