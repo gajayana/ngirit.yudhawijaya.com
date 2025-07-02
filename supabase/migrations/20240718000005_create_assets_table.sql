@@ -123,7 +123,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = '';
 
 -- Create trigger for automatic updated_at for assets
 CREATE TRIGGER update_assets_updated_at
@@ -137,12 +137,12 @@ RETURNS TRIGGER AS $$
 BEGIN
   -- Check if user is superadmin, if not, perform soft delete
   IF NOT EXISTS (
-    SELECT 1 FROM user_roles
+    SELECT 1 FROM public.user_roles
     WHERE user_id = auth.uid() AND role = 'superadmin'
   ) THEN
     -- Only allow users to soft delete their own assets
     IF OLD.created_by = auth.uid() THEN
-      UPDATE assets
+      UPDATE public.assets
       SET deleted_at = NOW(), is_active = FALSE
       WHERE id = OLD.id;
     END IF;
@@ -151,7 +151,7 @@ BEGIN
   -- If user is superadmin, allow the hard delete to proceed
   RETURN OLD;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql SET search_path = '';
 
 -- Create trigger to catch delete attempts and convert them to soft deletes for non-superadmins
 CREATE TRIGGER soft_delete_assets_trigger
@@ -174,8 +174,8 @@ BEGIN
     c.code as currency_code,
     COALESCE(SUM(a.current_balance), 0)::DECIMAL(15,2) as total_balance,
     COUNT(a.id)::INTEGER as asset_count
-  FROM currencies c
-  LEFT JOIN assets a ON c.id = a.currency_id
+  FROM public.currencies c
+  LEFT JOIN public.assets a ON c.id = a.currency_id
     AND a.created_by = user_uuid
     AND a.deleted_at IS NULL
     AND a.is_active = TRUE
@@ -185,7 +185,7 @@ BEGIN
   HAVING (filter_currency_code IS NULL OR c.code = filter_currency_code)
   ORDER BY c.code;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 
 -- Create function to get asset summary by type for a user
 CREATE OR REPLACE FUNCTION get_user_assets_by_type(user_uuid UUID)
@@ -202,8 +202,8 @@ BEGIN
     SUM(a.current_balance)::DECIMAL(15,2) as total_balance,
     COUNT(a.id)::INTEGER as asset_count,
     c.code as currency_code
-  FROM assets a
-  JOIN currencies c ON a.currency_id = c.id
+  FROM public.assets a
+  JOIN public.currencies c ON a.currency_id = c.id
   WHERE a.created_by = user_uuid
     AND a.deleted_at IS NULL
     AND a.is_active = TRUE
@@ -211,7 +211,7 @@ BEGIN
   GROUP BY a.type, c.code
   ORDER BY a.type, c.code;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = '';
 
 -- Add comments to the table and columns
 COMMENT ON TABLE assets IS 'Table to store user assets including savings, portfolios, cash, investments, etc.';
