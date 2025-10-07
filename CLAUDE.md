@@ -275,9 +275,12 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] RLS performance optimization (auth_rls_initplan & multiple_permissive_policies)
 - [x] Firebase to Supabase migration script
   - [x] Script created at `scripts/firestore.ts`
-  - [x] Fetches spendings collection from Firebase Firestore
+  - [x] Fetches ALL spendings collection from Firebase Firestore (no pagination limits)
+  - [x] Currently contains 1,530 spending records
   - [x] Saves to `supabase/data/spendings.json`
   - [x] Authentication with Firebase email/password
+  - [x] Shows statistics: total value, date range, document count
+  - [x] Run with: `pnpm firestore:fetch`
 - [x] Auth store with role-based access control
   - [x] Pinia store at `stores/auth-store.ts`
   - [x] Role checking utilities (superadmin, manager, user)

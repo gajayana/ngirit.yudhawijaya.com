@@ -3,7 +3,7 @@
 import type { FirebaseApp } from 'firebase/app';
 import { initializeApp } from 'firebase/app';
 import type { DocumentData, Firestore } from 'firebase/firestore';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { config } from 'dotenv';
 import { resolve } from 'path';
@@ -94,23 +94,50 @@ class FirestoreService {
 
   /**
    * Fetch all documents from spendings collection
+   * Note: getDocs() automatically fetches ALL documents without pagination
+   * Documents are sorted by created_at ascending (oldest first)
    */
   async fetchSpendings(): Promise<DocumentData[]> {
     try {
-      console.log('📁 Fetching spendings collection...');
+      console.log('📁 Fetching ALL spendings from Firestore...');
+      console.log('⏳ This may take a moment for large collections...');
 
       const collectionRef = collection(this.db, 'spendings');
-      const querySnapshot = await getDocs(collectionRef);
+
+      // Create query with sorting by created_at ascending (oldest first)
+      const q = query(collectionRef, orderBy('created_at', 'asc'));
+      const querySnapshot = await getDocs(q);
 
       const documents: DocumentData[] = [];
+      let totalValue = 0;
+
       querySnapshot.forEach(doc => {
+        const data = doc.data();
         documents.push({
           id: doc.id,
-          ...doc.data(),
+          ...data,
         });
+
+        // Sum up values for statistics
+        if (data.value) {
+          totalValue += Number(data.value);
+        }
       });
 
-      console.log(`✅ Fetched ${documents.length} spendings documents`);
+      console.log(`✅ Fetched ${documents.length} spendings documents (sorted by date, oldest first)`);
+      console.log(`💰 Total spending value: Rp ${totalValue.toLocaleString('id-ID')}`);
+
+      // Show date range if available
+      const dates = documents
+        .filter(d => d.created_at)
+        .map(d => new Date(d.created_at * 1000));
+
+      if (dates.length > 0) {
+        const minDate = new Date(Math.min(...dates.map(d => d.getTime())));
+        const maxDate = new Date(Math.max(...dates.map(d => d.getTime())));
+        console.log(`📅 Date range: ${minDate.toLocaleDateString('id-ID')} - ${maxDate.toLocaleDateString('id-ID')}`);
+      }
+
       return documents;
     } catch (error) {
       console.error('❌ Error fetching spendings collection:', error);
@@ -149,6 +176,9 @@ async function main(): Promise<void> {
 
     console.log(`💾 Saved ${spendings.length} spendings to: ${outputPath}`);
     console.log('🎉 Data fetch completed successfully!');
+
+    // Exit cleanly
+    process.exit(0);
   } catch (error) {
     console.error('❌ Script execution failed:', error);
     process.exit(1);
@@ -156,6 +186,9 @@ async function main(): Promise<void> {
 }
 
 // Execute main function
-main().catch(console.error);
+main().catch((error) => {
+  console.error('❌ Unhandled error:', error);
+  process.exit(1);
+});
 
 export { FirestoreService };
