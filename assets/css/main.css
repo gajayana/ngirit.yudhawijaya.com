@@ -4,3 +4,51 @@
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
 }
+
+/* Mobile-first optimizations */
+@layer base {
+  /* Safe area padding for mobile devices (iPhone notch, etc) */
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Prevent text size adjustment on mobile */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Smooth scrolling for better mobile UX */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Improve tap highlight color */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+  }
+
+  /* Prevent zoom on input focus (iOS) */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Touch-friendly scrolling */
+@layer utilities {
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+  }
+
+  /* Minimum touch target size (44x44px for accessibility) */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

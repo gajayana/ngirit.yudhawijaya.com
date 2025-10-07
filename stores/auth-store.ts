@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { UserRole, UserRoleData } from '~/utils/constants/role';
+import type { UserRole } from '~/utils/constants/role';
 import { USER_ROLE } from '~/utils/constants/role';
 
 /**
@@ -33,13 +33,13 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      // Use the server API endpoint instead of direct Supabase call
-      const data = await $fetch<UserRoleData>('/api/user/me/role');
+      // Use the server API endpoint with caching instead of direct Supabase call
+      const data = await $fetch('/api/v1/user/me');
 
-      userRole.value = data.role;
-      isBlocked.value = data.is_blocked;
+      userRole.value = data.role.role;
+      isBlocked.value = data.role.is_blocked;
       isFetched.value = true;
-      return data;
+      return data.role;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch user role');
       userRole.value = null;

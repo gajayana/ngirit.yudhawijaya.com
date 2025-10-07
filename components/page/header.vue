@@ -1,5 +1,6 @@
 <script setup lang="ts">
   const appName = 'Ngirit';
+  const user = useSupabaseUser();
 </script>
 
 <template>
@@ -12,10 +13,8 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <nav class="hidden md:flex items-center space-x-6">
-          <NuxtLink to="/" class="text-sm font-medium hover:text-primary-500 transition">
-            Home
-          </NuxtLink>
+        <!-- Only show navigation when user is logged in -->
+        <nav v-if="user" class="hidden md:flex items-center space-x-6">
           <NuxtLink to="/dashboard" class="text-sm font-medium hover:text-primary-500 transition">
             Dashboard
           </NuxtLink>
@@ -23,7 +22,7 @@
 
         <div class="flex items-center space-x-3">
           <ThemeSwitch />
-          <AuthActionButton />
+          <AuthActionButton v-if="user" />
         </div>
       </div>
     </div>

@@ -3,10 +3,10 @@
   const user = useSupabaseUser();
   const router = useRouter();
 
-  // Redirect to home page once authenticated
+  // Redirect to dashboard once authenticated
   watchEffect(() => {
     if (user.value) {
-      router.push('/');
+      router.push('/dashboard');
     }
   });
 </script>
@@ -14,8 +14,8 @@
 <template>
   <div class="flex min-h-screen items-center justify-center">
     <div class="text-center">
-      <h1 class="text-xl font-semibold">Confirming authentication...</h1>
-      <p class="mt-2 text-gray-600">Please wait while we complete your login.</p>
+      <h1 class="text-xl font-semibold">Mengkonfirmasi autentikasi...</h1>
+      <p class="mt-2 text-gray-600">Mohon tunggu sementara kami menyelesaikan login Anda.</p>
     </div>
   </div>
 </template>

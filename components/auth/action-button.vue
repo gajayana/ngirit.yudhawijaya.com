@@ -8,7 +8,7 @@
   const signOut = async () => {
     try {
       await authStore.signOut();
-      router.push('/login');
+      router.push('/');
     } catch (error) {
       console.error('Sign out error:', error);
     }
@@ -27,7 +27,7 @@
     ],
     [
       {
-        label: 'Profile',
+        label: 'Profil',
         icon: 'i-heroicons-user',
         to: '/profile',
       },
@@ -39,7 +39,7 @@
     ],
     [
       {
-        label: 'Sign Out',
+        label: 'Keluar',
         icon: 'i-heroicons-arrow-left-on-rectangle',
         class: 'text-red-500 hover:text-red-600',
         onSelect: signOut,
@@ -50,12 +50,7 @@
 
 <template>
   <div>
-    <UButton v-if="!user" to="/login" variant="outline" size="md">
-      <UIcon name="i-heroicons-arrow-right-on-rectangle" class="mr-1 h-4 w-4" />
-      Sign In
-    </UButton>
-
-    <UDropdownMenu v-else :items="dropdownItems" :ui="{ content: 'w-48' }">
+    <UDropdownMenu v-if="user" :items="dropdownItems" :ui="{ content: 'w-48' }">
       <UButton variant="ghost" size="md" class="flex items-center">
         <UAvatar
           v-if="user.user_metadata?.avatar_url"
