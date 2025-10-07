@@ -1,12 +1,35 @@
 <script setup lang="ts">
   // This page handles the OAuth callback redirects
-  const user = useSupabaseUser();
   const router = useRouter();
+  const supabase = useSupabaseClient();
 
-  // Redirect to dashboard once authenticated
-  watchEffect(() => {
-    if (user.value) {
-      router.push('/dashboard');
+  // Handle OAuth callback and redirect - simpler approach
+  onMounted(async () => {
+    try {
+      // Small delay to let Supabase process the callback
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Check if we have a session
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error('Session error:', error);
+        router.push('/');
+        return;
+      }
+
+      if (session?.user) {
+        // User authenticated successfully, go to dashboard
+        console.log('User authenticated, redirecting to dashboard');
+        router.push('/dashboard');
+      } else {
+        // No session found, back to login
+        console.log('No session, redirecting to login');
+        router.push('/');
+      }
+    } catch (err) {
+      console.error('Confirm page error:', err);
+      router.push('/');
     }
   });
 </script>

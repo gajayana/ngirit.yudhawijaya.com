@@ -237,16 +237,22 @@ supabase gen types typescript --local > utils/constants/database.ts
    - Feature cards with borders on mobile, transparent on desktop
    - Funnier, relatable tagline: "Biar dompet gak nangis di akhir bulan 💸"
 
+5. **Bug Fixes** ✅
+   - Fixed OAuth callback stuck on `/confirm` page
+   - Replaced `watchEffect` with direct `getSession()` call
+   - Added proper error handling and console logging
+   - Removed race condition with `useSupabaseUser()` reactive watching
+
 ### Next Tasks
-5. **Testing & Verification**
-   - Test login flow: `/` → Google OAuth → `/confirm` → `/dashboard`
+6. **Testing & Verification** (In Progress)
+   - ✅ Test login flow: `/` → Google OAuth → `/confirm` → `/dashboard`
    - Test logout flow: `/dashboard` → logout → `/`
    - Test API endpoints with v1 prefix
    - Verify mobile responsiveness
 
 ## Development Phases
 
-### Phase 1: Foundation & Authentication 🚧
+### Phase 1: Foundation & Authentication ✅
 - [x] User authentication with Supabase Google OAuth
   - [x] Login page at `/` (root) with Google OAuth button
   - [x] OAuth callback handler at `/confirm`
