@@ -152,10 +152,9 @@ export default defineEventHandler(async event => {
     for (let i = 0; i < transactionsToInsert.length; i += batchSize) {
       const batch = transactionsToInsert.slice(i, i + batchSize);
 
-      // @ts-expect-error - Supabase types are too strict for dynamic inserts
       const { error: insertError } = await supabase
         .from('transactions')
-        .insert(batch);
+        .insert(batch as any);
 
       if (insertError) {
         console.error(`Batch ${i / batchSize + 1} failed:`, insertError);

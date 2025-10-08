@@ -9,9 +9,7 @@
           <p class="text-sm text-gray-600 dark:text-gray-400">
             Halaman ini hanya dapat diakses oleh superadmin.
           </p>
-          <UButton block @click="router.push('/dashboard')">
-            Kembali ke Dashboard
-          </UButton>
+          <UButton block @click="router.push('/dashboard')"> Kembali ke Dashboard </UButton>
         </div>
       </UCard>
     </div>
@@ -26,11 +24,7 @@
             Upload file JSON spendings dari Firebase
           </p>
         </div>
-        <UButton
-          variant="outline"
-          icon="i-heroicons-arrow-left"
-          @click="router.push('/dashboard')"
-        >
+        <UButton variant="outline" icon="i-heroicons-arrow-left" @click="router.push('/dashboard')">
           Kembali
         </UButton>
       </div>
@@ -56,21 +50,17 @@
                 @change="handleFileSelect"
               />
               <div class="text-center">
-                <UIcon
-                  name="i-heroicons-cloud-arrow-up"
-                  class="mx-auto h-12 w-12 text-gray-400"
-                />
-                <p class="mt-2 text-sm font-medium">
-                  Klik atau drag & drop file JSON di sini
-                </p>
-                <p class="mt-1 text-xs text-gray-500">
-                  Format: spendings.json dari Firebase
-                </p>
+                <UIcon name="i-heroicons-cloud-arrow-up" class="mx-auto h-12 w-12 text-gray-400" />
+                <p class="mt-2 text-sm font-medium">Klik atau drag & drop file JSON di sini</p>
+                <p class="mt-1 text-xs text-gray-500">Format: spendings.json dari Firebase</p>
               </div>
             </div>
 
             <!-- Selected File Info -->
-            <div v-if="selectedFile" class="flex items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-gray-900">
+            <div
+              v-if="selectedFile"
+              class="flex items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-gray-900"
+            >
               <div class="flex items-center space-x-3">
                 <UIcon name="i-heroicons-document-text" class="h-5 w-5 text-primary-500" />
                 <div>
@@ -92,11 +82,7 @@
 
           <!-- Import Button -->
           <div class="flex justify-end space-x-3">
-            <UButton
-              variant="outline"
-              @click="clearFile"
-              :disabled="!selectedFile || isImporting"
-            >
+            <UButton variant="outline" :disabled="!selectedFile || isImporting" @click="clearFile">
               Batal
             </UButton>
             <UButton
@@ -113,7 +99,11 @@
       </UCard>
 
       <!-- Import Results -->
-      <UCard v-if="importResult" class="border-l-4" :class="importResult.success ? 'border-green-500' : 'border-red-500'">
+      <UCard
+        v-if="importResult"
+        class="border-l-4"
+        :class="importResult.success ? 'border-green-500' : 'border-red-500'"
+      >
         <div class="space-y-4">
           <div class="flex items-start space-x-3">
             <UIcon
@@ -196,15 +186,17 @@
 
   const handleFileSelect = (event: Event) => {
     const target = event.target as HTMLInputElement;
-    if (target.files && target.files.length > 0) {
-      processFile(target.files[0]);
+    const file = target.files?.[0];
+    if (file) {
+      processFile(file);
     }
   };
 
   const handleDrop = (event: DragEvent) => {
     isDragging.value = false;
-    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
-      processFile(event.dataTransfer.files[0]);
+    const file = event.dataTransfer?.files?.[0];
+    if (file) {
+      processFile(file);
     }
   };
 
@@ -218,7 +210,7 @@
 
     // Read file to get record count
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       try {
         const data = JSON.parse(e.target?.result as string);
         if (Array.isArray(data)) {
@@ -255,7 +247,7 @@
     try {
       const reader = new FileReader();
 
-      reader.onload = async (e) => {
+      reader.onload = async e => {
         try {
           const spendings = JSON.parse(e.target?.result as string);
 
@@ -266,7 +258,7 @@
 
           importResult.value = {
             success: true,
-            message: `Berhasil mengimport ${response.summary.inserted} dari ${response.summary.total} transaksi`,
+            message: `Berhasil mengimpor ${response.summary.inserted} dari ${response.summary.total} transaksi`,
             summary: response.summary,
           };
 
@@ -274,10 +266,11 @@
           setTimeout(() => {
             clearFile();
           }, 5000);
-        } catch (error: any) {
+        } catch (error: unknown) {
+          const apiError = error as { data?: { message?: string } };
           importResult.value = {
             success: false,
-            message: error.data?.message || 'Terjadi kesalahan saat mengimport transaksi',
+            message: apiError.data?.message || 'Terjadi kesalahan saat mengimpor transaksi',
           };
         } finally {
           isImporting.value = false;
@@ -289,7 +282,7 @@
       console.error('Import error:', error);
       importResult.value = {
         success: false,
-        message: 'Terjadi kesalahan saat membaca file',
+        message: 'Terjadi kesalahan saat membaca berkas',
       };
       isImporting.value = false;
     }
