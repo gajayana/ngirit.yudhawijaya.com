@@ -33,8 +33,11 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      // Use the server API endpoint with caching instead of direct Supabase call
-      const data = await $fetch('/api/v1/user/me');
+      // Use the server API endpoint (POST) instead of direct Supabase call
+      const data = await $fetch('/api/v1/user/me', {
+        method: 'POST',
+        body: {},
+      });
 
       userRole.value = data.role.role;
       isBlocked.value = data.role.is_blocked;
@@ -101,7 +104,7 @@ export const useAuthStore = defineStore('auth', () => {
   // Watch for user changes and fetch role when needed
   if (import.meta.client) {
     watch(
-      () => user.value?.id,
+      () => user.value?.sub,
       (newId, oldId) => {
         if (newId && newId !== oldId) {
           isFetched.value = false;
