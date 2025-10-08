@@ -273,21 +273,36 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Transactions table
   - [x] Assets table (12 asset types)
   - [x] RLS performance optimization (auth_rls_initplan & multiple_permissive_policies)
-- [x] Firebase to Supabase migration script
-  - [x] Script created at `scripts/firestore.ts`
-  - [x] Fetches ALL spendings collection from Firebase Firestore (no pagination limits)
-  - [x] Currently contains 1,530 spending records
-  - [x] Saves to `supabase/data/spendings.json`
-  - [x] Authentication with Firebase email/password
-  - [x] Shows statistics: total value, date range, document count
-  - [x] Run with: `pnpm firestore:fetch`
+- [x] Firebase to Supabase migration
+  - [x] Firestore fetch script at `scripts/firestore.ts`
+    - [x] Fetches ALL spendings collection from Firebase Firestore (no pagination limits)
+    - [x] Sorted by `created_at` ascending (oldest first)
+    - [x] Currently contains 1,530 spending records
+    - [x] Saves to `supabase/data/spendings.json`
+    - [x] Authentication with Firebase email/password
+    - [x] Shows statistics: total value, date range, document count
+    - [x] Run with: `pnpm firestore:fetch`
+  - [x] SQL seeder for categories at `supabase/seed.sql`
+    - [x] Automatically creates "Tak Terkategori" category for all users
+    - [x] Runs on `supabase db reset`
+  - [x] Superadmin import feature at `/dashboard/import`
+    - [x] Upload JSON file UI with drag & drop support
+    - [x] Maps Firebase user IDs to Supabase user IDs
+    - [x] Converts Unix timestamps to ISO 8601 UTC
+    - [x] Batch insert (100 records per batch)
+    - [x] Shows import summary (total, inserted, failed, skipped)
+    - [x] API endpoint: POST `/api/v1/transactions/import`
 - [x] Auth store with role-based access control
   - [x] Pinia store at `stores/auth-store.ts`
   - [x] Role checking utilities (superadmin, manager, user)
+  - [x] Computed properties: `isAdmin`, `isSuperAdmin`
+  - [x] Auto-fetches user role on login
+  - [x] Uses POST `/api/v1/user/me` endpoint
 - [x] Server API endpoints (all with `/v1/` prefix)
-  - [x] User endpoint: `/api/v1/user/me` (get authenticated user with role)
+  - [x] User endpoint: POST `/api/v1/user/me` (get authenticated user role)
   - [x] Assets CRUD: `/api/v1/assets/*` (GET, POST, PUT, DELETE)
   - [x] Asset summaries: `/api/v1/assets/summary/total` & `/api/v1/assets/summary/by-type`
+  - [x] Transaction import: POST `/api/v1/transactions/import` (superadmin only)
 
 ### Phase 2: Asset Management Dashboard 🚧
 - [ ] Dashboard UI for viewing assets
