@@ -304,36 +304,121 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Asset summaries: `/api/v1/assets/summary/total` & `/api/v1/assets/summary/by-type`
   - [x] Transaction import: POST `/api/v1/transactions/import` (superadmin only)
 
-### Phase 2: Asset Management Dashboard 🚧
-- [ ] Dashboard UI for viewing assets
-  - [ ] Asset list with filtering and sorting
-  - [ ] Asset creation form
-  - [ ] Asset edit/update functionality
-  - [ ] Asset deletion (soft delete)
-- [ ] Asset visualization
-  - [ ] Charts for asset distribution by type
-  - [ ] Charts for asset distribution by currency
-  - [ ] Total asset value summary
-- [ ] Category management
-  - [ ] Category CRUD endpoints
-  - [ ] Category UI for income/expense types
-- [ ] Currency management
-  - [ ] Currency CRUD endpoints
-  - [ ] Currency selector with exchange rates
+### Phase 2: Transaction Management Dashboard 🔄
+**Goal:** Create a functional expense tracking dashboard with CRUD operations
 
-### Phase 3: Transaction Management (Planned)
-- [ ] Transaction tracking
-  - [ ] Transaction CRUD endpoints (TBD)
-  - [ ] Transaction list UI with filters
-  - [ ] Transaction creation/edit forms
-- [ ] Transaction analytics
-  - [ ] Income vs expense charts
-  - [ ] Transaction history timeline
-  - [ ] Category-based spending analysis
+#### Restructure Pages
+- [ ] Move current `/dashboard` content to `/profile` page
+  - User info card
+  - Debug info
+  - Admin tools widget
+- [ ] Transform `/dashboard` into main expense tracking interface
 
-### Phase 4: Advanced Features (Future)
+#### Dashboard Widgets (all in `/dashboard`)
+- [ ] **Today's Expenses Widget**
+  - List today's expenses sorted by `created_at DESC`
+  - Show: description, amount, time
+  - Mobile-optimized list with touch targets
+- [ ] **Monthly Summary Widget**
+  - Group current month's expenses by description/label
+  - Show: grouped label, total sum for each label
+  - Sorted by total sum DESC
+- [ ] **Expense Summary Card**
+  - Display total sum of today's expenses
+  - Display total sum of current month's expenses
+  - Show comparison/percentage if possible
+- [ ] **Quick Add Expense Widget**
+  - Input field for description
+  - Input field for amount (number)
+  - Optional: category selector (nullable)
+  - Submit button to create expense
+  - Mobile-optimized with 48px+ touch targets
+
+#### Transaction CRUD API Endpoints
+- [ ] GET `/api/v1/transactions` - List user's transactions
+  - Query params: `date`, `month`, `limit`, `offset`
+  - Filter by current user (from auth)
+  - Return sorted by `created_at DESC`
+- [ ] POST `/api/v1/transactions` - Create new transaction
+  - Body: `{ description, amount, transaction_type, category? }`
+  - Set `created_by` from authenticated user
+- [ ] PUT `/api/v1/transactions/:id` - Update transaction
+  - Only allow user to update their own transactions
+  - Managers & superadmins can update any transaction
+- [ ] DELETE `/api/v1/transactions/:id` - Delete transaction (soft delete)
+  - Only allow user to delete their own transactions
+  - Managers & superadmins can delete any transaction
+
+#### Permission System
+- [ ] Implement RLS policy checks in API endpoints
+  - Users can only CRUD their own transactions
+  - Managers can view/edit all non-deleted transactions
+  - Superadmins can view/edit/hard-delete all transactions
+- [ ] Add permission checks in UI
+  - Show edit/delete buttons only for owned transactions
+  - Show all transactions for managers/superadmins
+
+#### Implementation Plan
+1. **Create `/profile` page** - Move existing dashboard content
+2. **Build API endpoints** - Start with GET and POST for transactions
+3. **Create Today's Widget** - Fetch and display today's expenses
+4. **Create Summary Widgets** - Aggregate and display totals
+5. **Build Quick Add Form** - Create transaction input widget
+6. **Add Edit/Delete functionality** - Inline editing with modals
+7. **Test permissions** - Verify RLS and UI permissions work correctly
+
+### Phase 3: AI-Powered Smart Input & Settings 🔮
+**Goal:** Enhance UX with AI and user configuration
+
+#### AI Smart Input (OpenAI Integration)
+- [ ] **Smart Expense Parser**
+  - API endpoint: POST `/api/v1/ai/parse-expense`
+  - Accept natural language input: "belanja 50000", "makan siang 35rb"
+  - Use OpenAI API to extract:
+    - `amount`: numeric value
+    - `description`: expense description
+    - `suggested_category`: best matching category (optional)
+  - Return structured object for frontend to use
+- [ ] **Integrate with Quick Add Widget**
+  - Single text input for natural language
+  - Call AI parser on submit
+  - Show parsed result for user confirmation
+  - Allow manual editing before saving
+
+#### Settings Page (`/settings`)
+- [ ] **Category Management Widget**
+  - List user's custom categories
+  - Add new category (name, type: income/expense, color?, icon?)
+  - Edit existing category
+  - Delete category (soft delete, sets transactions to null)
+  - Only show user's own categories
+- [ ] **Daily Budget Widget**
+  - Set maximum daily spending limit
+  - Store in user preferences table (new migration needed)
+  - Show warning when approaching/exceeding limit
+  - Display on dashboard summary
+- [ ] **User Preferences**
+  - Default currency
+  - Notification preferences
+  - Export/import data options
+
+#### Implementation Plan
+1. **Add OpenAI integration** - Setup API key and client
+2. **Create parse endpoint** - Build AI expense parser
+3. **Update Quick Add Widget** - Add smart input mode
+4. **Create `/settings` page** - Basic layout and structure
+5. **Build Category CRUD** - API endpoints and UI
+6. **Add Budget Management** - Preferences table and UI
+7. **Integrate warnings** - Show budget alerts on dashboard
+
+### Phase 4: Advanced Features (Future) 🚀
 - [ ] Multi-currency support with real-time exchange rates
-- [ ] Budget tracking and alerts
-- [ ] Recurring transactions
-- [ ] Export functionality (CSV, PDF)
-- [ ] Mobile responsive optimizations
+- [ ] Recurring transactions (daily, weekly, monthly)
+- [ ] Export functionality (CSV, PDF reports)
+- [ ] Budget tracking with visual progress bars
+- [ ] Category-based spending analytics with charts
+- [ ] Monthly/yearly comparison views
+- [ ] Receipt photo upload and OCR parsing
+- [ ] Shared budgets for families/groups
+- [ ] Push notifications for budget alerts
+- [ ] Offline mode with sync
