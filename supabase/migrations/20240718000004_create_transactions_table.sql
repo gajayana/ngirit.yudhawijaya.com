@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS transactions (
   description VARCHAR(255) NOT NULL,
   amount DECIMAL(15, 2) NOT NULL CHECK (amount > 0),
   transaction_type VARCHAR(20) NOT NULL CHECK (transaction_type IN ('income', 'expense')),
-  category UUID NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+  category UUID REFERENCES categories(id) ON DELETE SET NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   deleted_at TIMESTAMPTZ DEFAULT NULL,

@@ -9,22 +9,6 @@ interface FirebaseSpending {
   updated_at: number; // Unix timestamp in seconds
 }
 
-interface UserMapping {
-  firebaseId: string;
-  email: string;
-}
-
-const USER_MAPPINGS: UserMapping[] = [
-  {
-    firebaseId: 'QkOsyli6oHg3FuRNNqTCEkvdpPx1',
-    email: 'semboyan35@gmail.com',
-  },
-  {
-    firebaseId: 'ANpAPOanXzZkaQDvfYWN83WmMW52',
-    email: 'natalia.wiworo@gmail.com',
-  },
-];
-
 /**
  * POST /api/v1/transactions/import
  * Import transactions from Firebase spendings JSON file
@@ -47,7 +31,7 @@ export default defineEventHandler(async event => {
     const { data: userRole, error: roleError } = await supabase
       .from('user_roles')
       .select<'role', { role: string }>('role')
-      .eq('user_id', user.id)
+      .eq('user_id', user.sub)
       .single();
 
     if (roleError || (userRole as { role: string })?.role !== 'superadmin') {
@@ -67,64 +51,19 @@ export default defineEventHandler(async event => {
       });
     }
 
-    // Step 1: Map Firebase user IDs to Supabase user IDs
-    const userIdMap = new Map<string, string>();
+    // Use the current authenticated user's ID for all imported transactions
+    const userId = user.sub;
 
-    for (const mapping of USER_MAPPINGS) {
-      const { data: dbUser, error: userError } = await supabase
-        .from('users')
-        .select<'id, email', { id: string; email: string }>('id, email')
-        .eq('email', mapping.email)
-        .single();
-
-      if (userError || !dbUser) {
-        throw createError({
-          statusCode: 404,
-          message: `User with email ${mapping.email} not found`,
-        });
-      }
-
-      userIdMap.set(mapping.firebaseId, (dbUser as { id: string }).id);
-    }
-
-    // Step 2: Fetch "Tak Terkategori" categories for each user
-    const categoryMap = new Map<string, string>();
-
-    for (const [, supabaseUserId] of userIdMap) {
-      const { data: category, error: categoryError } = await supabase
-        .from('categories')
-        .select<'id', { id: string }>('id')
-        .eq('name', 'Tak Terkategori')
-        .eq('type', 'expense')
-        .eq('created_by', supabaseUserId)
-        .is('deleted_at', null)
-        .single();
-
-      if (categoryError || !category) {
-        throw createError({
-          statusCode: 404,
-          message: `Category "Tak Terkategori" not found for user ${supabaseUserId}`,
-        });
-      }
-
-      categoryMap.set(supabaseUserId, (category as { id: string }).id);
-    }
-
-    // Step 3: Process and insert transactions
+    // Process and insert transactions
     const transactionsToInsert = [];
     let skippedCount = 0;
 
     for (const spending of spendings) {
-      const supabaseUserId = userIdMap.get(spending.user);
-
-      if (!supabaseUserId) {
-        skippedCount++;
-        continue;
-      }
-
-      const categoryId = categoryMap.get(supabaseUserId);
-
-      if (!categoryId) {
+      // Skip transactions with invalid amounts (0 or negative)
+      if (!spending.value || spending.value <= 0) {
+        console.warn(
+          `Skipping transaction with invalid amount: ${spending.label} (${spending.value})`
+        );
         skippedCount++;
         continue;
       }
@@ -134,11 +73,11 @@ export default defineEventHandler(async event => {
       const updatedAt = new Date(spending.updated_at * 1000).toISOString();
 
       transactionsToInsert.push({
-        description: spending.label,
+        description: spending.label && spending.label.trim() ? spending.label : '-',
         amount: spending.value,
         transaction_type: 'expense',
-        category: categoryId,
-        created_by: supabaseUserId,
+        category: null, // All imported transactions are uncategorized
+        created_by: userId, // Use current user's ID
         created_at: createdAt,
         updated_at: updatedAt,
       });
@@ -152,15 +91,22 @@ export default defineEventHandler(async event => {
     for (let i = 0; i < transactionsToInsert.length; i += batchSize) {
       const batch = transactionsToInsert.slice(i, i + batchSize);
 
-      const { error: insertError } = await supabase
-        .from('transactions')
-        .insert(batch as any);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: insertError } = await supabase.from('transactions').insert(batch as any);
 
       if (insertError) {
-        console.error(`Batch ${i / batchSize + 1} failed:`, insertError);
+        console.error(`❌ Batch ${i / batchSize + 1} failed:`, {
+          message: insertError.message,
+          code: insertError.code,
+          details: insertError.details,
+          hint: insertError.hint,
+          batchSize: batch.length,
+          firstItem: batch[0],
+        });
         errorCount += batch.length;
       } else {
         successCount += batch.length;
+        console.log(`✅ Batch ${i / batchSize + 1} inserted: ${batch.length} records`);
       }
     }
 

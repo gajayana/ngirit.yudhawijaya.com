@@ -39,23 +39,7 @@
       </div>
 
       <!-- Superadmin Actions - Only visible for superadmin -->
-      <div
-        v-if="authStore.isSuperAdmin"
-        class="rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900 sm:p-6"
-      >
-        <h2 class="mb-3 text-base font-semibold sm:mb-4 sm:text-lg">Admin Tools</h2>
-        <div class="space-y-3">
-          <UButton
-            block
-            variant="outline"
-            icon="i-heroicons-arrow-up-tray"
-            class="justify-start"
-            @click="router.push('/dashboard/import')"
-          >
-            Import Transaksi dari Firebase
-          </UButton>
-        </div>
-      </div>
+      <DashboardAdminTools />
 
       <!-- Debug Info - Collapsible on mobile -->
       <details
@@ -108,9 +92,6 @@
       router.push('/');
     }
   });
-
-  // Auth store automatically fetches user role when user changes
-  // Access via authStore.userRole, authStore.isAdmin, authStore.isSuperAdmin
 
   const logout = async () => {
     await authStore.signOut();
