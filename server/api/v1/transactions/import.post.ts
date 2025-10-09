@@ -20,6 +20,8 @@ export default defineEventHandler(async event => {
   try {
     // Check if user is superadmin and get userId
     const { userId } = await checkUserRole(event, ['superadmin']);
+
+    // Get Supabase client for database operations
     const supabase = await serverSupabaseClient(event);
 
     // Get request body (array of Firebase spendings)

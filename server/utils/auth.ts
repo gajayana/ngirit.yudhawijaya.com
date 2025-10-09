@@ -1,4 +1,4 @@
-import { serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
 import type { H3Event } from 'h3';
 
 /**
