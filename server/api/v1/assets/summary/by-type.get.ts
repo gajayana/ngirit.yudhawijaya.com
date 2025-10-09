@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 
 /**
  * GET /api/assets/summary/by-type
@@ -6,20 +6,14 @@ import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
  */
 export default defineEventHandler(async event => {
   try {
+    const userId = await getAuthenticatedUserId(event);
     const supabase = await serverSupabaseClient(event);
-    const user = await serverSupabaseUser(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-      });
-    }
 
     // Call the database function
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await supabase.rpc('get_user_assets_by_type', {
-      user_uuid: user.id,
-    });
+      user_uuid: userId,
+    } as any);
 
     if (error) {
       console.error('Database error fetching assets by type:', error);

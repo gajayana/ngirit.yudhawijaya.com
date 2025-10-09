@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 
 /**
  * GET /api/assets/summary/total
@@ -6,24 +6,18 @@ import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
  */
 export default defineEventHandler(async event => {
   try {
+    const userId = await getAuthenticatedUserId(event);
     const query = getQuery(event);
     const supabase = await serverSupabaseClient(event);
-    const user = await serverSupabaseUser(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-      });
-    }
 
     const currencyCode = query.currency_code as string | undefined;
 
     // Call the database function
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await supabase.rpc('get_user_total_assets', {
-      user_uuid: user.id,
+      user_uuid: userId,
       filter_currency_code: currencyCode || null,
-    });
+    } as any);
 
     if (error) {
       console.error('Database error fetching total assets:', error);

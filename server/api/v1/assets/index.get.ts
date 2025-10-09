@@ -1,32 +1,23 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 
 /**
- * GET /api/assets
+ * GET /api/v1/assets
  * Retrieve user assets with optional filtering
  */
 export default defineEventHandler(async event => {
   try {
+    const userId = await getAuthenticatedUserId(event);
     const query = getQuery(event);
     const supabase = await serverSupabaseClient(event);
-    const user = await serverSupabaseUser(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-      });
-    }
 
     // Build the query with filters
     let queryBuilder = supabase
       .from('assets')
-      .select(
-        `
+      .select(`
         *,
         currency:currencies(id, code, symbol, name)
-      `
-      )
-      .eq('created_by', user.id)
+      `)
+      .eq('created_by', userId)
       .is('deleted_at', null);
 
     // Apply filters
@@ -54,15 +45,28 @@ export default defineEventHandler(async event => {
     }
 
     if (query.institution_name) {
-      queryBuilder = queryBuilder.ilike('institution_name', `%${query.institution_name}%`);
+      // Sanitize ILIKE pattern to prevent SQL injection
+      const sanitized = (query.institution_name as string)
+        .replace(/\\/g, '\\\\')  // Escape backslash
+        .replace(/%/g, '\\%')    // Escape percent
+        .replace(/_/g, '\\_');   // Escape underscore
+      queryBuilder = queryBuilder.ilike('institution_name', `%${sanitized}%`);
     }
 
     if (query.balance_min) {
-      queryBuilder = queryBuilder.gte('current_balance', parseFloat(query.balance_min as string));
+      const balanceMin = parseFloat(query.balance_min as string);
+      if (isNaN(balanceMin) || balanceMin < 0) {
+        throw createError({ statusCode: 400, statusMessage: 'Invalid balance_min' });
+      }
+      queryBuilder = queryBuilder.gte('current_balance', balanceMin);
     }
 
     if (query.balance_max) {
-      queryBuilder = queryBuilder.lte('current_balance', parseFloat(query.balance_max as string));
+      const balanceMax = parseFloat(query.balance_max as string);
+      if (isNaN(balanceMax) || balanceMax < 0) {
+        throw createError({ statusCode: 400, statusMessage: 'Invalid balance_max' });
+      }
+      queryBuilder = queryBuilder.lte('current_balance', balanceMax);
     }
 
     if (query.maturity_date_from) {
@@ -78,16 +82,22 @@ export default defineEventHandler(async event => {
     const orderDirection = (query.order_direction as 'asc' | 'desc') || 'desc';
     queryBuilder = queryBuilder.order(orderBy, { ascending: orderDirection === 'asc' });
 
-    // Pagination
+    // Pagination with validation
     if (query.limit) {
-      queryBuilder = queryBuilder.limit(parseInt(query.limit as string));
+      const limit = parseInt(query.limit as string);
+      if (isNaN(limit) || limit < 1 || limit > 100) {
+        throw createError({ statusCode: 400, statusMessage: 'Invalid limit (1-100)' });
+      }
+      queryBuilder = queryBuilder.limit(limit);
     }
 
     if (query.offset) {
-      queryBuilder = queryBuilder.range(
-        parseInt(query.offset as string),
-        parseInt(query.offset as string) + (parseInt(query.limit as string) || 50) - 1
-      );
+      const offset = parseInt(query.offset as string);
+      if (isNaN(offset) || offset < 0) {
+        throw createError({ statusCode: 400, statusMessage: 'Invalid offset (must be >= 0)' });
+      }
+      const limit = parseInt(query.limit as string) || 50;
+      queryBuilder = queryBuilder.range(offset, offset + limit - 1);
     }
 
     const { data, error } = await queryBuilder;

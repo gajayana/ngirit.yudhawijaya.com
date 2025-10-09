@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 
 interface FirebaseSpending {
   id: string;
@@ -9,6 +9,8 @@ interface FirebaseSpending {
   updated_at: number; // Unix timestamp in seconds
 }
 
+const MAX_IMPORT_SIZE = 10000; // Maximum 10k transactions per import
+
 /**
  * POST /api/v1/transactions/import
  * Import transactions from Firebase spendings JSON file
@@ -16,30 +18,9 @@ interface FirebaseSpending {
  */
 export default defineEventHandler(async event => {
   try {
-    const user = await serverSupabaseUser(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        message: 'Unauthorized',
-      });
-    }
-
+    // Check if user is superadmin and get userId
+    const { userId } = await checkUserRole(event, ['superadmin']);
     const supabase = await serverSupabaseClient(event);
-
-    // Check if user is superadmin
-    const { data: userRole, error: roleError } = await supabase
-      .from('user_roles')
-      .select<'role', { role: string }>('role')
-      .eq('user_id', user.sub)
-      .single();
-
-    if (roleError || (userRole as { role: string })?.role !== 'superadmin') {
-      throw createError({
-        statusCode: 403,
-        message: 'Forbidden: Only superadmin can import transactions',
-      });
-    }
 
     // Get request body (array of Firebase spendings)
     const spendings = await readBody<FirebaseSpending[]>(event);
@@ -51,8 +32,13 @@ export default defineEventHandler(async event => {
       });
     }
 
-    // Use the current authenticated user's ID for all imported transactions
-    const userId = user.sub;
+    // Validate import size limit
+    if (spendings.length > MAX_IMPORT_SIZE) {
+      throw createError({
+        statusCode: 413,
+        message: `Import size exceeds limit (max ${MAX_IMPORT_SIZE} transactions, got ${spendings.length})`,
+      });
+    }
 
     // Process and insert transactions
     const transactionsToInsert = [];

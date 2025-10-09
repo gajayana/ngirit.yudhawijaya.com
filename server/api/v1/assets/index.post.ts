@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 import type { CreateAssetPayload } from '~/utils/types/assets';
 
 /**
@@ -7,15 +7,8 @@ import type { CreateAssetPayload } from '~/utils/types/assets';
  */
 export default defineEventHandler(async event => {
   try {
+    const userId = await getAuthenticatedUserId(event);
     const supabase = await serverSupabaseClient(event);
-    const user = await serverSupabaseUser(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-      });
-    }
 
     const body = await readBody<CreateAssetPayload>(event);
 
@@ -47,7 +40,7 @@ export default defineEventHandler(async event => {
       .from('assets')
       .insert({
         ...body,
-        created_by: user.id,
+        created_by: userId,
         initial_balance: body.initial_balance || body.current_balance,
       })
       .select(

@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 import type { UpdateAssetPayload } from '~/utils/types/assets';
 
 /**
@@ -7,15 +7,8 @@ import type { UpdateAssetPayload } from '~/utils/types/assets';
  */
 export default defineEventHandler(async event => {
   try {
+    const userId = await getAuthenticatedUserId(event);
     const supabase = await serverSupabaseClient(event);
-    const user = await serverSupabaseUser(event);
-
-    if (!user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-      });
-    }
 
     const assetId = getRouterParam(event, 'id');
 
@@ -50,7 +43,7 @@ export default defineEventHandler(async event => {
       .from('assets')
       .update(body)
       .eq('id', assetId)
-      .eq('created_by', user.id)
+      .eq('created_by', userId)
       .is('deleted_at', null)
       .select(
         `
