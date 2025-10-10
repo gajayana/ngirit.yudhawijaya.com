@@ -574,34 +574,145 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [ ] **Data integration pending**: Fetch monthly aggregated data from API
   - [ ] **Realtime pending**: Auto-update on new transactions
 
-**Realtime Subscription Pattern (for Phase 2 data integration):**
-```typescript
-// Listen to all transaction changes
-const supabase = useSupabaseClient();
-const channel = supabase
-  .channel('transactions-channel')
-  .on(
-    'postgres_changes',
-    { event: '*', schema: 'public', table: 'transactions' },
-    (payload) => {
-      console.log('Transaction change:', payload);
-      // Refresh widget data based on event type
-      if (payload.eventType === 'INSERT') {
-        // Add new transaction to lists
-      } else if (payload.eventType === 'UPDATE') {
-        // Update existing transaction
-      } else if (payload.eventType === 'DELETE') {
-        // Remove transaction from lists
-      }
-    }
-  )
-  .subscribe();
+**Data Integration Strategy:**
 
-// Cleanup on unmount
+All transaction data will be managed through a centralized Pinia store (`stores/transaction-store.ts`) to minimize API calls and provide reactive state management across all widgets.
+
+**Key Principles:**
+1. **Single Source of Truth**: One Pinia store manages all transaction data
+2. **Fetch Once**: Load current month's transactions on dashboard mount
+3. **Realtime Updates**: Supabase channel subscription in Pinia store
+4. **Reactive Widgets**: Widgets consume store data via `storeToRefs()`
+
+**Transaction Store Structure:**
+```typescript
+// stores/transaction-store.ts
+
+// State
+state: {
+  transactions: Transaction[]        // Current month's transactions only
+  currentMonth: string               // Format: 'YYYY-MM' (e.g., '2025-10')
+  isLoading: boolean                 // Loading state for API calls
+  error: Error | null                // Error state
+  isSubscribed: boolean              // Realtime subscription status
+}
+
+// Getters (computed from current month data)
+getters: {
+  todayTransactions: Transaction[]          // Filtered by today's date
+  todayTotal: number                        // Sum of today's expenses
+  todayCount: number                        // Count of today's transactions
+  monthlyTotal: number                      // Sum of all current month expenses
+  monthlyCount: number                      // Count of all current month transactions
+  monthlySummaryByCategory: Array<{         // Grouped by category
+    label: string,
+    total: number,
+    count: number,
+    percentage: number
+  }>
+}
+
+// Actions
+actions: {
+  fetchCurrentMonth()                       // GET /api/v1/transactions?month=YYYY-MM
+  addTransaction(transaction)               // POST /api/v1/transactions (bulk)
+  updateTransaction(id, data)               // PUT /api/v1/transactions/:id
+  deleteTransaction(id)                     // DELETE /api/v1/transactions/:id
+  initRealtimeSubscription()                // Start Supabase channel
+  cleanupRealtimeSubscription()             // Stop Supabase channel
+  handleRealtimeEvent(payload)              // Process INSERT/UPDATE/DELETE events
+}
+```
+
+**Realtime Subscription in Pinia Store:**
+```typescript
+// Inside transaction store
+const supabase = useSupabaseClient();
+let channel: RealtimeChannel | null = null;
+
+const initRealtimeSubscription = () => {
+  if (isSubscribed.value) return;
+
+  channel = supabase
+    .channel('transactions-channel')
+    .on('postgres_changes',
+      { event: '*', schema: 'public', table: 'transactions' },
+      handleRealtimeEvent
+    )
+    .subscribe();
+
+  isSubscribed.value = true;
+};
+
+const handleRealtimeEvent = (payload) => {
+  // Only process events for current month
+  const transactionMonth = getMonthFromDate(payload.new?.created_at);
+  if (transactionMonth !== currentMonth.value) return;
+
+  if (payload.eventType === 'INSERT') {
+    transactions.value.unshift(payload.new);
+  } else if (payload.eventType === 'UPDATE') {
+    const index = transactions.value.findIndex(t => t.id === payload.new.id);
+    if (index !== -1) transactions.value[index] = payload.new;
+  } else if (payload.eventType === 'DELETE') {
+    transactions.value = transactions.value.filter(t => t.id !== payload.old.id);
+  }
+};
+
+const cleanupRealtimeSubscription = () => {
+  if (channel) {
+    supabase.removeChannel(channel);
+    channel = null;
+    isSubscribed.value = false;
+  }
+};
+```
+
+**Dashboard Page Lifecycle:**
+```typescript
+// pages/dashboard.vue
+const transactionStore = useTransactionStore();
+
+onMounted(async () => {
+  // Fetch current month's transactions once
+  await transactionStore.fetchCurrentMonth();
+
+  // Start realtime subscription
+  transactionStore.initRealtimeSubscription();
+});
+
 onUnmounted(() => {
-  supabase.removeChannel(channel);
+  // Clean up subscription
+  transactionStore.cleanupRealtimeSubscription();
 });
 ```
+
+**Widget Integration (Pure Consumers):**
+```typescript
+// Widgets only consume data from store - no direct API calls
+
+// ExpenseSummaryCard.vue
+const transactionStore = useTransactionStore();
+const { todayTotal, monthlyTotal, todayCount, monthlyCount } = storeToRefs(transactionStore);
+
+// TodayExpensesWidget.vue
+const { todayTransactions } = storeToRefs(transactionStore);
+
+// MonthlySummaryWidget.vue
+const { monthlySummaryByCategory, monthlyTotal } = storeToRefs(transactionStore);
+
+// QuickAddWidget.vue
+const transactionStore = useTransactionStore();
+await transactionStore.addTransaction(transactions); // POST via store action
+```
+
+**Benefits:**
+- ✅ Single API call for current month's data
+- ✅ Reactive updates across all widgets
+- ✅ Centralized data management
+- ✅ Clean separation of concerns (widgets = presentation only)
+- ✅ Real-time synchronization via Supabase channel
+- ✅ Type-safe with transaction types from `utils/constants/transaction.ts`
 
 #### Transaction CRUD API Endpoints
 - [x] **GET `/api/v1/transactions`** ✅ (Oct 10, 2025) - List user's transactions
