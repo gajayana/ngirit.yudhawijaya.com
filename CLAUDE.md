@@ -108,6 +108,19 @@ pnpm firestore:fetch
   - `USER_ROLE` - Const object with role values
   - All types derived from `database.ts`
 
+- **Transaction Types** (`utils/constants/transaction.ts`):
+  - `Transaction` - Complete transaction record from database
+  - `TransactionInsert` - Type for inserting new transactions
+  - `TransactionUpdate` - Type for updating transactions
+  - `TransactionWithCategory` - Transaction with joined category data
+  - `TransactionInput` - Client-side input for single transaction
+  - `TransactionBulkInput` - Client-side input for bulk insert
+  - `TransactionUpdateInput` - Client-side input for updates
+  - Response types: `TransactionListResponse`, `TransactionCreateResponse`, `TransactionUpdateResponse`, `TransactionDeleteResponse`
+  - `TransactionQueryParams` - Query parameters for GET endpoint
+  - `TRANSACTION_TYPE` - Const object with transaction type values ('expense', 'income')
+  - All types derived from `database.ts`
+
 - **Type Pattern**:
   - Use interfaces over types for extendability
   - No enums - use const objects with `satisfies` keyword
@@ -122,17 +135,24 @@ pnpm firestore:fetch
 ```typescript
 // ✅ CORRECT - Import from utils/constants
 import type { UserData } from '~/utils/constants/user';
+import type { Transaction, TransactionWithCategory } from '~/utils/constants/transaction';
 import type { Database } from '~/utils/constants/database';
 
-// ✅ CORRECT - Use database-generated types
-type Transaction = Database['public']['Tables']['transactions']['Row'];
+// ✅ CORRECT - Use pre-defined types for transactions
+import type {
+  TransactionInput,
+  TransactionListResponse
+} from '~/utils/constants/transaction';
 
-// ❌ WRONG - Don't define inline types that exist in database
-interface UserData {
+// ❌ WRONG - Don't define inline types that exist in database or utils/constants
+interface Transaction {
   id: string;
-  role: string;
+  amount: number;
   // ... manually defining fields
 }
+
+// ❌ WRONG - Don't use raw database types when typed versions exist
+type Transaction = Database['public']['Tables']['transactions']['Row']; // Use import instead
 ```
 
 ## Code Style Rules
@@ -584,27 +604,42 @@ onUnmounted(() => {
 ```
 
 #### Transaction CRUD API Endpoints
-- [ ] GET `/api/v1/transactions` - List user's transactions
-  - Query params: `date`, `month`, `limit`, `offset`
+- [x] **GET `/api/v1/transactions`** ✅ (Oct 10, 2025) - List user's transactions
+  - Query params: `date` (YYYY-MM-DD), `month` (YYYY-MM), `limit`, `offset`
   - Filter by current user (from auth)
-  - Return sorted by `created_at DESC`
-- [ ] POST `/api/v1/transactions` - Create new transaction
-  - Body: `{ description, amount, transaction_type, category? }`
-  - Set `created_by` from authenticated user
-  - Validate amount is valid decimal number
-- [ ] PUT `/api/v1/transactions/:id` - Update transaction
-  - Only allow user to update their own transactions
-  - Managers & superadmins can update any transaction
-  - Validate amount changes with Decimal.js
-- [ ] DELETE `/api/v1/transactions/:id` - Delete transaction (soft delete)
-  - Only allow user to delete their own transactions
-  - Managers & superadmins can delete any transaction
+  - Returns transactions with joined category data
+  - Sorted by `created_at DESC`
+  - Filters out soft-deleted records
+  - File: `server/api/v1/transactions/index.get.ts`
+
+- [x] **POST `/api/v1/transactions`** ✅ (Oct 10, 2025) - Create new transactions (bulk)
+  - Body: `{ transactions: [{ description, amount, transaction_type, category? }] }`
+  - Supports bulk insert (array of transactions)
+  - Validates each transaction (description, amount > 0, transaction_type)
+  - Sets `created_by` from authenticated user
+  - Returns inserted transactions with category data
+  - File: `server/api/v1/transactions/index.post.ts`
+
+- [x] **PUT `/api/v1/transactions/:id`** ✅ (Oct 10, 2025) - Update transaction
+  - Body: `{ description?, amount?, transaction_type?, category? }`
+  - Permission checks: Owner OR manager/superadmin
+  - Validates amount if provided (must be > 0)
+  - Returns updated transaction with category data
+  - File: `server/api/v1/transactions/[id].put.ts`
+
+- [x] **DELETE `/api/v1/transactions/:id`** ✅ (Oct 10, 2025) - Delete transaction (soft delete)
+  - Soft delete: sets `deleted_at` timestamp
+  - Permission checks: Owner OR manager/superadmin
+  - Returns success message
+  - File: `server/api/v1/transactions/[id].delete.ts`
 
 #### Permission System
-- [ ] Implement RLS policy checks in API endpoints
-  - Users can only CRUD their own transactions
-  - Managers can view/edit all non-deleted transactions
-  - Superadmins can view/edit/hard-delete all transactions
+- [x] **Implement RLS policy checks in API endpoints** ✅ (Oct 10, 2025)
+  - ✅ Users can only CRUD their own transactions (checked via `created_by`)
+  - ✅ Managers can view/edit all non-deleted transactions (role-based checks)
+  - ✅ Superadmins can view/edit all transactions (role-based checks)
+  - ✅ Permission logic in PUT and DELETE endpoints
+  - Note: Hard delete not implemented (only soft delete for data integrity)
 - [ ] Add permission checks in UI
   - Show edit/delete buttons only for owned transactions
   - Show all transactions for managers/superadmins
