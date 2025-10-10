@@ -215,7 +215,7 @@
       // Try to extract number from line (supports various formats: 35000, 50rb, 5k)
       const numberMatch = trimmedLine.match(/(\d+(?:[.,]\d+)?)\s*(rb|k|ribu|rp)?/i);
 
-      if (numberMatch) {
+      if (numberMatch && numberMatch[1]) {
         let amount = parseFloat(numberMatch[1].replace(',', '.'));
 
         // Handle rb, k, ribu abbreviations
