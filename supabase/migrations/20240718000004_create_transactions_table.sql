@@ -58,6 +58,16 @@ CREATE POLICY "Users can insert their own transactions"
 ON transactions FOR INSERT
 WITH CHECK ((SELECT auth.uid()) = created_by);
 
+-- Policy to allow superadmins to insert transactions on behalf of any user (for imports)
+CREATE POLICY "Superadmins can insert any transaction"
+ON transactions FOR INSERT
+WITH CHECK (
+  EXISTS (
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
+  )
+);
+
 -- Policy to allow users to update their own transactions (if not deleted)
 CREATE POLICY "Users can update their own transactions"
 ON transactions FOR UPDATE
