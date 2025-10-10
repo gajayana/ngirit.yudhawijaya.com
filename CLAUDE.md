@@ -168,6 +168,83 @@ interface UserData {
 - **Images**: Use `<NuxtImage>` or `<NuxtPicture>` components
 - **Icons**: Use Nuxt Icons module (`@nuxt/icon`)
 
+### Financial Calculations with Decimal.js
+
+**⚠️ CRITICAL: ALWAYS use `useFinancial()` composable for money calculations**
+
+JavaScript's native arithmetic has floating-point precision errors that make it unsuitable for financial calculations:
+```typescript
+// ❌ WRONG - Floating-point errors
+0.1 + 0.2 === 0.3 // false! (returns 0.30000000000000004)
+```
+
+**Solution: Use the `useFinancial()` composable**
+
+Located at `composables/useFinancial.ts`, this composable provides:
+
+**Basic Operations:**
+```typescript
+const { add, subtract, multiply, divide, sum, average } = useFinancial();
+
+// Addition
+const total = add(100.10, 200.20); // 300.30 (accurate)
+
+// Subtraction
+const change = subtract(500, 123.45); // 376.55
+
+// Multiplication
+const tax = multiply(1000, 0.11); // 110.00
+
+// Division
+const split = divide(100, 3); // 33.33
+
+// Sum array
+const monthlyTotal = sum([100, 200.50, 300.75]); // 601.25
+
+// Average
+const avg = average([100, 200, 300]); // 200.00
+```
+
+**Formatting & Parsing:**
+```typescript
+const { formatCurrency, parseAmount } = useFinancial();
+
+// Format as Rupiah
+formatCurrency(1234567.89); // "Rp 1.234.568" (no decimals by default)
+formatCurrency(1234567.89, { showDecimals: true }); // "Rp 1.234.567,89"
+formatCurrency(1234567.89, { showSymbol: false }); // "1.234.568"
+
+// Parse user input
+parseAmount("Rp 1.234.567,89"); // 1234567.89
+parseAmount("1,234,567.89"); // 1234567.89
+```
+
+**Validation & Comparison:**
+```typescript
+const { isValidAmount, compare, isPositive, isZero } = useFinancial();
+
+// Validate
+isValidAmount(100.50); // true
+isValidAmount("abc"); // false
+isValidAmount(-50); // false (negative amounts invalid)
+
+// Compare
+compare(100, 200); // -1 (100 < 200)
+compare(100, 100); // 0 (equal)
+compare(200, 100); // 1 (200 > 100)
+
+// Boolean checks
+isPositive(100); // true
+isZero(0); // true
+```
+
+**Usage Rules:**
+1. ✅ **Always import** `useFinancial()` in components/composables dealing with money
+2. ✅ **Use for all calculations**: totals, averages, percentages, tax calculations
+3. ✅ **Use in API endpoints**: Server-side calculations must also use Decimal.js
+4. ❌ **Never use native operators** for money: no `+`, `-`, `*`, `/`
+5. ✅ **Database storage**: Already configured as `DECIMAL(15,2)` in migrations
+
 ### UI & Styling
 - **Framework**: Nuxt UI (built on Tailwind CSS)
 - **Approach**: Mobile-first responsive design
