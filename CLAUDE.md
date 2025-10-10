@@ -44,7 +44,7 @@ pnpm firestore:fetch
 ### Authentication & Authorization
 - **Supabase Auth**: Primary authentication provider (`@nuxtjs/supabase`)
 - **Auth Store**: Centralized auth state management in `stores/auth-store.ts`
-  - Manages user roles (superadmin, manager, user) via `user_roles` table
+  - Manages user roles (superadmin, manager, user) via `user_data` table
   - Provides role-checking utilities: `hasRole()`, `canAccess()`, `isAdmin`, `isSuperAdmin`
   - Automatically fetches user role on auth state changes (client-side only)
 - **Role Constants**: Defined in `utils/constants/role.ts` using database-generated types
@@ -57,11 +57,16 @@ pnpm firestore:fetch
 ### Database & Backend
 - **Supabase**: PostgreSQL database with Row Level Security (RLS) policies
 - **Migrations**: Located in `supabase/migrations/`, includes:
-  - User roles with soft delete support
+  - User data table (`user_data`) with auto-sync to auth.users, includes full_name, role, is_blocked
   - Categories (income/expense types)
   - Currencies with exchange rates
   - Transactions with category relationships
   - Assets (12 types: cash, savings, investments, crypto, real estate, etc.)
+- **RLS Optimizations**:
+  - All policies use `(SELECT auth.uid())` pattern to prevent per-row re-evaluation
+  - Consolidated policies to avoid multiple permissive policies per action
+  - SECURITY DEFINER functions for role checks to avoid infinite recursion
+  - Admin functions: `is_superadmin()`, `update_user_role()`, `update_user_blocked_status()`
 - **Server API**: RESTful endpoints in `server/api/` with `/v1/` prefix
   - All API routes are versioned: `/api/v1/*`
   - User endpoint: `/api/v1/user/me` - returns authenticated user with role
@@ -175,7 +180,9 @@ Required environment variables (see `.env.example`):
 ## Database Context
 
 The application uses a multi-table architecture:
-1. **user_roles**: Maps auth.users to application roles with block status
+1. **user_data**: Maps auth.users to application roles with full_name, role, is_blocked, soft delete
+   - Auto-syncs with auth.users via triggers (handle_new_user, handle_user_updated)
+   - Includes SECURITY DEFINER functions to avoid RLS infinite recursion
 2. **categories**: Income/expense categories with soft delete
 3. **currencies**: Currency definitions with exchange rates
 4. **assets**: Financial assets with rich metadata (balance, institution, risk level, liquidity)
@@ -189,10 +196,12 @@ All tables implement:
 
 ### Database Migrations
 
-- Located in `supabase/migrations/` with timestamp-based naming
-- Latest migration (`20250710000001_optimize_rls_policies.sql`) optimizes RLS policies for performance
+- Located in `supabase/migrations/` with timestamp-based naming (5 total migrations)
+- Migration `20240718000001_create_user_data.sql`: Core user data table with auto-sync triggers
+- All RLS optimizations consolidated into respective table migrations
 - Apply migrations using: `supabase db push` or `supabase migration up`
 - RLS policies use `(SELECT auth.uid())` pattern instead of bare `auth.uid()` for better query performance
+- **Important**: user_data table uses SECURITY DEFINER functions (`is_superadmin()`, `update_user_role()`, `update_user_blocked_status()`) to avoid infinite recursion when checking roles
 
 ### Supabase Local Development
 
@@ -266,8 +275,14 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Single-handed operation support
   - [x] Safe area padding for notched devices
   - [x] Prevent zoom on input focus (iOS)
-- [x] Supabase database initial migrations
-  - [x] User roles table with RLS policies
+- [x] Supabase database initial migrations (5 migrations total)
+  - [x] Migration refactoring and consolidation (Oct 10, 2025)
+    - [x] Replaced `user_roles` table → `user_data` table with full_name auto-sync
+    - [x] Added auto-sync triggers: `handle_new_user()`, `handle_user_updated()`
+    - [x] Fixed infinite recursion with SECURITY DEFINER functions
+    - [x] Consolidated RLS optimizations into base table migrations
+    - [x] Verified all migrations free from infinite recursion issues
+  - [x] User data table (`user_data`) with RLS policies and admin functions
   - [x] Categories table (income/expense types)
   - [x] Currencies table with exchange rates
   - [x] Transactions table
