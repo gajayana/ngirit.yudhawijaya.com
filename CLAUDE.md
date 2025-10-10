@@ -47,7 +47,7 @@ pnpm firestore:fetch
   - Manages user roles (superadmin, manager, user) via `user_data` table
   - Provides role-checking utilities: `hasRole()`, `canAccess()`, `isAdmin`, `isSuperAdmin`
   - Automatically fetches user role on auth state changes (client-side only)
-- **Role Constants**: Defined in `utils/constants/role.ts` using database-generated types
+- **User Types**: Defined in `utils/constants/user.ts` using database-generated types
 - **Redirect Flow**:
   - Login page at `/` (root)
   - Logged-in users automatically redirect to `/dashboard`
@@ -90,10 +90,50 @@ pnpm firestore:fetch
 - **App Layout**: Root `app.vue` uses `<UApp>` wrapper with `<PageHeader>` and `<NuxtPage>`
 
 ### Type System
+
+**⚠️ CRITICAL: Always use `utils/constants/` for type references**
+
 - **Database Types**: Auto-generated from Supabase in `utils/constants/database.ts`
-- **Type Pattern**: Use interfaces over types, no enums (use const objects with `satisfies`)
+  - **Source of Truth**: This file is auto-generated via `supabase gen types typescript`
+  - Contains all table schemas (Row, Insert, Update types)
+  - Contains all enum types (user_role, asset_type, etc.)
+  - Contains all database functions signatures
+  - **Never manually edit this file** - regenerate after schema changes
+
+- **User Types** (`utils/constants/user.ts`):
+  - `UserData` - Complete user record from database
+  - `UserDataInsert` - Type for inserting new users
+  - `UserDataUpdate` - Type for updating users
+  - `UserRole` - Enum type for user roles
+  - `USER_ROLE` - Const object with role values
+  - All types derived from `database.ts`
+
+- **Type Pattern**:
+  - Use interfaces over types for extendability
+  - No enums - use const objects with `satisfies` keyword
+  - Always import types from `utils/constants/` instead of defining inline
+  - For database table types, use: `Database['public']['Tables']['table_name']['Row']`
+  - For enums, use: `Database['public']['Enums']['enum_name']`
+
 - **Asset Types**: 12 distinct types defined in `utils/types/assets.ts`
 - **Risk Levels**: `low`, `medium`, `high` for investment assets
+
+**Type Reference Examples**:
+```typescript
+// ✅ CORRECT - Import from utils/constants
+import type { UserData } from '~/utils/constants/user';
+import type { Database } from '~/utils/constants/database';
+
+// ✅ CORRECT - Use database-generated types
+type Transaction = Database['public']['Tables']['transactions']['Row'];
+
+// ❌ WRONG - Don't define inline types that exist in database
+interface UserData {
+  id: string;
+  role: string;
+  // ... manually defining fields
+}
+```
 
 ## Code Style Rules
 
@@ -107,10 +147,12 @@ pnpm firestore:fetch
   - `server/api/assets/index.get.ts` (116 lines) ✓
 
 ### TypeScript
+- **⚠️ ALWAYS import types from `utils/constants/` - never define inline types**
 - Use interfaces over types for extendability
 - Avoid enums; use const objects with `satisfies` keyword
 - Prefer functional components with Composition API `<script setup>`
 - Leverage auto-imports (no need to import `ref`, `useState`, `useRouter`)
+- When working with database tables, reference `utils/constants/database.ts` for type definitions
 
 ### Nuxt 3 Patterns
 - **Data Fetching**:
@@ -277,11 +319,16 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Prevent zoom on input focus (iOS)
 - [x] Supabase database initial migrations (5 migrations total)
   - [x] Migration refactoring and consolidation (Oct 10, 2025)
-    - [x] Replaced `user_roles` table → `user_data` table with full_name auto-sync
+    - [x] Replaced `user_roles` table → `user_data` table with email, full_name auto-sync
+    - [x] Added `email` column (UNIQUE NOT NULL) with auto-sync from auth.users
     - [x] Added auto-sync triggers: `handle_new_user()`, `handle_user_updated()`
     - [x] Fixed infinite recursion with SECURITY DEFINER functions
     - [x] Consolidated RLS optimizations into base table migrations
     - [x] Verified all migrations free from infinite recursion issues
+    - [x] Renamed `utils/constants/role.ts` → `utils/constants/user.ts`
+    - [x] Added comprehensive user types: `UserData`, `UserDataInsert`, `UserDataUpdate`
+    - [x] Updated all imports across codebase (3 files) to use new `user.ts`
+    - [x] Updated transaction import endpoint with email-based user mapping
   - [x] User data table (`user_data`) with RLS policies and admin functions
   - [x] Categories table (income/expense types)
   - [x] Currencies table with exchange rates
@@ -352,6 +399,26 @@ supabase gen types typescript --local > utils/constants/database.ts
 ### Phase 2: Transaction Management Dashboard 🔄
 **Goal:** Create a functional expense tracking dashboard with CRUD operations
 
+#### Decimal.js for Financial Calculations
+- [ ] **Install and Configure decimal.js**
+  - Install: `pnpm add decimal.js`
+  - Install types: `pnpm add -D @types/decimal.js`
+  - Use for ALL financial calculations to avoid floating-point errors
+  - **Critical**: Never use JavaScript `+`, `-`, `*`, `/` for money calculations
+  - Example:
+    ```typescript
+    import Decimal from 'decimal.js';
+
+    // ✅ CORRECT - Use Decimal.js
+    const total = new Decimal(amount1).plus(amount2).toNumber();
+    const average = new Decimal(sum).div(count).toDecimalPlaces(2).toNumber();
+
+    // ❌ WRONG - Native JS math has floating-point errors
+    const total = amount1 + amount2; // Can result in 0.1 + 0.2 = 0.30000000000000004
+    ```
+  - Store as `DECIMAL(15,2)` in database (already configured in migrations)
+  - Always round to 2 decimal places for display
+
 #### Restructure Pages
 - [ ] Move current `/dashboard` content to `/profile` page
   - User info card
@@ -364,20 +431,24 @@ supabase gen types typescript --local > utils/constants/database.ts
   - List today's expenses sorted by `created_at DESC`
   - Show: description, amount, time
   - Mobile-optimized list with touch targets
+  - Use Decimal.js for amount calculations
 - [ ] **Monthly Summary Widget**
   - Group current month's expenses by description/label
   - Show: grouped label, total sum for each label
   - Sorted by total sum DESC
+  - Use Decimal.js for all summations
 - [ ] **Expense Summary Card**
   - Display total sum of today's expenses
   - Display total sum of current month's expenses
   - Show comparison/percentage if possible
+  - Use Decimal.js for all calculations
 - [ ] **Quick Add Expense Widget**
   - Input field for description
   - Input field for amount (number)
   - Optional: category selector (nullable)
   - Submit button to create expense
   - Mobile-optimized with 48px+ touch targets
+  - Validate amount with Decimal.js before submission
 
 #### Transaction CRUD API Endpoints
 - [ ] GET `/api/v1/transactions` - List user's transactions
@@ -387,9 +458,11 @@ supabase gen types typescript --local > utils/constants/database.ts
 - [ ] POST `/api/v1/transactions` - Create new transaction
   - Body: `{ description, amount, transaction_type, category? }`
   - Set `created_by` from authenticated user
+  - Validate amount is valid decimal number
 - [ ] PUT `/api/v1/transactions/:id` - Update transaction
   - Only allow user to update their own transactions
   - Managers & superadmins can update any transaction
+  - Validate amount changes with Decimal.js
 - [ ] DELETE `/api/v1/transactions/:id` - Delete transaction (soft delete)
   - Only allow user to delete their own transactions
   - Managers & superadmins can delete any transaction
@@ -404,13 +477,15 @@ supabase gen types typescript --local > utils/constants/database.ts
   - Show all transactions for managers/superadmins
 
 #### Implementation Plan
-1. **Create `/profile` page** - Move existing dashboard content
-2. **Build API endpoints** - Start with GET and POST for transactions
-3. **Create Today's Widget** - Fetch and display today's expenses
-4. **Create Summary Widgets** - Aggregate and display totals
-5. **Build Quick Add Form** - Create transaction input widget
-6. **Add Edit/Delete functionality** - Inline editing with modals
-7. **Test permissions** - Verify RLS and UI permissions work correctly
+1. **Install decimal.js** - Add dependency for accurate financial calculations
+2. **Create `/profile` page** - Move existing dashboard content
+3. **Build API endpoints** - Start with GET and POST for transactions (use Decimal.js)
+4. **Create Today's Widget** - Fetch and display today's expenses (use Decimal.js)
+5. **Create Summary Widgets** - Aggregate and display totals (use Decimal.js)
+6. **Build Quick Add Form** - Create transaction input widget (validate with Decimal.js)
+7. **Add Edit/Delete functionality** - Inline editing with modals
+8. **Test permissions** - Verify RLS and UI permissions work correctly
+9. **Test calculations** - Verify all financial calculations are accurate
 
 ### Phase 3: AI-Powered Smart Input & Settings 🔮
 **Goal:** Enhance UX with AI and user configuration
