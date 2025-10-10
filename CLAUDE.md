@@ -477,22 +477,18 @@ supabase gen types typescript --local > utils/constants/database.ts
 **Goal:** Create a functional expense tracking dashboard with CRUD operations
 
 #### Decimal.js for Financial Calculations
-- [ ] **Install and Configure decimal.js**
-  - Install: `pnpm add decimal.js`
-  - Install types: `pnpm add -D @types/decimal.js`
+- [x] **Install and Configure decimal.js** ✅ (Oct 10, 2025)
+  - [x] Install: `pnpm add decimal.js`
+  - [x] Types are built-in, no separate package needed
+  - [x] Created `composables/useFinancial.ts` with utilities
+  - [x] Configured Decimal.js: precision 20, ROUND_HALF_UP, 2 decimal places output
+  - [x] Implemented operations: add, subtract, multiply, divide, sum, average, percentage
+  - [x] Implemented formatting: formatCurrency (Indonesian Rupiah)
+  - [x] Implemented parsing: parseAmount (handles various formats)
+  - [x] Implemented validation: isValidAmount, compare, isPositive, isZero
+  - [x] Added comprehensive documentation to CLAUDE.md
   - Use for ALL financial calculations to avoid floating-point errors
   - **Critical**: Never use JavaScript `+`, `-`, `*`, `/` for money calculations
-  - Example:
-    ```typescript
-    import Decimal from 'decimal.js';
-
-    // ✅ CORRECT - Use Decimal.js
-    const total = new Decimal(amount1).plus(amount2).toNumber();
-    const average = new Decimal(sum).div(count).toDecimalPlaces(2).toNumber();
-
-    // ❌ WRONG - Native JS math has floating-point errors
-    const total = amount1 + amount2; // Can result in 0.1 + 0.2 = 0.30000000000000004
-    ```
   - Store as `DECIMAL(15,2)` in database (already configured in migrations)
   - Always round to 2 decimal places for display
 
