@@ -169,7 +169,7 @@ async function main(): Promise<void> {
     const spendings = await firestore.fetchSpendings();
 
     // Save to JSON file
-    const outputPath = resolve(process.cwd(), 'supabase/data/spendings.json');
+    const outputPath = resolve(process.cwd(), 'supabase/data/oldies/expense-firestore.json');
     const jsonData = JSON.stringify(spendings, null, 2);
 
     writeFileSync(outputPath, jsonData, 'utf8');

@@ -273,25 +273,50 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Transactions table
   - [x] Assets table (12 asset types)
   - [x] RLS performance optimization (auth_rls_initplan & multiple_permissive_policies)
-- [x] Firebase to Supabase migration
-  - [x] Firestore fetch script at `scripts/firestore.ts`
-    - [x] Fetches ALL spendings collection from Firebase Firestore (no pagination limits)
-    - [x] Sorted by `created_at` ascending (oldest first)
-    - [x] Currently contains 1,530 spending records
-    - [x] Saves to `supabase/data/spendings.json`
-    - [x] Authentication with Firebase email/password
-    - [x] Shows statistics: total value, date range, document count
-    - [x] Run with: `pnpm firestore:fetch`
-  - [x] SQL seeder for categories at `supabase/seed.sql`
-    - [x] Automatically creates "Tak Terkategori" category for all users
-    - [x] Runs on `supabase db reset`
-  - [x] Superadmin import feature at `/dashboard/import`
-    - [x] Upload JSON file UI with drag & drop support
-    - [x] Maps Firebase user IDs to Supabase user IDs
-    - [x] Converts Unix timestamps to ISO 8601 UTC
-    - [x] Batch insert (100 records per batch)
-    - [x] Shows import summary (total, inserted, failed, skipped)
-    - [x] API endpoint: POST `/api/v1/transactions/import`
+- [ ] **[P0] Enhanced Data Migration System** 🔄 (In Progress - Phase 1.5)
+  - [ ] **Data Organization**
+    - [ ] Create `supabase/data/oldies/` directory structure
+    - [ ] Move `spendings_18bulan.sql` → `supabase/data/oldies/`
+    - [ ] Modify `scripts/firestore.ts` to save to `supabase/data/oldies/expense-firestore.json`
+  - [ ] **MySQL Migration Script** (`scripts/mysql.ts`)
+    - [ ] Read MySQL dump file at `supabase/data/oldies/spendings_18bulan.sql`
+    - [ ] Parse `tblspending` table data (columns: `ID`, `dt`, `event`, `spending`)
+    - [ ] Transform to unified JSON format (same structure as Firestore export)
+    - [ ] Save to `supabase/data/oldies/expense-mysql.json`
+    - [ ] Show statistics: total records, date range, total value
+    - [ ] Run with: `pnpm mysql:fetch`
+  - [ ] **Data Merge Script** (`scripts/merge.ts`)
+    - [ ] Read `supabase/data/oldies/expense-firestore.json`
+    - [ ] Read `supabase/data/oldies/expense-mysql.json`
+    - [ ] Combine both datasets into single array
+    - [ ] Sort by date ascending (oldest first)
+    - [ ] Deduplicate based on date + description + amount
+    - [ ] Save to `supabase/data/combined-expense.json`
+    - [ ] Show merge statistics: Firestore count, MySQL count, duplicates removed, final total
+    - [ ] Run with: `pnpm data:merge`
+  - [ ] **Migration Workflow**
+    1. Run `pnpm firestore:fetch` → generates `oldies/expense-firestore.json`
+    2. Run `pnpm mysql:fetch` → generates `oldies/expense-mysql.json`
+    3. Run `pnpm data:merge` → generates `combined-expense.json`
+    4. Import via UI: Superadmin uploads `combined-expense.json` at `/dashboard/import`
+    5. Existing import endpoint handles the rest (batch insert, user mapping, etc.)
+
+  - [x] **Completed Migration Features** ✅
+    - [x] Firestore fetch script at `scripts/firestore.ts`
+      - [x] Fetches ALL spendings collection from Firebase Firestore (no pagination limits)
+      - [x] Sorted by `created_at` ascending (oldest first)
+      - [x] Currently contains 1,530 spending records
+      - [x] Saves to `supabase/data/spendings.json`
+      - [x] Authentication with Firebase email/password
+      - [x] Shows statistics: total value, date range, document count
+      - [x] Run with: `pnpm firestore:fetch`
+    - [x] Superadmin import feature at `/dashboard/import`
+      - [x] Upload JSON file UI with drag & drop support
+      - [x] Maps Firebase user IDs to Supabase user IDs
+      - [x] Converts Unix timestamps to ISO 8601 UTC
+      - [x] Batch insert (100 records per batch)
+      - [x] Shows import summary (total, inserted, failed, skipped)
+      - [x] API endpoint: POST `/api/v1/transactions/import`
 - [x] Auth store with role-based access control
   - [x] Pinia store at `stores/auth-store.ts`
   - [x] Role checking utilities (superadmin, manager, user)

@@ -1,0 +1,7387 @@
+[
+  {
+    "id": "mysql_1",
+    "created_at": 1407517200,
+    "label": "krl plm-mri-ckn pp",
+    "value": 4000,
+    "updated_at": 1407517200
+  },
+  {
+    "id": "mysql_2",
+    "created_at": 1407517200,
+    "label": "roti",
+    "value": 51000,
+    "updated_at": 1407517200
+  },
+  {
+    "id": "mysql_3",
+    "created_at": 1407517200,
+    "label": "indomaret",
+    "value": 27000,
+    "updated_at": 1407517200
+  },
+  {
+    "id": "mysql_4",
+    "created_at": 1407517200,
+    "label": "indomaret",
+    "value": 7000,
+    "updated_at": 1407517200
+  },
+  {
+    "id": "mysql_5",
+    "created_at": 1407517200,
+    "label": "bubur",
+    "value": 25000,
+    "updated_at": 1407517200
+  },
+  {
+    "id": "mysql_6",
+    "created_at": 1407517200,
+    "label": "makan siang",
+    "value": 17000,
+    "updated_at": 1407517200
+  },
+  {
+    "id": "mysql_7",
+    "created_at": 1407690000,
+    "label": "bensin",
+    "value": 26000,
+    "updated_at": 1407690000
+  },
+  {
+    "id": "mysql_8",
+    "created_at": 1407690000,
+    "label": "listrik",
+    "value": 102530,
+    "updated_at": 1407690000
+  },
+  {
+    "id": "mysql_9",
+    "created_at": 1407690000,
+    "label": "semangka",
+    "value": 8000,
+    "updated_at": 1407690000
+  },
+  {
+    "id": "mysql_10",
+    "created_at": 1407690000,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1407690000
+  },
+  {
+    "id": "mysql_11",
+    "created_at": 1407690000,
+    "label": "makansiang",
+    "value": 16000,
+    "updated_at": 1407690000
+  },
+  {
+    "id": "mysql_12",
+    "created_at": 1407690000,
+    "label": "makanmalam",
+    "value": 12000,
+    "updated_at": 1407690000
+  },
+  {
+    "id": "mysql_13",
+    "created_at": 1407776400,
+    "label": "makansiang",
+    "value": 13000,
+    "updated_at": 1407776400
+  },
+  {
+    "id": "mysql_14",
+    "created_at": 1407776400,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1407776400
+  },
+  {
+    "id": "mysql_15",
+    "created_at": 1407862800,
+    "label": "makansiang",
+    "value": 10000,
+    "updated_at": 1407862800
+  },
+  {
+    "id": "mysql_16",
+    "created_at": 1407862800,
+    "label": "buah",
+    "value": 17000,
+    "updated_at": 1407862800
+  },
+  {
+    "id": "mysql_17",
+    "created_at": 1407949200,
+    "label": "akua",
+    "value": 3500,
+    "updated_at": 1407949200
+  },
+  {
+    "id": "mysql_18",
+    "created_at": 1407949200,
+    "label": "makansiang",
+    "value": 10000,
+    "updated_at": 1407949200
+  },
+  {
+    "id": "mysql_19",
+    "created_at": 1407949200,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1407949200
+  },
+  {
+    "id": "mysql_20",
+    "created_at": 1407949200,
+    "label": "otmil",
+    "value": 22000,
+    "updated_at": 1407949200
+  },
+  {
+    "id": "mysql_21",
+    "created_at": 1408105500,
+    "label": "bensin",
+    "value": 24000,
+    "updated_at": 1408105500
+  },
+  {
+    "id": "mysql_22",
+    "created_at": 1408105500,
+    "label": "buah",
+    "value": 3000,
+    "updated_at": 1408105500
+  },
+  {
+    "id": "mysql_23",
+    "created_at": 1408105532,
+    "label": "makansiang",
+    "value": 15000,
+    "updated_at": 1408105532
+  },
+  {
+    "id": "mysql_24",
+    "created_at": 1408105532,
+    "label": "buah",
+    "value": 6000,
+    "updated_at": 1408105532
+  },
+  {
+    "id": "mysql_25",
+    "created_at": 1408105548,
+    "label": "makanmalam",
+    "value": 15000,
+    "updated_at": 1408105548
+  },
+  {
+    "id": "mysql_26",
+    "created_at": 1408157253,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1408157253
+  },
+  {
+    "id": "mysql_27",
+    "created_at": 1408167412,
+    "label": "makansiang",
+    "value": 16000,
+    "updated_at": 1408167412
+  },
+  {
+    "id": "mysql_28",
+    "created_at": 1408237159,
+    "label": "roti",
+    "value": 39000,
+    "updated_at": 1408237159
+  },
+  {
+    "id": "mysql_29",
+    "created_at": 1408237199,
+    "label": "indomaret",
+    "value": 26500,
+    "updated_at": 1408237199
+  },
+  {
+    "id": "mysql_30",
+    "created_at": 1408271268,
+    "label": "parkir",
+    "value": 2000,
+    "updated_at": 1408271268
+  },
+  {
+    "id": "mysql_31",
+    "created_at": 1408271471,
+    "label": "makanenak",
+    "value": 70000,
+    "updated_at": 1408271471
+  },
+  {
+    "id": "mysql_32",
+    "created_at": 1408271599,
+    "label": "bawangputih",
+    "value": 8500,
+    "updated_at": 1408271599
+  },
+  {
+    "id": "mysql_33",
+    "created_at": 1408274396,
+    "label": "parkir",
+    "value": 3000,
+    "updated_at": 1408274396
+  },
+  {
+    "id": "mysql_34",
+    "created_at": 1408326832,
+    "label": "buah",
+    "value": 7000,
+    "updated_at": 1408326832
+  },
+  {
+    "id": "mysql_35",
+    "created_at": 1408327699,
+    "label": "sop",
+    "value": 5000,
+    "updated_at": 1408327699
+  },
+  {
+    "id": "mysql_36",
+    "created_at": 1408338669,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1408338669
+  },
+  {
+    "id": "mysql_37",
+    "created_at": 1408410521,
+    "label": "bensin",
+    "value": 22000,
+    "updated_at": 1408410521
+  },
+  {
+    "id": "mysql_38",
+    "created_at": 1408424102,
+    "label": "makansiyang",
+    "value": 14000,
+    "updated_at": 1408424102
+  },
+  {
+    "id": "mysql_39",
+    "created_at": 1408424121,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1408424121
+  },
+  {
+    "id": "mysql_40",
+    "created_at": 1408513127,
+    "label": "makansiyang",
+    "value": 14000,
+    "updated_at": 1408513127
+  },
+  {
+    "id": "mysql_41",
+    "created_at": 1408513183,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1408513183
+  },
+  {
+    "id": "mysql_42",
+    "created_at": 1408530317,
+    "label": "makanmalam",
+    "value": 20500,
+    "updated_at": 1408530317
+  },
+  {
+    "id": "mysql_43",
+    "created_at": 1408585617,
+    "label": "males rebus telor",
+    "value": 11000,
+    "updated_at": 1408585617
+  },
+  {
+    "id": "mysql_44",
+    "created_at": 1408597111,
+    "label": "buah",
+    "value": 7000,
+    "updated_at": 1408597111
+  },
+  {
+    "id": "mysql_45",
+    "created_at": 1408599124,
+    "label": "makansiang",
+    "value": 11000,
+    "updated_at": 1408599124
+  },
+  {
+    "id": "mysql_46",
+    "created_at": 1408614806,
+    "label": "makanmalam",
+    "value": 16500,
+    "updated_at": 1408614806
+  },
+  {
+    "id": "mysql_47",
+    "created_at": 1408684014,
+    "label": "makansiyang",
+    "value": 16000,
+    "updated_at": 1408684014
+  },
+  {
+    "id": "mysql_48",
+    "created_at": 1408755328,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1408755328
+  },
+  {
+    "id": "mysql_49",
+    "created_at": 1408762885,
+    "label": "jus",
+    "value": 8000,
+    "updated_at": 1408762885
+  },
+  {
+    "id": "mysql_50",
+    "created_at": 1408785028,
+    "label": "krl jurangmangu",
+    "value": 2000,
+    "updated_at": 1408785028
+  },
+  {
+    "id": "mysql_51",
+    "created_at": 1408785072,
+    "label": "wedangan",
+    "value": 7500,
+    "updated_at": 1408785072
+  },
+  {
+    "id": "mysql_52",
+    "created_at": 1408801560,
+    "label": "tol",
+    "value": 11000,
+    "updated_at": 1408801560
+  },
+  {
+    "id": "mysql_53",
+    "created_at": 1408802677,
+    "label": "tagsi",
+    "value": 70000,
+    "updated_at": 1408802677
+  },
+  {
+    "id": "mysql_54",
+    "created_at": 1408915778,
+    "label": "pulsa",
+    "value": 50000,
+    "updated_at": 1408915778
+  },
+  {
+    "id": "mysql_55",
+    "created_at": 1408922916,
+    "label": "bensin",
+    "value": 25000,
+    "updated_at": 1408922916
+  },
+  {
+    "id": "mysql_56",
+    "created_at": 1408931464,
+    "label": "sosial",
+    "value": 55000,
+    "updated_at": 1408931464
+  },
+  {
+    "id": "mysql_57",
+    "created_at": 1408942464,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1408942464
+  },
+  {
+    "id": "mysql_58",
+    "created_at": 1409028720,
+    "label": "makansiyang",
+    "value": 10000,
+    "updated_at": 1409028720
+  },
+  {
+    "id": "mysql_59",
+    "created_at": 1409031331,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1409031331
+  },
+  {
+    "id": "mysql_60",
+    "created_at": 1409116076,
+    "label": "otmil",
+    "value": 10000,
+    "updated_at": 1409116076
+  },
+  {
+    "id": "mysql_61",
+    "created_at": 1409120699,
+    "label": "buku seno",
+    "value": 120000,
+    "updated_at": 1409120699
+  },
+  {
+    "id": "mysql_62",
+    "created_at": 1409132673,
+    "label": "indomaret",
+    "value": 22000,
+    "updated_at": 1409132673
+  },
+  {
+    "id": "mysql_63",
+    "created_at": 1409197374,
+    "label": "pulsa",
+    "value": 25000,
+    "updated_at": 1409197374
+  },
+  {
+    "id": "mysql_64",
+    "created_at": 1409202382,
+    "label": "buah",
+    "value": 9000,
+    "updated_at": 1409202382
+  },
+  {
+    "id": "mysql_65",
+    "created_at": 1409202570,
+    "label": "makansiyang",
+    "value": 10000,
+    "updated_at": 1409202570
+  },
+  {
+    "id": "mysql_66",
+    "created_at": 1409270989,
+    "label": "bengsin",
+    "value": 27000,
+    "updated_at": 1409270989
+  },
+  {
+    "id": "mysql_67",
+    "created_at": 1409289871,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1409289871
+  },
+  {
+    "id": "mysql_68",
+    "created_at": 1409368717,
+    "label": "krl plm-rwu",
+    "value": 2000,
+    "updated_at": 1409368717
+  },
+  {
+    "id": "mysql_69",
+    "created_at": 1409368741,
+    "label": "aqua",
+    "value": 3000,
+    "updated_at": 1409368741
+  },
+  {
+    "id": "mysql_70",
+    "created_at": 1409382119,
+    "label": "krl jru-plm",
+    "value": 2000,
+    "updated_at": 1409382119
+  },
+  {
+    "id": "mysql_71",
+    "created_at": 1409393163,
+    "label": "buah",
+    "value": 19000,
+    "updated_at": 1409393163
+  },
+  {
+    "id": "mysql_72",
+    "created_at": 1409393265,
+    "label": "makanmalam",
+    "value": 11500,
+    "updated_at": 1409393265
+  },
+  {
+    "id": "mysql_73",
+    "created_at": 1409461194,
+    "label": "makansiyang",
+    "value": 10000,
+    "updated_at": 1409461194
+  },
+  {
+    "id": "mysql_74",
+    "created_at": 1409464245,
+    "label": "roti",
+    "value": 27000,
+    "updated_at": 1409464245
+  },
+  {
+    "id": "mysql_75",
+    "created_at": 1409541977,
+    "label": "buah bawangputih",
+    "value": 10000,
+    "updated_at": 1409541977
+  },
+  {
+    "id": "mysql_76",
+    "created_at": 1409550281,
+    "label": "makansiang",
+    "value": 18000,
+    "updated_at": 1409550281
+  },
+  {
+    "id": "mysql_77",
+    "created_at": 1409569107,
+    "label": "ngemil",
+    "value": 10000,
+    "updated_at": 1409569107
+  },
+  {
+    "id": "mysql_78",
+    "created_at": 1409620567,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1409620567
+  },
+  {
+    "id": "mysql_79",
+    "created_at": 1409636615,
+    "label": "makansiang+buah",
+    "value": 17000,
+    "updated_at": 1409636615
+  },
+  {
+    "id": "mysql_80",
+    "created_at": 1409658524,
+    "label": "laperlembur",
+    "value": 11000,
+    "updated_at": 1409658524
+  },
+  {
+    "id": "mysql_81",
+    "created_at": 1409698673,
+    "label": "bengsin",
+    "value": 23000,
+    "updated_at": 1409698673
+  },
+  {
+    "id": "mysql_82",
+    "created_at": 1409704896,
+    "label": "sarapan",
+    "value": 8000,
+    "updated_at": 1409704896
+  },
+  {
+    "id": "mysql_83",
+    "created_at": 1409722812,
+    "label": "makansiang",
+    "value": 12000,
+    "updated_at": 1409722812
+  },
+  {
+    "id": "mysql_84",
+    "created_at": 1409722847,
+    "label": "makanmalam",
+    "value": 10000,
+    "updated_at": 1409722847
+  },
+  {
+    "id": "mysql_85",
+    "created_at": 1409807307,
+    "label": "makansiang+buah",
+    "value": 20000,
+    "updated_at": 1409807307
+  },
+  {
+    "id": "mysql_86",
+    "created_at": 1409813316,
+    "label": "oatmeal",
+    "value": 20000,
+    "updated_at": 1409813316
+  },
+  {
+    "id": "mysql_87",
+    "created_at": 1409830558,
+    "label": "buahmalam",
+    "value": 16000,
+    "updated_at": 1409830558
+  },
+  {
+    "id": "mysql_88",
+    "created_at": 1409882331,
+    "label": "quick intermeal snik",
+    "value": 8000,
+    "updated_at": 1409882331
+  },
+  {
+    "id": "mysql_89",
+    "created_at": 1409888417,
+    "label": "buah",
+    "value": 8000,
+    "updated_at": 1409888417
+  },
+  {
+    "id": "mysql_90",
+    "created_at": 1409899562,
+    "label": "makansiang",
+    "value": 12000,
+    "updated_at": 1409899562
+  },
+  {
+    "id": "mysql_91",
+    "created_at": 1409961260,
+    "label": "bayar listrik",
+    "value": 101496,
+    "updated_at": 1409961260
+  },
+  {
+    "id": "mysql_92",
+    "created_at": 1409968044,
+    "label": "sarapan",
+    "value": 5000,
+    "updated_at": 1409968044
+  },
+  {
+    "id": "mysql_93",
+    "created_at": 1409983729,
+    "label": "makansiyang",
+    "value": 11000,
+    "updated_at": 1409983729
+  },
+  {
+    "id": "mysql_94",
+    "created_at": 1410003154,
+    "label": "tagsi",
+    "value": 15000,
+    "updated_at": 1410003154
+  },
+  {
+    "id": "mysql_95",
+    "created_at": 1410014198,
+    "label": "bawangputih",
+    "value": 22400,
+    "updated_at": 1410014198
+  },
+  {
+    "id": "mysql_96",
+    "created_at": 1410017050,
+    "label": "makanenak",
+    "value": 281243,
+    "updated_at": 1410017050
+  },
+  {
+    "id": "mysql_97",
+    "created_at": 1410045362,
+    "label": "akua",
+    "value": 19500,
+    "updated_at": 1410045362
+  },
+  {
+    "id": "mysql_98",
+    "created_at": 1410059338,
+    "label": "krl",
+    "value": 2000,
+    "updated_at": 1410059338
+  },
+  {
+    "id": "mysql_99",
+    "created_at": 1410059369,
+    "label": "tagsi",
+    "value": 75000,
+    "updated_at": 1410059369
+  },
+  {
+    "id": "mysql_100",
+    "created_at": 1410071153,
+    "label": "krl",
+    "value": 2000,
+    "updated_at": 1410071153
+  },
+  {
+    "id": "mysql_101",
+    "created_at": 1410071166,
+    "label": "makansiyan",
+    "value": 17000,
+    "updated_at": 1410071166
+  },
+  {
+    "id": "mysql_102",
+    "created_at": 1410135332,
+    "label": "bengsin",
+    "value": 34500,
+    "updated_at": 1410135332
+  },
+  {
+    "id": "mysql_103",
+    "created_at": 1410148816,
+    "label": "buah",
+    "value": 7000,
+    "updated_at": 1410148816
+  },
+  {
+    "id": "mysql_104",
+    "created_at": 1410226960,
+    "label": "kirik",
+    "value": 9000,
+    "updated_at": 1410226960
+  },
+  {
+    "id": "mysql_105",
+    "created_at": 1410239007,
+    "label": "buah",
+    "value": 19000,
+    "updated_at": 1410239007
+  },
+  {
+    "id": "mysql_106",
+    "created_at": 1410257986,
+    "label": "servis",
+    "value": 63000,
+    "updated_at": 1410257986
+  },
+  {
+    "id": "mysql_107",
+    "created_at": 1410306037,
+    "label": "kartukridit",
+    "value": 807641,
+    "updated_at": 1410306037
+  },
+  {
+    "id": "mysql_108",
+    "created_at": 1410325652,
+    "label": "makansiyan+buah",
+    "value": 20000,
+    "updated_at": 1410325652
+  },
+  {
+    "id": "mysql_109",
+    "created_at": 1410414233,
+    "label": "makansiyan",
+    "value": 10000,
+    "updated_at": 1410414233
+  },
+  {
+    "id": "mysql_110",
+    "created_at": 1410414264,
+    "label": "saraban",
+    "value": 7000,
+    "updated_at": 1410414264
+  },
+  {
+    "id": "mysql_111",
+    "created_at": 1410500499,
+    "label": "makansiyang+buah",
+    "value": 16000,
+    "updated_at": 1410500499
+  },
+  {
+    "id": "mysql_112",
+    "created_at": 1410508668,
+    "label": "njaitke",
+    "value": 10000,
+    "updated_at": 1410508668
+  },
+  {
+    "id": "mysql_113",
+    "created_at": 1410567908,
+    "label": "bensin",
+    "value": 22000,
+    "updated_at": 1410567908
+  },
+  {
+    "id": "mysql_114",
+    "created_at": 1410567925,
+    "label": "sarapan",
+    "value": 8000,
+    "updated_at": 1410567925
+  },
+  {
+    "id": "mysql_115",
+    "created_at": 1410582854,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1410582854
+  },
+  {
+    "id": "mysql_116",
+    "created_at": 1410601135,
+    "label": "roti",
+    "value": 58000,
+    "updated_at": 1410601135
+  },
+  {
+    "id": "mysql_117",
+    "created_at": 1410601285,
+    "label": "buah",
+    "value": 30000,
+    "updated_at": 1410601285
+  },
+  {
+    "id": "mysql_118",
+    "created_at": 1410602389,
+    "label": "soto",
+    "value": 27000,
+    "updated_at": 1410602389
+  },
+  {
+    "id": "mysql_119",
+    "created_at": 1410758873,
+    "label": "makansiyang",
+    "value": 21000,
+    "updated_at": 1410758873
+  },
+  {
+    "id": "mysql_120",
+    "created_at": 1410845547,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1410845547
+  },
+  {
+    "id": "mysql_121",
+    "created_at": 1410864139,
+    "label": "makanmalam",
+    "value": 10200,
+    "updated_at": 1410864139
+  },
+  {
+    "id": "mysql_122",
+    "created_at": 1410910507,
+    "label": "bensin",
+    "value": 24000,
+    "updated_at": 1410910507
+  },
+  {
+    "id": "mysql_123",
+    "created_at": 1410915599,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1410915599
+  },
+  {
+    "id": "mysql_124",
+    "created_at": 1410931419,
+    "label": "makansiang",
+    "value": 10000,
+    "updated_at": 1410931419
+  },
+  {
+    "id": "mysql_125",
+    "created_at": 1410933676,
+    "label": "sosial",
+    "value": 20000,
+    "updated_at": 1410933676
+  },
+  {
+    "id": "mysql_126",
+    "created_at": 1411003849,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1411003849
+  },
+  {
+    "id": "mysql_127",
+    "created_at": 1411103275,
+    "label": "nyamnyamsiang",
+    "value": 15000,
+    "updated_at": 1411103275
+  },
+  {
+    "id": "mysql_128",
+    "created_at": 1411105086,
+    "label": "sop",
+    "value": 12000,
+    "updated_at": 1411105086
+  },
+  {
+    "id": "mysql_129",
+    "created_at": 1411128431,
+    "label": "lembur",
+    "value": 15000,
+    "updated_at": 1411128431
+  },
+  {
+    "id": "mysql_130",
+    "created_at": 1411188818,
+    "label": "makasniyang",
+    "value": 14000,
+    "updated_at": 1411188818
+  },
+  {
+    "id": "mysql_131",
+    "created_at": 1411207956,
+    "label": "buah",
+    "value": 35000,
+    "updated_at": 1411207956
+  },
+  {
+    "id": "mysql_132",
+    "created_at": 1411207971,
+    "label": "roti",
+    "value": 58000,
+    "updated_at": 1411207971
+  },
+  {
+    "id": "mysql_133",
+    "created_at": 1411340784,
+    "label": "bengsin",
+    "value": 23000,
+    "updated_at": 1411340784
+  },
+  {
+    "id": "mysql_134",
+    "created_at": 1411349828,
+    "label": "tempe",
+    "value": 4000,
+    "updated_at": 1411349828
+  },
+  {
+    "id": "mysql_135",
+    "created_at": 1411362831,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1411362831
+  },
+  {
+    "id": "mysql_136",
+    "created_at": 1411439456,
+    "label": "biaya transfer",
+    "value": 5000,
+    "updated_at": 1411439456
+  },
+  {
+    "id": "mysql_137",
+    "created_at": 1411439479,
+    "label": "krl plm-ru",
+    "value": 2000,
+    "updated_at": 1411439479
+  },
+  {
+    "id": "mysql_138",
+    "created_at": 1411445044,
+    "label": "krl ru-plm",
+    "value": 2000,
+    "updated_at": 1411445044
+  },
+  {
+    "id": "mysql_139",
+    "created_at": 1411462675,
+    "label": "buah",
+    "value": 34000,
+    "updated_at": 1411462675
+  },
+  {
+    "id": "mysql_140",
+    "created_at": 1411535976,
+    "label": "makansiyang+buah",
+    "value": 24000,
+    "updated_at": 1411535976
+  },
+  {
+    "id": "mysql_141",
+    "created_at": 1411555185,
+    "label": "buku",
+    "value": 62500,
+    "updated_at": 1411555185
+  },
+  {
+    "id": "mysql_142",
+    "created_at": 1411608526,
+    "label": "bensin",
+    "value": 22000,
+    "updated_at": 1411608526
+  },
+  {
+    "id": "mysql_143",
+    "created_at": 1411608573,
+    "label": "gorengan",
+    "value": 2000,
+    "updated_at": 1411608573
+  },
+  {
+    "id": "mysql_144",
+    "created_at": 1411629089,
+    "label": "makansiyang",
+    "value": 17000,
+    "updated_at": 1411629089
+  },
+  {
+    "id": "mysql_145",
+    "created_at": 1411641756,
+    "label": "otmil",
+    "value": 23600,
+    "updated_at": 1411641756
+  },
+  {
+    "id": "mysql_146",
+    "created_at": 1411713205,
+    "label": "makansiyang",
+    "value": 11000,
+    "updated_at": 1411713205
+  },
+  {
+    "id": "mysql_147",
+    "created_at": 1411795346,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1411795346
+  },
+  {
+    "id": "mysql_148",
+    "created_at": 1411795365,
+    "label": "roti",
+    "value": 36000,
+    "updated_at": 1411795365
+  },
+  {
+    "id": "mysql_149",
+    "created_at": 1411951627,
+    "label": "sikatgigi",
+    "value": 9000,
+    "updated_at": 1411951627
+  },
+  {
+    "id": "mysql_150",
+    "created_at": 1411951763,
+    "label": "pulsa ibu",
+    "value": 100000,
+    "updated_at": 1411951763
+  },
+  {
+    "id": "mysql_151",
+    "created_at": 1411952231,
+    "label": "ngeteh",
+    "value": 6000,
+    "updated_at": 1411952231
+  },
+  {
+    "id": "mysql_152",
+    "created_at": 1411990161,
+    "label": "sate",
+    "value": 19000,
+    "updated_at": 1411990161
+  },
+  {
+    "id": "mysql_153",
+    "created_at": 1412052854,
+    "label": "ngeteh",
+    "value": 5000,
+    "updated_at": 1412052854
+  },
+  {
+    "id": "mysql_154",
+    "created_at": 1412053265,
+    "label": "buah",
+    "value": 11000,
+    "updated_at": 1412053265
+  },
+  {
+    "id": "mysql_155",
+    "created_at": 1412055373,
+    "label": "soto",
+    "value": 11000,
+    "updated_at": 1412055373
+  },
+  {
+    "id": "mysql_156",
+    "created_at": 1412116739,
+    "label": "bengsin",
+    "value": 23000,
+    "updated_at": 1412116739
+  },
+  {
+    "id": "mysql_157",
+    "created_at": 1412154081,
+    "label": "ngeteh",
+    "value": 4000,
+    "updated_at": 1412154081
+  },
+  {
+    "id": "mysql_158",
+    "created_at": 1412166608,
+    "label": "bubur",
+    "value": 8000,
+    "updated_at": 1412166608
+  },
+  {
+    "id": "mysql_159",
+    "created_at": 1412223445,
+    "label": "buah",
+    "value": 31500,
+    "updated_at": 1412223445
+  },
+  {
+    "id": "mysql_160",
+    "created_at": 1412223463,
+    "label": "buah lagi",
+    "value": 9000,
+    "updated_at": 1412223463
+  },
+  {
+    "id": "mysql_161",
+    "created_at": 1412303138,
+    "label": "ngeteh",
+    "value": 10000,
+    "updated_at": 1412303138
+  },
+  {
+    "id": "mysql_162",
+    "created_at": 1412303151,
+    "label": "listrik",
+    "value": 112868,
+    "updated_at": 1412303151
+  },
+  {
+    "id": "mysql_163",
+    "created_at": 1412303183,
+    "label": "otmil",
+    "value": 36200,
+    "updated_at": 1412303183
+  },
+  {
+    "id": "mysql_164",
+    "created_at": 1412312414,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1412312414
+  },
+  {
+    "id": "mysql_165",
+    "created_at": 1412402744,
+    "label": "ngetehmakansiyangesgrim",
+    "value": 59000,
+    "updated_at": 1412402744
+  },
+  {
+    "id": "mysql_166",
+    "created_at": 1412403852,
+    "label": "wedanguwuh",
+    "value": 7000,
+    "updated_at": 1412403852
+  },
+  {
+    "id": "mysql_167",
+    "created_at": 1412427930,
+    "label": "pesta",
+    "value": 150000,
+    "updated_at": 1412427930
+  },
+  {
+    "id": "mysql_168",
+    "created_at": 1412427945,
+    "label": "pisang",
+    "value": 27000,
+    "updated_at": 1412427945
+  },
+  {
+    "id": "mysql_169",
+    "created_at": 1412511206,
+    "label": "bemgsin",
+    "value": 23000,
+    "updated_at": 1412511206
+  },
+  {
+    "id": "mysql_170",
+    "created_at": 1412511251,
+    "label": "roti",
+    "value": 36000,
+    "updated_at": 1412511251
+  },
+  {
+    "id": "mysql_171",
+    "created_at": 1412511288,
+    "label": "satpam",
+    "value": 200000,
+    "updated_at": 1412511288
+  },
+  {
+    "id": "mysql_172",
+    "created_at": 1412511687,
+    "label": "rinso",
+    "value": 31500,
+    "updated_at": 1412511687
+  },
+  {
+    "id": "mysql_173",
+    "created_at": 1412549569,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1412549569
+  },
+  {
+    "id": "mysql_174",
+    "created_at": 1412572799,
+    "label": "makansiyang",
+    "value": 18000,
+    "updated_at": 1412572799
+  },
+  {
+    "id": "mysql_175",
+    "created_at": 1412580785,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1412580785
+  },
+  {
+    "id": "mysql_176",
+    "created_at": 1412647354,
+    "label": "ngeteh",
+    "value": 3000,
+    "updated_at": 1412647354
+  },
+  {
+    "id": "mysql_177",
+    "created_at": 1412737263,
+    "label": "baksowingi",
+    "value": 10000,
+    "updated_at": 1412737263
+  },
+  {
+    "id": "mysql_178",
+    "created_at": 1412737277,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1412737277
+  },
+  {
+    "id": "mysql_179",
+    "created_at": 1412747733,
+    "label": "makansiyang",
+    "value": 11000,
+    "updated_at": 1412747733
+  },
+  {
+    "id": "mysql_180",
+    "created_at": 1412747768,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1412747768
+  },
+  {
+    "id": "mysql_181",
+    "created_at": 1412763284,
+    "label": "njaitke kathok",
+    "value": 25000,
+    "updated_at": 1412763284
+  },
+  {
+    "id": "mysql_182",
+    "created_at": 1412767769,
+    "label": "soto",
+    "value": 9000,
+    "updated_at": 1412767769
+  },
+  {
+    "id": "mysql_183",
+    "created_at": 1412825391,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1412825391
+  },
+  {
+    "id": "mysql_184",
+    "created_at": 1412825418,
+    "label": "ngeteh",
+    "value": 9000,
+    "updated_at": 1412825418
+  },
+  {
+    "id": "mysql_185",
+    "created_at": 1412830813,
+    "label": "makansiyang",
+    "value": 22000,
+    "updated_at": 1412830813
+  },
+  {
+    "id": "mysql_186",
+    "created_at": 1412854307,
+    "label": "bensin",
+    "value": 24000,
+    "updated_at": 1412854307
+  },
+  {
+    "id": "mysql_187",
+    "created_at": 1412906955,
+    "label": "ngteh",
+    "value": 7000,
+    "updated_at": 1412906955
+  },
+  {
+    "id": "mysql_188",
+    "created_at": 1412920687,
+    "label": "sotowenak",
+    "value": 12000,
+    "updated_at": 1412920687
+  },
+  {
+    "id": "mysql_189",
+    "created_at": 1412920711,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1412920711
+  },
+  {
+    "id": "mysql_190",
+    "created_at": 1412936463,
+    "label": "roti",
+    "value": 19500,
+    "updated_at": 1412936463
+  },
+  {
+    "id": "mysql_191",
+    "created_at": 1412998444,
+    "label": "sarapan",
+    "value": 29000,
+    "updated_at": 1412998444
+  },
+  {
+    "id": "mysql_192",
+    "created_at": 1413004438,
+    "label": "makansiyaang",
+    "value": 12000,
+    "updated_at": 1413004438
+  },
+  {
+    "id": "mysql_193",
+    "created_at": 1413029571,
+    "label": "pitik",
+    "value": 9000,
+    "updated_at": 1413029571
+  },
+  {
+    "id": "mysql_194",
+    "created_at": 1413097184,
+    "label": "roti",
+    "value": 31500,
+    "updated_at": 1413097184
+  },
+  {
+    "id": "mysql_195",
+    "created_at": 1413097325,
+    "label": "kartukridit",
+    "value": 203000,
+    "updated_at": 1413097325
+  },
+  {
+    "id": "mysql_196",
+    "created_at": 1413169429,
+    "label": "buah",
+    "value": 20000,
+    "updated_at": 1413169429
+  },
+  {
+    "id": "mysql_197",
+    "created_at": 1413194010,
+    "label": "makansiyang",
+    "value": 11000,
+    "updated_at": 1413194010
+  },
+  {
+    "id": "mysql_198",
+    "created_at": 1413194024,
+    "label": "bengsin",
+    "value": 25000,
+    "updated_at": 1413194024
+  },
+  {
+    "id": "mysql_199",
+    "created_at": 1413274502,
+    "label": "ngeteh",
+    "value": 21000,
+    "updated_at": 1413274502
+  },
+  {
+    "id": "mysql_200",
+    "created_at": 1413274534,
+    "label": "tongseng",
+    "value": 14000,
+    "updated_at": 1413274534
+  },
+  {
+    "id": "mysql_201",
+    "created_at": 1413285150,
+    "label": "nyamnyam",
+    "value": 14500,
+    "updated_at": 1413285150
+  },
+  {
+    "id": "mysql_202",
+    "created_at": 1413355289,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1413355289
+  },
+  {
+    "id": "mysql_203",
+    "created_at": 1413355303,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1413355303
+  },
+  {
+    "id": "mysql_204",
+    "created_at": 1413372560,
+    "label": "hahahihi",
+    "value": 2000,
+    "updated_at": 1413372560
+  },
+  {
+    "id": "mysql_205",
+    "created_at": 1413431215,
+    "label": "sarapankomik",
+    "value": 31500,
+    "updated_at": 1413431215
+  },
+  {
+    "id": "mysql_206",
+    "created_at": 1413449368,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1413449368
+  },
+  {
+    "id": "mysql_207",
+    "created_at": 1413463257,
+    "label": "milo",
+    "value": 10500,
+    "updated_at": 1413463257
+  },
+  {
+    "id": "mysql_208",
+    "created_at": 1413537999,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1413537999
+  },
+  {
+    "id": "mysql_209",
+    "created_at": 1413538003,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1413538003
+  },
+  {
+    "id": "mysql_210",
+    "created_at": 1413543259,
+    "label": "makansiyang",
+    "value": 18000,
+    "updated_at": 1413543259
+  },
+  {
+    "id": "mysql_211",
+    "created_at": 1413636989,
+    "label": "rapel server njeplak",
+    "value": 100000,
+    "updated_at": 1413636989
+  },
+  {
+    "id": "mysql_212",
+    "created_at": 1413717598,
+    "label": "blanjamakansiang",
+    "value": 150000,
+    "updated_at": 1413717598
+  },
+  {
+    "id": "mysql_213",
+    "created_at": 1413810319,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1413810319
+  },
+  {
+    "id": "mysql_214",
+    "created_at": 1413810330,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1413810330
+  },
+  {
+    "id": "mysql_215",
+    "created_at": 1413810340,
+    "label": "mbakso",
+    "value": 10000,
+    "updated_at": 1413810340
+  },
+  {
+    "id": "mysql_216",
+    "created_at": 1413860856,
+    "label": "bengsin",
+    "value": 28000,
+    "updated_at": 1413860856
+  },
+  {
+    "id": "mysql_217",
+    "created_at": 1413860874,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1413860874
+  },
+  {
+    "id": "mysql_218",
+    "created_at": 1413868446,
+    "label": "misayur",
+    "value": 17000,
+    "updated_at": 1413868446
+  },
+  {
+    "id": "mysql_219",
+    "created_at": 1413889391,
+    "label": "roti",
+    "value": 27000,
+    "updated_at": 1413889391
+  },
+  {
+    "id": "mysql_220",
+    "created_at": 1413962729,
+    "label": "makansiyang",
+    "value": 18000,
+    "updated_at": 1413962729
+  },
+  {
+    "id": "mysql_221",
+    "created_at": 1413962782,
+    "label": "sususarapan",
+    "value": 12000,
+    "updated_at": 1413962782
+  },
+  {
+    "id": "mysql_222",
+    "created_at": 1414103269,
+    "label": "sosial vmc",
+    "value": 45000,
+    "updated_at": 1414103269
+  },
+  {
+    "id": "mysql_223",
+    "created_at": 1414103342,
+    "label": "rapel",
+    "value": 21000,
+    "updated_at": 1414103342
+  },
+  {
+    "id": "mysql_224",
+    "created_at": 1414208848,
+    "label": "degan",
+    "value": 18000,
+    "updated_at": 1414208848
+  },
+  {
+    "id": "mysql_225",
+    "created_at": 1414208861,
+    "label": "buswae",
+    "value": 2000,
+    "updated_at": 1414208861
+  },
+  {
+    "id": "mysql_226",
+    "created_at": 1414208910,
+    "label": "bakmibabi",
+    "value": 40000,
+    "updated_at": 1414208910
+  },
+  {
+    "id": "mysql_227",
+    "created_at": 1414208925,
+    "label": "bengsn",
+    "value": 23000,
+    "updated_at": 1414208925
+  },
+  {
+    "id": "mysql_228",
+    "created_at": 1414245756,
+    "label": "pho",
+    "value": 36000,
+    "updated_at": 1414245756
+  },
+  {
+    "id": "mysql_229",
+    "created_at": 1414245769,
+    "label": "roti",
+    "value": 54000,
+    "updated_at": 1414245769
+  },
+  {
+    "id": "mysql_230",
+    "created_at": 1414290286,
+    "label": "krl",
+    "value": 4000,
+    "updated_at": 1414290286
+  },
+  {
+    "id": "mysql_231",
+    "created_at": 1414294592,
+    "label": "tagsehh",
+    "value": 60000,
+    "updated_at": 1414294592
+  },
+  {
+    "id": "mysql_232",
+    "created_at": 1414304868,
+    "label": "milomakansiyang",
+    "value": 31000,
+    "updated_at": 1414304868
+  },
+  {
+    "id": "mysql_233",
+    "created_at": 1414325576,
+    "label": "makanmalam",
+    "value": 16000,
+    "updated_at": 1414325576
+  },
+  {
+    "id": "mysql_234",
+    "created_at": 1414357582,
+    "label": "tol",
+    "value": 15000,
+    "updated_at": 1414357582
+  },
+  {
+    "id": "mysql_235",
+    "created_at": 1414398822,
+    "label": "buswaekol",
+    "value": 11400,
+    "updated_at": 1414398822
+  },
+  {
+    "id": "mysql_236",
+    "created_at": 1414398836,
+    "label": "bensin",
+    "value": 15000,
+    "updated_at": 1414398836
+  },
+  {
+    "id": "mysql_237",
+    "created_at": 1414398849,
+    "label": "kelurahan",
+    "value": 5000,
+    "updated_at": 1414398849
+  },
+  {
+    "id": "mysql_238",
+    "created_at": 1414398880,
+    "label": "sotopagisiang",
+    "value": 27500,
+    "updated_at": 1414398880
+  },
+  {
+    "id": "mysql_239",
+    "created_at": 1414398893,
+    "label": "parkir",
+    "value": 3000,
+    "updated_at": 1414398893
+  },
+  {
+    "id": "mysql_240",
+    "created_at": 1414398919,
+    "label": "wedang+cukur",
+    "value": 26000,
+    "updated_at": 1414398919
+  },
+  {
+    "id": "mysql_241",
+    "created_at": 1414471507,
+    "label": "bengsinparkircatsip",
+    "value": 11000,
+    "updated_at": 1414471507
+  },
+  {
+    "id": "mysql_242",
+    "created_at": 1414471520,
+    "label": "soto",
+    "value": 17000,
+    "updated_at": 1414471520
+  },
+  {
+    "id": "mysql_243",
+    "created_at": 1414561234,
+    "label": "makanminum",
+    "value": 29000,
+    "updated_at": 1414561234
+  },
+  {
+    "id": "mysql_244",
+    "created_at": 1414586467,
+    "label": "makanmalam",
+    "value": 17000,
+    "updated_at": 1414586467
+  },
+  {
+    "id": "mysql_245",
+    "created_at": 1414827548,
+    "label": "sarapan I",
+    "value": 25000,
+    "updated_at": 1414827548
+  },
+  {
+    "id": "mysql_246",
+    "created_at": 1414827560,
+    "label": "sarapan II",
+    "value": 13000,
+    "updated_at": 1414827560
+  },
+  {
+    "id": "mysql_247",
+    "created_at": 1414827573,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1414827573
+  },
+  {
+    "id": "mysql_248",
+    "created_at": 1414917974,
+    "label": "makan",
+    "value": 50000,
+    "updated_at": 1414917974
+  },
+  {
+    "id": "mysql_249",
+    "created_at": 1414980211,
+    "label": "krl imigrasi",
+    "value": 10000,
+    "updated_at": 1414980211
+  },
+  {
+    "id": "mysql_250",
+    "created_at": 1414980229,
+    "label": "akua",
+    "value": 3000,
+    "updated_at": 1414980229
+  },
+  {
+    "id": "mysql_251",
+    "created_at": 1415017593,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1415017593
+  },
+  {
+    "id": "mysql_252",
+    "created_at": 1415017625,
+    "label": "makansiyangbuah",
+    "value": 23000,
+    "updated_at": 1415017625
+  },
+  {
+    "id": "mysql_253",
+    "created_at": 1415017664,
+    "label": "bengsin",
+    "value": 23000,
+    "updated_at": 1415017664
+  },
+  {
+    "id": "mysql_254",
+    "created_at": 1415017814,
+    "label": "snek",
+    "value": 26200,
+    "updated_at": 1415017814
+  },
+  {
+    "id": "mysql_255",
+    "created_at": 1415066745,
+    "label": "sarapanbuah",
+    "value": 22000,
+    "updated_at": 1415066745
+  },
+  {
+    "id": "mysql_256",
+    "created_at": 1415077295,
+    "label": "sopmahal",
+    "value": 25000,
+    "updated_at": 1415077295
+  },
+  {
+    "id": "mysql_257",
+    "created_at": 1415160206,
+    "label": "sarapanrapelan",
+    "value": 24000,
+    "updated_at": 1415160206
+  },
+  {
+    "id": "mysql_258",
+    "created_at": 1415160337,
+    "label": "listrig",
+    "value": 115020,
+    "updated_at": 1415160337
+  },
+  {
+    "id": "mysql_259",
+    "created_at": 1415224527,
+    "label": "lem",
+    "value": 28000,
+    "updated_at": 1415224527
+  },
+  {
+    "id": "mysql_260",
+    "created_at": 1415238734,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1415238734
+  },
+  {
+    "id": "mysql_261",
+    "created_at": 1415251038,
+    "label": "makansiang",
+    "value": 23000,
+    "updated_at": 1415251038
+  },
+  {
+    "id": "mysql_262",
+    "created_at": 1415270140,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1415270140
+  },
+  {
+    "id": "mysql_263",
+    "created_at": 1415323351,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1415323351
+  },
+  {
+    "id": "mysql_264",
+    "created_at": 1415350417,
+    "label": "makansiyangbuwah",
+    "value": 27000,
+    "updated_at": 1415350417
+  },
+  {
+    "id": "mysql_265",
+    "created_at": 1415434433,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1415434433
+  },
+  {
+    "id": "mysql_266",
+    "created_at": 1415434465,
+    "label": "ahluweh",
+    "value": 50000,
+    "updated_at": 1415434465
+  },
+  {
+    "id": "mysql_267",
+    "created_at": 1415539380,
+    "label": "rotee",
+    "value": 52000,
+    "updated_at": 1415539380
+  },
+  {
+    "id": "mysql_268",
+    "created_at": 1415602329,
+    "label": "krl tagsi",
+    "value": 62000,
+    "updated_at": 1415602329
+  },
+  {
+    "id": "mysql_269",
+    "created_at": 1415602352,
+    "label": "makan",
+    "value": 32000,
+    "updated_at": 1415602352
+  },
+  {
+    "id": "mysql_270",
+    "created_at": 1415602369,
+    "label": "bengsin",
+    "value": 24000,
+    "updated_at": 1415602369
+  },
+  {
+    "id": "mysql_271",
+    "created_at": 1415602386,
+    "label": "nyamnyam",
+    "value": 26200,
+    "updated_at": 1415602386
+  },
+  {
+    "id": "mysql_272",
+    "created_at": 1415670364,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1415670364
+  },
+  {
+    "id": "mysql_273",
+    "created_at": 1415692326,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1415692326
+  },
+  {
+    "id": "mysql_274",
+    "created_at": 1415764868,
+    "label": "bubur",
+    "value": 8000,
+    "updated_at": 1415764868
+  },
+  {
+    "id": "mysql_275",
+    "created_at": 1415802397,
+    "label": "soto pasifik ples",
+    "value": 48500,
+    "updated_at": 1415802397
+  },
+  {
+    "id": "mysql_276",
+    "created_at": 1415802559,
+    "label": "makansiyang",
+    "value": 13000,
+    "updated_at": 1415802559
+  },
+  {
+    "id": "mysql_277",
+    "created_at": 1415857013,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1415857013
+  },
+  {
+    "id": "mysql_278",
+    "created_at": 1415857031,
+    "label": "makansiyang",
+    "value": 10000,
+    "updated_at": 1415857031
+  },
+  {
+    "id": "mysql_279",
+    "created_at": 1415857040,
+    "label": "buwah",
+    "value": 9000,
+    "updated_at": 1415857040
+  },
+  {
+    "id": "mysql_280",
+    "created_at": 1415943528,
+    "label": "sarapan",
+    "value": 6000,
+    "updated_at": 1415943528
+  },
+  {
+    "id": "mysql_281",
+    "created_at": 1415943556,
+    "label": "makansiyang",
+    "value": 20000,
+    "updated_at": 1415943556
+  },
+  {
+    "id": "mysql_282",
+    "created_at": 1415962902,
+    "label": "obeng masker",
+    "value": 49000,
+    "updated_at": 1415962902
+  },
+  {
+    "id": "mysql_283",
+    "created_at": 1415962919,
+    "label": "tehbotol",
+    "value": 37000,
+    "updated_at": 1415962919
+  },
+  {
+    "id": "mysql_284",
+    "created_at": 1416028789,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1416028789
+  },
+  {
+    "id": "mysql_285",
+    "created_at": 1416057798,
+    "label": "angkot",
+    "value": 3000,
+    "updated_at": 1416057798
+  },
+  {
+    "id": "mysql_286",
+    "created_at": 1416057832,
+    "label": "mbabi",
+    "value": 269900,
+    "updated_at": 1416057832
+  },
+  {
+    "id": "mysql_287",
+    "created_at": 1416057841,
+    "label": "tagsi",
+    "value": 40000,
+    "updated_at": 1416057841
+  },
+  {
+    "id": "mysql_288",
+    "created_at": 1416057918,
+    "label": "kartukiridit",
+    "value": 195000,
+    "updated_at": 1416057918
+  },
+  {
+    "id": "mysql_289",
+    "created_at": 1416113559,
+    "label": "makansiyang",
+    "value": 52800,
+    "updated_at": 1416113559
+  },
+  {
+    "id": "mysql_290",
+    "created_at": 1416143531,
+    "label": "otoboke",
+    "value": 18000,
+    "updated_at": 1416143531
+  },
+  {
+    "id": "mysql_291",
+    "created_at": 1416228018,
+    "label": "makansiyang",
+    "value": 17000,
+    "updated_at": 1416228018
+  },
+  {
+    "id": "mysql_292",
+    "created_at": 1416228035,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1416228035
+  },
+  {
+    "id": "mysql_293",
+    "created_at": 1416717680,
+    "label": "makanmakan",
+    "value": 62000,
+    "updated_at": 1416717680
+  },
+  {
+    "id": "mysql_294",
+    "created_at": 1416737120,
+    "label": "roti akua",
+    "value": 66000,
+    "updated_at": 1416737120
+  },
+  {
+    "id": "mysql_295",
+    "created_at": 1416808574,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1416808574
+  },
+  {
+    "id": "mysql_296",
+    "created_at": 1416808602,
+    "label": "makansiangdanbuah",
+    "value": 29000,
+    "updated_at": 1416808602
+  },
+  {
+    "id": "mysql_297",
+    "created_at": 1416831204,
+    "label": "satebuah",
+    "value": 21000,
+    "updated_at": 1416831204
+  },
+  {
+    "id": "mysql_298",
+    "created_at": 1416914169,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1416914169
+  },
+  {
+    "id": "mysql_299",
+    "created_at": 1416914186,
+    "label": "makansiyang",
+    "value": 11000,
+    "updated_at": 1416914186
+  },
+  {
+    "id": "mysql_300",
+    "created_at": 1416914198,
+    "label": "bubur",
+    "value": 8000,
+    "updated_at": 1416914198
+  },
+  {
+    "id": "mysql_301",
+    "created_at": 1416914213,
+    "label": "servis montor",
+    "value": 49500,
+    "updated_at": 1416914213
+  },
+  {
+    "id": "mysql_302",
+    "created_at": 1416990107,
+    "label": "saraban",
+    "value": 10000,
+    "updated_at": 1416990107
+  },
+  {
+    "id": "mysql_303",
+    "created_at": 1416990118,
+    "label": "boahh",
+    "value": 10000,
+    "updated_at": 1416990118
+  },
+  {
+    "id": "mysql_304",
+    "created_at": 1417002394,
+    "label": "bengsin",
+    "value": 20000,
+    "updated_at": 1417002394
+  },
+  {
+    "id": "mysql_305",
+    "created_at": 1417002404,
+    "label": "ngeteh",
+    "value": 8700,
+    "updated_at": 1417002404
+  },
+  {
+    "id": "mysql_306",
+    "created_at": 1417075279,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1417075279
+  },
+  {
+    "id": "mysql_307",
+    "created_at": 1417075298,
+    "label": "makansiyang",
+    "value": 10000,
+    "updated_at": 1417075298
+  },
+  {
+    "id": "mysql_308",
+    "created_at": 1417153640,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1417153640
+  },
+  {
+    "id": "mysql_309",
+    "created_at": 1417153686,
+    "label": "makansiyang",
+    "value": 28000,
+    "updated_at": 1417153686
+  },
+  {
+    "id": "mysql_310",
+    "created_at": 1417232339,
+    "label": "krl",
+    "value": 2000,
+    "updated_at": 1417232339
+  },
+  {
+    "id": "mysql_311",
+    "created_at": 1417232353,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1417232353
+  },
+  {
+    "id": "mysql_312",
+    "created_at": 1417232398,
+    "label": "rapel",
+    "value": 23000,
+    "updated_at": 1417232398
+  },
+  {
+    "id": "mysql_313",
+    "created_at": 1417243439,
+    "label": "jeruk",
+    "value": 77500,
+    "updated_at": 1417243439
+  },
+  {
+    "id": "mysql_314",
+    "created_at": 1417243459,
+    "label": "tagsi",
+    "value": 150000,
+    "updated_at": 1417243459
+  },
+  {
+    "id": "mysql_315",
+    "created_at": 1417247511,
+    "label": "tagsee",
+    "value": 35000,
+    "updated_at": 1417247511
+  },
+  {
+    "id": "mysql_316",
+    "created_at": 1417413104,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1417413104
+  },
+  {
+    "id": "mysql_317",
+    "created_at": 1417413117,
+    "label": "bengsin",
+    "value": 26000,
+    "updated_at": 1417413117
+  },
+  {
+    "id": "mysql_318",
+    "created_at": 1417431220,
+    "label": "susu",
+    "value": 7000,
+    "updated_at": 1417431220
+  },
+  {
+    "id": "mysql_319",
+    "created_at": 1417431233,
+    "label": "kohdim",
+    "value": 130000,
+    "updated_at": 1417431233
+  },
+  {
+    "id": "mysql_320",
+    "created_at": 1417469365,
+    "label": "pulsa",
+    "value": 100000,
+    "updated_at": 1417469365
+  },
+  {
+    "id": "mysql_321",
+    "created_at": 1417497677,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1417497677
+  },
+  {
+    "id": "mysql_322",
+    "created_at": 1417497702,
+    "label": "makansiyang buah",
+    "value": 23000,
+    "updated_at": 1417497702
+  },
+  {
+    "id": "mysql_323",
+    "created_at": 1417567542,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1417567542
+  },
+  {
+    "id": "mysql_324",
+    "created_at": 1417567669,
+    "label": "listrik",
+    "value": 124339,
+    "updated_at": 1417567669
+  },
+  {
+    "id": "mysql_325",
+    "created_at": 1417672392,
+    "label": "sarapan",
+    "value": 29000,
+    "updated_at": 1417672392
+  },
+  {
+    "id": "mysql_326",
+    "created_at": 1417672403,
+    "label": "makansiyang",
+    "value": 20000,
+    "updated_at": 1417672403
+  },
+  {
+    "id": "mysql_327",
+    "created_at": 1417697869,
+    "label": "bensin",
+    "value": 19000,
+    "updated_at": 1417697869
+  },
+  {
+    "id": "mysql_328",
+    "created_at": 1417697883,
+    "label": "akua",
+    "value": 16000,
+    "updated_at": 1417697883
+  },
+  {
+    "id": "mysql_329",
+    "created_at": 1417773750,
+    "label": "sarapan",
+    "value": 8000,
+    "updated_at": 1417773750
+  },
+  {
+    "id": "mysql_330",
+    "created_at": 1417773765,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1417773765
+  },
+  {
+    "id": "mysql_331",
+    "created_at": 1417841258,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1417841258
+  },
+  {
+    "id": "mysql_332",
+    "created_at": 1417841275,
+    "label": "teko",
+    "value": 59000,
+    "updated_at": 1417841275
+  },
+  {
+    "id": "mysql_333",
+    "created_at": 1417952739,
+    "label": "blanja",
+    "value": 100000,
+    "updated_at": 1417952739
+  },
+  {
+    "id": "mysql_334",
+    "created_at": 1418000453,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1418000453
+  },
+  {
+    "id": "mysql_335",
+    "created_at": 1418015917,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1418015917
+  },
+  {
+    "id": "mysql_336",
+    "created_at": 1418015929,
+    "label": "buwah",
+    "value": 8000,
+    "updated_at": 1418015929
+  },
+  {
+    "id": "mysql_337",
+    "created_at": 1418036651,
+    "label": "bulananvmc",
+    "value": 65000,
+    "updated_at": 1418036651
+  },
+  {
+    "id": "mysql_338",
+    "created_at": 1418036674,
+    "label": "sosialsampeapril",
+    "value": 50000,
+    "updated_at": 1418036674
+  },
+  {
+    "id": "mysql_339",
+    "created_at": 1418137853,
+    "label": "sate",
+    "value": 15000,
+    "updated_at": 1418137853
+  },
+  {
+    "id": "mysql_340",
+    "created_at": 1418138122,
+    "label": "sarapanmakansiyang",
+    "value": 22000,
+    "updated_at": 1418138122
+  },
+  {
+    "id": "mysql_341",
+    "created_at": 1418188074,
+    "label": "makaann",
+    "value": 32000,
+    "updated_at": 1418188074
+  },
+  {
+    "id": "mysql_342",
+    "created_at": 1418199173,
+    "label": "bengsin",
+    "value": 25000,
+    "updated_at": 1418199173
+  },
+  {
+    "id": "mysql_343",
+    "created_at": 1418209000,
+    "label": "ngeteh",
+    "value": 5000,
+    "updated_at": 1418209000
+  },
+  {
+    "id": "mysql_344",
+    "created_at": 1418257274,
+    "label": "kartukridit",
+    "value": 156000,
+    "updated_at": 1418257274
+  },
+  {
+    "id": "mysql_345",
+    "created_at": 1418273265,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1418273265
+  },
+  {
+    "id": "mysql_346",
+    "created_at": 1418273284,
+    "label": "makansiyang",
+    "value": 16500,
+    "updated_at": 1418273284
+  },
+  {
+    "id": "mysql_347",
+    "created_at": 1418293484,
+    "label": "esgrim",
+    "value": 6500,
+    "updated_at": 1418293484
+  },
+  {
+    "id": "mysql_348",
+    "created_at": 1418372470,
+    "label": "saraban",
+    "value": 12000,
+    "updated_at": 1418372470
+  },
+  {
+    "id": "mysql_349",
+    "created_at": 1418372489,
+    "label": "makansiyang",
+    "value": 18000,
+    "updated_at": 1418372489
+  },
+  {
+    "id": "mysql_350",
+    "created_at": 1418442136,
+    "label": "ramen",
+    "value": 120000,
+    "updated_at": 1418442136
+  },
+  {
+    "id": "mysql_351",
+    "created_at": 1418442155,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1418442155
+  },
+  {
+    "id": "mysql_352",
+    "created_at": 1418476960,
+    "label": "kari",
+    "value": 150000,
+    "updated_at": 1418476960
+  },
+  {
+    "id": "mysql_353",
+    "created_at": 1418524523,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1418524523
+  },
+  {
+    "id": "mysql_354",
+    "created_at": 1418530312,
+    "label": "makanenak",
+    "value": 66000,
+    "updated_at": 1418530312
+  },
+  {
+    "id": "mysql_355",
+    "created_at": 1418594075,
+    "label": "blanja",
+    "value": 54000,
+    "updated_at": 1418594075
+  },
+  {
+    "id": "mysql_356",
+    "created_at": 1418690574,
+    "label": "rapel",
+    "value": 28000,
+    "updated_at": 1418690574
+  },
+  {
+    "id": "mysql_357",
+    "created_at": 1418690583,
+    "label": "bengsin",
+    "value": 21000,
+    "updated_at": 1418690583
+  },
+  {
+    "id": "mysql_358",
+    "created_at": 1418715848,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1418715848
+  },
+  {
+    "id": "mysql_359",
+    "created_at": 1418715859,
+    "label": "makansiang",
+    "value": 10000,
+    "updated_at": 1418715859
+  },
+  {
+    "id": "mysql_360",
+    "created_at": 1418715867,
+    "label": "buah",
+    "value": 10000,
+    "updated_at": 1418715867
+  },
+  {
+    "id": "mysql_361",
+    "created_at": 1418802504,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1418802504
+  },
+  {
+    "id": "mysql_362",
+    "created_at": 1418802541,
+    "label": "maksi",
+    "value": 28000,
+    "updated_at": 1418802541
+  },
+  {
+    "id": "mysql_363",
+    "created_at": 1418944873,
+    "label": "rapel",
+    "value": 30000,
+    "updated_at": 1418944873
+  },
+  {
+    "id": "mysql_364",
+    "created_at": 1418967204,
+    "label": "sarapanmakansiyang",
+    "value": 31000,
+    "updated_at": 1418967204
+  },
+  {
+    "id": "mysql_365",
+    "created_at": 1418983510,
+    "label": "krl",
+    "value": 4000,
+    "updated_at": 1418983510
+  },
+  {
+    "id": "mysql_366",
+    "created_at": 1419060741,
+    "label": "makansiyang",
+    "value": 15000,
+    "updated_at": 1419060741
+  },
+  {
+    "id": "mysql_367",
+    "created_at": 1419142556,
+    "label": "rapel",
+    "value": 59000,
+    "updated_at": 1419142556
+  },
+  {
+    "id": "mysql_368",
+    "created_at": 1419214688,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1419214688
+  },
+  {
+    "id": "mysql_369",
+    "created_at": 1419218562,
+    "label": "soto",
+    "value": 10000,
+    "updated_at": 1419218562
+  },
+  {
+    "id": "mysql_370",
+    "created_at": 1419262303,
+    "label": "makansiyangkangkung",
+    "value": 29000,
+    "updated_at": 1419262303
+  },
+  {
+    "id": "mysql_371",
+    "created_at": 1419262337,
+    "label": "bengsin",
+    "value": 20000,
+    "updated_at": 1419262337
+  },
+  {
+    "id": "mysql_372",
+    "created_at": 1419292617,
+    "label": "akua",
+    "value": 42400,
+    "updated_at": 1419292617
+  },
+  {
+    "id": "mysql_373",
+    "created_at": 1420435335,
+    "label": "ikangbakar",
+    "value": 220000,
+    "updated_at": 1420435335
+  },
+  {
+    "id": "mysql_374",
+    "created_at": 1420435350,
+    "label": "sotoparkir",
+    "value": 30000,
+    "updated_at": 1420435350
+  },
+  {
+    "id": "mysql_375",
+    "created_at": 1420462450,
+    "label": "obat ibu",
+    "value": 388000,
+    "updated_at": 1420462450
+  },
+  {
+    "id": "mysql_376",
+    "created_at": 1420628612,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1420628612
+  },
+  {
+    "id": "mysql_377",
+    "created_at": 1420628629,
+    "label": "makansiyangbuwah",
+    "value": 23000,
+    "updated_at": 1420628629
+  },
+  {
+    "id": "mysql_378",
+    "created_at": 1420631860,
+    "label": "listrig",
+    "value": 126735,
+    "updated_at": 1420631860
+  },
+  {
+    "id": "mysql_379",
+    "created_at": 1420769811,
+    "label": "sarapan",
+    "value": 18000,
+    "updated_at": 1420769811
+  },
+  {
+    "id": "mysql_380",
+    "created_at": 1420769856,
+    "label": "rapel",
+    "value": 66000,
+    "updated_at": 1420769856
+  },
+  {
+    "id": "mysql_381",
+    "created_at": 1420851417,
+    "label": "bubur",
+    "value": 8000,
+    "updated_at": 1420851417
+  },
+  {
+    "id": "mysql_382",
+    "created_at": 1420851497,
+    "label": "maksirapel",
+    "value": 22000,
+    "updated_at": 1420851497
+  },
+  {
+    "id": "mysql_383",
+    "created_at": 1420851524,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1420851524
+  },
+  {
+    "id": "mysql_384",
+    "created_at": 1420944000,
+    "label": "roti",
+    "value": 100000,
+    "updated_at": 1420944000
+  },
+  {
+    "id": "mysql_385",
+    "created_at": 1421048996,
+    "label": "mastilung",
+    "value": 200000,
+    "updated_at": 1421048996
+  },
+  {
+    "id": "mysql_386",
+    "created_at": 1421049018,
+    "label": "makanenakparkir",
+    "value": 78000,
+    "updated_at": 1421049018
+  },
+  {
+    "id": "mysql_387",
+    "created_at": 1421132571,
+    "label": "bengsin",
+    "value": 22000,
+    "updated_at": 1421132571
+  },
+  {
+    "id": "mysql_388",
+    "created_at": 1421132585,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1421132585
+  },
+  {
+    "id": "mysql_389",
+    "created_at": 1421217174,
+    "label": "kartukridit",
+    "value": 336799,
+    "updated_at": 1421217174
+  },
+  {
+    "id": "mysql_390",
+    "created_at": 1421217191,
+    "label": "makan",
+    "value": 40000,
+    "updated_at": 1421217191
+  },
+  {
+    "id": "mysql_391",
+    "created_at": 1421232447,
+    "label": "makabmalam",
+    "value": 12000,
+    "updated_at": 1421232447
+  },
+  {
+    "id": "mysql_392",
+    "created_at": 1421299886,
+    "label": "saraban",
+    "value": 9000,
+    "updated_at": 1421299886
+  },
+  {
+    "id": "mysql_393",
+    "created_at": 1421299912,
+    "label": "manganjancuuukk",
+    "value": 25500,
+    "updated_at": 1421299912
+  },
+  {
+    "id": "mysql_394",
+    "created_at": 1421299929,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1421299929
+  },
+  {
+    "id": "mysql_395",
+    "created_at": 1421383905,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1421383905
+  },
+  {
+    "id": "mysql_396",
+    "created_at": 1421383938,
+    "label": "padangesduren",
+    "value": 22000,
+    "updated_at": 1421383938
+  },
+  {
+    "id": "mysql_397",
+    "created_at": 1421405576,
+    "label": "susu",
+    "value": 13000,
+    "updated_at": 1421405576
+  },
+  {
+    "id": "mysql_398",
+    "created_at": 1421452394,
+    "label": "bengsin",
+    "value": 18000,
+    "updated_at": 1421452394
+  },
+  {
+    "id": "mysql_399",
+    "created_at": 1421470124,
+    "label": "tempe",
+    "value": 2000,
+    "updated_at": 1421470124
+  },
+  {
+    "id": "mysql_400",
+    "created_at": 1421591821,
+    "label": "roti",
+    "value": 44000,
+    "updated_at": 1421591821
+  },
+  {
+    "id": "mysql_401",
+    "created_at": 1421657501,
+    "label": "makansiangbuah",
+    "value": 22000,
+    "updated_at": 1421657501
+  },
+  {
+    "id": "mysql_402",
+    "created_at": 1421730160,
+    "label": "banbonyok",
+    "value": 43000,
+    "updated_at": 1421730160
+  },
+  {
+    "id": "mysql_403",
+    "created_at": 1421730168,
+    "label": "saraban",
+    "value": 14000,
+    "updated_at": 1421730168
+  },
+  {
+    "id": "mysql_404",
+    "created_at": 1421730177,
+    "label": "buah",
+    "value": 8000,
+    "updated_at": 1421730177
+  },
+  {
+    "id": "mysql_405",
+    "created_at": 1421758958,
+    "label": "rinso",
+    "value": 53000,
+    "updated_at": 1421758958
+  },
+  {
+    "id": "mysql_406",
+    "created_at": 1421811043,
+    "label": "saraban",
+    "value": 8000,
+    "updated_at": 1421811043
+  },
+  {
+    "id": "mysql_407",
+    "created_at": 1421886799,
+    "label": "nombok",
+    "value": 7798,
+    "updated_at": 1421886799
+  },
+  {
+    "id": "mysql_408",
+    "created_at": 1421886842,
+    "label": "makansiyanrapel",
+    "value": 15000,
+    "updated_at": 1421886842
+  },
+  {
+    "id": "mysql_409",
+    "created_at": 1422059233,
+    "label": "bengsim",
+    "value": 17000,
+    "updated_at": 1422059233
+  },
+  {
+    "id": "mysql_410",
+    "created_at": 1422059324,
+    "label": "susurapel",
+    "value": 12000,
+    "updated_at": 1422059324
+  },
+  {
+    "id": "mysql_411",
+    "created_at": 1422059345,
+    "label": "sarapantehtubruk",
+    "value": 16000,
+    "updated_at": 1422059345
+  },
+  {
+    "id": "mysql_412",
+    "created_at": 1422089232,
+    "label": "susi",
+    "value": 120000,
+    "updated_at": 1422089232
+  },
+  {
+    "id": "mysql_413",
+    "created_at": 1422100372,
+    "label": "roti",
+    "value": 53000,
+    "updated_at": 1422100372
+  },
+  {
+    "id": "mysql_414",
+    "created_at": 1422242055,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1422242055
+  },
+  {
+    "id": "mysql_415",
+    "created_at": 1422251198,
+    "label": "pisang",
+    "value": 10000,
+    "updated_at": 1422251198
+  },
+  {
+    "id": "mysql_416",
+    "created_at": 1422251214,
+    "label": "makansiang",
+    "value": 17000,
+    "updated_at": 1422251214
+  },
+  {
+    "id": "mysql_417",
+    "created_at": 1422325836,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1422325836
+  },
+  {
+    "id": "mysql_418",
+    "created_at": 1422350657,
+    "label": "bagso",
+    "value": 9000,
+    "updated_at": 1422350657
+  },
+  {
+    "id": "mysql_419",
+    "created_at": 1422357487,
+    "label": "otmil",
+    "value": 38200,
+    "updated_at": 1422357487
+  },
+  {
+    "id": "mysql_420",
+    "created_at": 1422414149,
+    "label": "bensin",
+    "value": 17000,
+    "updated_at": 1422414149
+  },
+  {
+    "id": "mysql_421",
+    "created_at": 1422414158,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1422414158
+  },
+  {
+    "id": "mysql_422",
+    "created_at": 1422414166,
+    "label": "pulsa",
+    "value": 50000,
+    "updated_at": 1422414166
+  },
+  {
+    "id": "mysql_423",
+    "created_at": 1422445545,
+    "label": "pulsa ibu aqua",
+    "value": 128000,
+    "updated_at": 1422445545
+  },
+  {
+    "id": "mysql_424",
+    "created_at": 1422446319,
+    "label": "makansiangbuah",
+    "value": 22000,
+    "updated_at": 1422446319
+  },
+  {
+    "id": "mysql_425",
+    "created_at": 1422494165,
+    "label": "oli",
+    "value": 50000,
+    "updated_at": 1422494165
+  },
+  {
+    "id": "mysql_426",
+    "created_at": 1422494180,
+    "label": "sarapam",
+    "value": 7000,
+    "updated_at": 1422494180
+  },
+  {
+    "id": "mysql_427",
+    "created_at": 1422494203,
+    "label": "krlbuswae",
+    "value": 8000,
+    "updated_at": 1422494203
+  },
+  {
+    "id": "mysql_428",
+    "created_at": 1422527060,
+    "label": "krl",
+    "value": 2500,
+    "updated_at": 1422527060
+  },
+  {
+    "id": "mysql_429",
+    "created_at": 1422600526,
+    "label": "banmotor",
+    "value": 606500,
+    "updated_at": 1422600526
+  },
+  {
+    "id": "mysql_430",
+    "created_at": 1422600545,
+    "label": "ngeteh",
+    "value": 4000,
+    "updated_at": 1422600545
+  },
+  {
+    "id": "mysql_431",
+    "created_at": 1422676893,
+    "label": "olahraga",
+    "value": 27000,
+    "updated_at": 1422676893
+  },
+  {
+    "id": "mysql_432",
+    "created_at": 1422676910,
+    "label": "rapel",
+    "value": 18200,
+    "updated_at": 1422676910
+  },
+  {
+    "id": "mysql_433",
+    "created_at": 1422690983,
+    "label": "wingstop",
+    "value": 46000,
+    "updated_at": 1422690983
+  },
+  {
+    "id": "mysql_434",
+    "created_at": 1422691008,
+    "label": "susiotmil",
+    "value": 160000,
+    "updated_at": 1422691008
+  },
+  {
+    "id": "mysql_435",
+    "created_at": 1422694638,
+    "label": "krl",
+    "value": 2000,
+    "updated_at": 1422694638
+  },
+  {
+    "id": "mysql_436",
+    "created_at": 1422827391,
+    "label": "wedang",
+    "value": 22000,
+    "updated_at": 1422827391
+  },
+  {
+    "id": "mysql_437",
+    "created_at": 1422827426,
+    "label": "rotirapel",
+    "value": 46000,
+    "updated_at": 1422827426
+  },
+  {
+    "id": "mysql_438",
+    "created_at": 1422833992,
+    "label": "bensin",
+    "value": 21000,
+    "updated_at": 1422833992
+  },
+  {
+    "id": "mysql_439",
+    "created_at": 1422866472,
+    "label": "makansiyang",
+    "value": 16000,
+    "updated_at": 1422866472
+  },
+  {
+    "id": "mysql_440",
+    "created_at": 1422928721,
+    "label": "tempe",
+    "value": 2000,
+    "updated_at": 1422928721
+  },
+  {
+    "id": "mysql_441",
+    "created_at": 1422963748,
+    "label": "kwetio pisanh",
+    "value": 30000,
+    "updated_at": 1422963748
+  },
+  {
+    "id": "mysql_442",
+    "created_at": 1423049617,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1423049617
+  },
+  {
+    "id": "mysql_443",
+    "created_at": 1423049630,
+    "label": "makansiyang",
+    "value": 12000,
+    "updated_at": 1423049630
+  },
+  {
+    "id": "mysql_444",
+    "created_at": 1423049643,
+    "label": "taksi dunkin",
+    "value": 88000,
+    "updated_at": 1423049643
+  },
+  {
+    "id": "mysql_445",
+    "created_at": 1423084788,
+    "label": "akuasabunsevelgmr",
+    "value": 38500,
+    "updated_at": 1423084788
+  },
+  {
+    "id": "mysql_446",
+    "created_at": 1423091216,
+    "label": "hotel",
+    "value": 380000,
+    "updated_at": 1423091216
+  },
+  {
+    "id": "mysql_447",
+    "created_at": 1423099362,
+    "label": "pajek samsat fotokopi",
+    "value": 201500,
+    "updated_at": 1423099362
+  },
+  {
+    "id": "mysql_448",
+    "created_at": 1423188431,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1423188431
+  },
+  {
+    "id": "mysql_449",
+    "created_at": 1423232985,
+    "label": "taksi tasiyun",
+    "value": 55000,
+    "updated_at": 1423232985
+  },
+  {
+    "id": "mysql_450",
+    "created_at": 1423233002,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1423233002
+  },
+  {
+    "id": "mysql_451",
+    "created_at": 1423233016,
+    "label": "duren",
+    "value": 95000,
+    "updated_at": 1423233016
+  },
+  {
+    "id": "mysql_452",
+    "created_at": 1423278163,
+    "label": "olahraga",
+    "value": 20000,
+    "updated_at": 1423278163
+  },
+  {
+    "id": "mysql_453",
+    "created_at": 1423291553,
+    "label": "soto",
+    "value": 21000,
+    "updated_at": 1423291553
+  },
+  {
+    "id": "mysql_454",
+    "created_at": 1423304719,
+    "label": "teko",
+    "value": 59000,
+    "updated_at": 1423304719
+  },
+  {
+    "id": "mysql_455",
+    "created_at": 1423305504,
+    "label": "rotiakua",
+    "value": 55000,
+    "updated_at": 1423305504
+  },
+  {
+    "id": "mysql_456",
+    "created_at": 1423308437,
+    "label": "parkir",
+    "value": 3000,
+    "updated_at": 1423308437
+  },
+  {
+    "id": "mysql_457",
+    "created_at": 1423468675,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1423468675
+  },
+  {
+    "id": "mysql_458",
+    "created_at": 1423490754,
+    "label": "bensin",
+    "value": 23000,
+    "updated_at": 1423490754
+  },
+  {
+    "id": "mysql_459",
+    "created_at": 1423490776,
+    "label": "ngeteh",
+    "value": 9000,
+    "updated_at": 1423490776
+  },
+  {
+    "id": "mysql_460",
+    "created_at": 1423558539,
+    "label": "sarapan pisang",
+    "value": 15000,
+    "updated_at": 1423558539
+  },
+  {
+    "id": "mysql_461",
+    "created_at": 1423687755,
+    "label": "lampu",
+    "value": 90000,
+    "updated_at": 1423687755
+  },
+  {
+    "id": "mysql_462",
+    "created_at": 1423687781,
+    "label": "maksi rapel",
+    "value": 20000,
+    "updated_at": 1423687781
+  },
+  {
+    "id": "mysql_463",
+    "created_at": 1423719408,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1423719408
+  },
+  {
+    "id": "mysql_464",
+    "created_at": 1423719425,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1423719425
+  },
+  {
+    "id": "mysql_465",
+    "created_at": 1423719437,
+    "label": "listrig",
+    "value": 126735,
+    "updated_at": 1423719437
+  },
+  {
+    "id": "mysql_466",
+    "created_at": 1423805542,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1423805542
+  },
+  {
+    "id": "mysql_467",
+    "created_at": 1423805553,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1423805553
+  },
+  {
+    "id": "mysql_468",
+    "created_at": 1423805612,
+    "label": "rapel bensin",
+    "value": 19500,
+    "updated_at": 1423805612
+  },
+  {
+    "id": "mysql_469",
+    "created_at": 1423805632,
+    "label": "rapel roti",
+    "value": 28000,
+    "updated_at": 1423805632
+  },
+  {
+    "id": "mysql_470",
+    "created_at": 1423805649,
+    "label": "buah",
+    "value": 8000,
+    "updated_at": 1423805649
+  },
+  {
+    "id": "mysql_471",
+    "created_at": 1423822599,
+    "label": "mi",
+    "value": 17000,
+    "updated_at": 1423822599
+  },
+  {
+    "id": "mysql_472",
+    "created_at": 1423888796,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1423888796
+  },
+  {
+    "id": "mysql_473",
+    "created_at": 1423895788,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1423895788
+  },
+  {
+    "id": "mysql_474",
+    "created_at": 1423978382,
+    "label": "teko",
+    "value": 60000,
+    "updated_at": 1423978382
+  },
+  {
+    "id": "mysql_475",
+    "created_at": 1423978418,
+    "label": "susurapel",
+    "value": 20000,
+    "updated_at": 1423978418
+  },
+  {
+    "id": "mysql_476",
+    "created_at": 1424070566,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1424070566
+  },
+  {
+    "id": "mysql_477",
+    "created_at": 1424143092,
+    "label": "bensin",
+    "value": 18000,
+    "updated_at": 1424143092
+  },
+  {
+    "id": "mysql_478",
+    "created_at": 1424143119,
+    "label": "roti rapel",
+    "value": 26000,
+    "updated_at": 1424143119
+  },
+  {
+    "id": "mysql_479",
+    "created_at": 1424173101,
+    "label": "odolsabun",
+    "value": 53000,
+    "updated_at": 1424173101
+  },
+  {
+    "id": "mysql_480",
+    "created_at": 1424173131,
+    "label": "maksipisang",
+    "value": 25000,
+    "updated_at": 1424173131
+  },
+  {
+    "id": "mysql_481",
+    "created_at": 1424262531,
+    "label": "roti",
+    "value": 30000,
+    "updated_at": 1424262531
+  },
+  {
+    "id": "mysql_482",
+    "created_at": 1424262550,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1424262550
+  },
+  {
+    "id": "mysql_483",
+    "created_at": 1424317719,
+    "label": "dunkin",
+    "value": 53000,
+    "updated_at": 1424317719
+  },
+  {
+    "id": "mysql_484",
+    "created_at": 1424379741,
+    "label": "pisamg",
+    "value": 26200,
+    "updated_at": 1424379741
+  },
+  {
+    "id": "mysql_485",
+    "created_at": 1424422413,
+    "label": "maksi",
+    "value": 14000,
+    "updated_at": 1424422413
+  },
+  {
+    "id": "mysql_486",
+    "created_at": 1424561425,
+    "label": "rapelroti",
+    "value": 44000,
+    "updated_at": 1424561425
+  },
+  {
+    "id": "mysql_487",
+    "created_at": 1424561515,
+    "label": "rapel bengsin",
+    "value": 46000,
+    "updated_at": 1424561515
+  },
+  {
+    "id": "mysql_488",
+    "created_at": 1424561551,
+    "label": "rapelmakan",
+    "value": 26000,
+    "updated_at": 1424561551
+  },
+  {
+    "id": "mysql_489",
+    "created_at": 1424604284,
+    "label": "garangasem",
+    "value": 73000,
+    "updated_at": 1424604284
+  },
+  {
+    "id": "mysql_490",
+    "created_at": 1424754491,
+    "label": "tehjahe",
+    "value": 7000,
+    "updated_at": 1424754491
+  },
+  {
+    "id": "mysql_491",
+    "created_at": 1424760495,
+    "label": "maksi",
+    "value": 8000,
+    "updated_at": 1424760495
+  },
+  {
+    "id": "mysql_492",
+    "created_at": 1424774125,
+    "label": "susu",
+    "value": 15200,
+    "updated_at": 1424774125
+  },
+  {
+    "id": "mysql_493",
+    "created_at": 1424857298,
+    "label": "maksijus",
+    "value": 25000,
+    "updated_at": 1424857298
+  },
+  {
+    "id": "mysql_494",
+    "created_at": 1424857317,
+    "label": "bengsin",
+    "value": 18000,
+    "updated_at": 1424857317
+  },
+  {
+    "id": "mysql_495",
+    "created_at": 1424928933,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1424928933
+  },
+  {
+    "id": "mysql_496",
+    "created_at": 1424928952,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1424928952
+  },
+  {
+    "id": "mysql_497",
+    "created_at": 1424951425,
+    "label": "kudanan",
+    "value": 21000,
+    "updated_at": 1424951425
+  },
+  {
+    "id": "mysql_498",
+    "created_at": 1425014656,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1425014656
+  },
+  {
+    "id": "mysql_499",
+    "created_at": 1425014664,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1425014664
+  },
+  {
+    "id": "mysql_500",
+    "created_at": 1425188419,
+    "label": "akua",
+    "value": 30000,
+    "updated_at": 1425188419
+  },
+  {
+    "id": "mysql_501",
+    "created_at": 1425188442,
+    "label": "roti",
+    "value": 51000,
+    "updated_at": 1425188442
+  },
+  {
+    "id": "mysql_502",
+    "created_at": 1425188487,
+    "label": "rapelan",
+    "value": 105000,
+    "updated_at": 1425188487
+  },
+  {
+    "id": "mysql_503",
+    "created_at": 1425258168,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1425258168
+  },
+  {
+    "id": "mysql_504",
+    "created_at": 1425259015,
+    "label": "listrik",
+    "value": 126735,
+    "updated_at": 1425259015
+  },
+  {
+    "id": "mysql_505",
+    "created_at": 1425290102,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1425290102
+  },
+  {
+    "id": "mysql_506",
+    "created_at": 1425331287,
+    "label": "sate rapel",
+    "value": 13000,
+    "updated_at": 1425331287
+  },
+  {
+    "id": "mysql_507",
+    "created_at": 1425343832,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1425343832
+  },
+  {
+    "id": "mysql_508",
+    "created_at": 1425381225,
+    "label": "bensin",
+    "value": 17500,
+    "updated_at": 1425381225
+  },
+  {
+    "id": "mysql_509",
+    "created_at": 1425381242,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1425381242
+  },
+  {
+    "id": "mysql_510",
+    "created_at": 1425381281,
+    "label": "teh",
+    "value": 16400,
+    "updated_at": 1425381281
+  },
+  {
+    "id": "mysql_511",
+    "created_at": 1425467534,
+    "label": "nasibakarpisang",
+    "value": 35000,
+    "updated_at": 1425467534
+  },
+  {
+    "id": "mysql_512",
+    "created_at": 1425467555,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1425467555
+  },
+  {
+    "id": "mysql_513",
+    "created_at": 1425522241,
+    "label": "sarapan",
+    "value": 23000,
+    "updated_at": 1425522241
+  },
+  {
+    "id": "mysql_514",
+    "created_at": 1425537864,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1425537864
+  },
+  {
+    "id": "mysql_515",
+    "created_at": 1425537882,
+    "label": "pulsa",
+    "value": 100000,
+    "updated_at": 1425537882
+  },
+  {
+    "id": "mysql_516",
+    "created_at": 1425557739,
+    "label": "susu",
+    "value": 18000,
+    "updated_at": 1425557739
+  },
+  {
+    "id": "mysql_517",
+    "created_at": 1425623933,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1425623933
+  },
+  {
+    "id": "mysql_518",
+    "created_at": 1425623942,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1425623942
+  },
+  {
+    "id": "mysql_519",
+    "created_at": 1425634480,
+    "label": "sate",
+    "value": 13000,
+    "updated_at": 1425634480
+  },
+  {
+    "id": "mysql_520",
+    "created_at": 1425711532,
+    "label": "sarapan",
+    "value": 50000,
+    "updated_at": 1425711532
+  },
+  {
+    "id": "mysql_521",
+    "created_at": 1425711540,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1425711540
+  },
+  {
+    "id": "mysql_522",
+    "created_at": 1425790009,
+    "label": "bengsin",
+    "value": 23000,
+    "updated_at": 1425790009
+  },
+  {
+    "id": "mysql_523",
+    "created_at": 1425790028,
+    "label": "metro pi",
+    "value": 37000,
+    "updated_at": 1425790028
+  },
+  {
+    "id": "mysql_524",
+    "created_at": 1425790064,
+    "label": "ngeteh dunkin",
+    "value": 21000,
+    "updated_at": 1425790064
+  },
+  {
+    "id": "mysql_525",
+    "created_at": 1425867561,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1425867561
+  },
+  {
+    "id": "mysql_526",
+    "created_at": 1425867587,
+    "label": "teko",
+    "value": 60000,
+    "updated_at": 1425867587
+  },
+  {
+    "id": "mysql_527",
+    "created_at": 1425881153,
+    "label": "maksi",
+    "value": 19500,
+    "updated_at": 1425881153
+  },
+  {
+    "id": "mysql_528",
+    "created_at": 1425911577,
+    "label": "nyate",
+    "value": 15000,
+    "updated_at": 1425911577
+  },
+  {
+    "id": "mysql_529",
+    "created_at": 1425950378,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1425950378
+  },
+  {
+    "id": "mysql_530",
+    "created_at": 1425965654,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1425965654
+  },
+  {
+    "id": "mysql_531",
+    "created_at": 1426054222,
+    "label": "listerin",
+    "value": 27000,
+    "updated_at": 1426054222
+  },
+  {
+    "id": "mysql_532",
+    "created_at": 1426054231,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1426054231
+  },
+  {
+    "id": "mysql_533",
+    "created_at": 1426054251,
+    "label": "maksi",
+    "value": 20500,
+    "updated_at": 1426054251
+  },
+  {
+    "id": "mysql_534",
+    "created_at": 1426067078,
+    "label": "baksorapel",
+    "value": 11000,
+    "updated_at": 1426067078
+  },
+  {
+    "id": "mysql_535",
+    "created_at": 1426214321,
+    "label": "rapel",
+    "value": 37000,
+    "updated_at": 1426214321
+  },
+  {
+    "id": "mysql_536",
+    "created_at": 1426214332,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1426214332
+  },
+  {
+    "id": "mysql_537",
+    "created_at": 1426234734,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1426234734
+  },
+  {
+    "id": "mysql_538",
+    "created_at": 1426254808,
+    "label": "bengsin",
+    "value": 19000,
+    "updated_at": 1426254808
+  },
+  {
+    "id": "mysql_539",
+    "created_at": 1426254821,
+    "label": "susu",
+    "value": 30000,
+    "updated_at": 1426254821
+  },
+  {
+    "id": "mysql_540",
+    "created_at": 1426299096,
+    "label": "pak jaenal",
+    "value": 200000,
+    "updated_at": 1426299096
+  },
+  {
+    "id": "mysql_541",
+    "created_at": 1426336464,
+    "label": "nyamnyam",
+    "value": 128000,
+    "updated_at": 1426336464
+  },
+  {
+    "id": "mysql_542",
+    "created_at": 1426352638,
+    "label": "kartukridit",
+    "value": 544240,
+    "updated_at": 1426352638
+  },
+  {
+    "id": "mysql_543",
+    "created_at": 1426384314,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1426384314
+  },
+  {
+    "id": "mysql_544",
+    "created_at": 1426390727,
+    "label": "roti",
+    "value": 56000,
+    "updated_at": 1426390727
+  },
+  {
+    "id": "mysql_545",
+    "created_at": 1426391690,
+    "label": "akua",
+    "value": 14000,
+    "updated_at": 1426391690
+  },
+  {
+    "id": "mysql_546",
+    "created_at": 1426395813,
+    "label": "parkir",
+    "value": 5000,
+    "updated_at": 1426395813
+  },
+  {
+    "id": "mysql_547",
+    "created_at": 1426482024,
+    "label": "tehjahe",
+    "value": 8000,
+    "updated_at": 1426482024
+  },
+  {
+    "id": "mysql_548",
+    "created_at": 1426568545,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1426568545
+  },
+  {
+    "id": "mysql_549",
+    "created_at": 1426568557,
+    "label": "pdam",
+    "value": 32000,
+    "updated_at": 1426568557
+  },
+  {
+    "id": "mysql_550",
+    "created_at": 1426568565,
+    "label": "bengsin",
+    "value": 20000,
+    "updated_at": 1426568565
+  },
+  {
+    "id": "mysql_551",
+    "created_at": 1426568582,
+    "label": "smangka",
+    "value": 7000,
+    "updated_at": 1426568582
+  },
+  {
+    "id": "mysql_552",
+    "created_at": 1426670834,
+    "label": "sarapan",
+    "value": 7500,
+    "updated_at": 1426670834
+  },
+  {
+    "id": "mysql_553",
+    "created_at": 1426670846,
+    "label": "maksi",
+    "value": 28000,
+    "updated_at": 1426670846
+  },
+  {
+    "id": "mysql_554",
+    "created_at": 1426720293,
+    "label": "ngeteh rapel",
+    "value": 19000,
+    "updated_at": 1426720293
+  },
+  {
+    "id": "mysql_555",
+    "created_at": 1426741010,
+    "label": "pecel",
+    "value": 22500,
+    "updated_at": 1426741010
+  },
+  {
+    "id": "mysql_556",
+    "created_at": 1426775311,
+    "label": "capjaek",
+    "value": 23000,
+    "updated_at": 1426775311
+  },
+  {
+    "id": "mysql_557",
+    "created_at": 1426913918,
+    "label": "nyamnyam",
+    "value": 70400,
+    "updated_at": 1426913918
+  },
+  {
+    "id": "mysql_558",
+    "created_at": 1426913957,
+    "label": "roti rapel",
+    "value": 42000,
+    "updated_at": 1426913957
+  },
+  {
+    "id": "mysql_559",
+    "created_at": 1426914002,
+    "label": "rapelmakan",
+    "value": 36000,
+    "updated_at": 1426914002
+  },
+  {
+    "id": "mysql_560",
+    "created_at": 1426914673,
+    "label": "lampu",
+    "value": 197100,
+    "updated_at": 1426914673
+  },
+  {
+    "id": "mysql_561",
+    "created_at": 1426914692,
+    "label": "parkir",
+    "value": 5000,
+    "updated_at": 1426914692
+  },
+  {
+    "id": "mysql_562",
+    "created_at": 1427023362,
+    "label": "maksi",
+    "value": 10000,
+    "updated_at": 1427023362
+  },
+  {
+    "id": "mysql_563",
+    "created_at": 1427023380,
+    "label": "bengsin",
+    "value": 18000,
+    "updated_at": 1427023380
+  },
+  {
+    "id": "mysql_564",
+    "created_at": 1427023394,
+    "label": "roti",
+    "value": 24000,
+    "updated_at": 1427023394
+  },
+  {
+    "id": "mysql_565",
+    "created_at": 1427023523,
+    "label": "kacang",
+    "value": 11000,
+    "updated_at": 1427023523
+  },
+  {
+    "id": "mysql_566",
+    "created_at": 1427093029,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1427093029
+  },
+  {
+    "id": "mysql_567",
+    "created_at": 1427093038,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1427093038
+  },
+  {
+    "id": "mysql_568",
+    "created_at": 1427196808,
+    "label": "sarapan",
+    "value": 8000,
+    "updated_at": 1427196808
+  },
+  {
+    "id": "mysql_569",
+    "created_at": 1427196816,
+    "label": "maksi",
+    "value": 10000,
+    "updated_at": 1427196816
+  },
+  {
+    "id": "mysql_570",
+    "created_at": 1427289484,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1427289484
+  },
+  {
+    "id": "mysql_571",
+    "created_at": 1427380153,
+    "label": "bensin",
+    "value": 19000,
+    "updated_at": 1427380153
+  },
+  {
+    "id": "mysql_572",
+    "created_at": 1427380173,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1427380173
+  },
+  {
+    "id": "mysql_573",
+    "created_at": 1427380185,
+    "label": "maksi",
+    "value": 21000,
+    "updated_at": 1427380185
+  },
+  {
+    "id": "mysql_574",
+    "created_at": 1427380201,
+    "label": "teh",
+    "value": 20200,
+    "updated_at": 1427380201
+  },
+  {
+    "id": "mysql_575",
+    "created_at": 1427444947,
+    "label": "buah",
+    "value": 6000,
+    "updated_at": 1427444947
+  },
+  {
+    "id": "mysql_576",
+    "created_at": 1427444971,
+    "label": "sarapan",
+    "value": 21000,
+    "updated_at": 1427444971
+  },
+  {
+    "id": "mysql_577",
+    "created_at": 1427514858,
+    "label": "sarapan",
+    "value": 21000,
+    "updated_at": 1427514858
+  },
+  {
+    "id": "mysql_578",
+    "created_at": 1427514896,
+    "label": "rapel",
+    "value": 15000,
+    "updated_at": 1427514896
+  },
+  {
+    "id": "mysql_579",
+    "created_at": 1427522351,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1427522351
+  },
+  {
+    "id": "mysql_580",
+    "created_at": 1427582611,
+    "label": "si may",
+    "value": 20000,
+    "updated_at": 1427582611
+  },
+  {
+    "id": "mysql_581",
+    "created_at": 1427642064,
+    "label": "makan",
+    "value": 90000,
+    "updated_at": 1427642064
+  },
+  {
+    "id": "mysql_582",
+    "created_at": 1427689701,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1427689701
+  },
+  {
+    "id": "mysql_583",
+    "created_at": 1427706199,
+    "label": "maksi",
+    "value": 12000,
+    "updated_at": 1427706199
+  },
+  {
+    "id": "mysql_584",
+    "created_at": 1427720933,
+    "label": "akuabensin",
+    "value": 50000,
+    "updated_at": 1427720933
+  },
+  {
+    "id": "mysql_585",
+    "created_at": 1427773950,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1427773950
+  },
+  {
+    "id": "mysql_586",
+    "created_at": 1427789303,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1427789303
+  },
+  {
+    "id": "mysql_587",
+    "created_at": 1427870649,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1427870649
+  },
+  {
+    "id": "mysql_588",
+    "created_at": 1427870662,
+    "label": "buah",
+    "value": 6000,
+    "updated_at": 1427870662
+  },
+  {
+    "id": "mysql_589",
+    "created_at": 1427890640,
+    "label": "nyam",
+    "value": 43500,
+    "updated_at": 1427890640
+  },
+  {
+    "id": "mysql_590",
+    "created_at": 1427977496,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1427977496
+  },
+  {
+    "id": "mysql_591",
+    "created_at": 1427977515,
+    "label": "maksibuah",
+    "value": 22000,
+    "updated_at": 1427977515
+  },
+  {
+    "id": "mysql_592",
+    "created_at": 1427977527,
+    "label": "makmal",
+    "value": 26000,
+    "updated_at": 1427977527
+  },
+  {
+    "id": "mysql_593",
+    "created_at": 1428020231,
+    "label": "sabun",
+    "value": 37000,
+    "updated_at": 1428020231
+  },
+  {
+    "id": "mysql_594",
+    "created_at": 1428034086,
+    "label": "bensin",
+    "value": 18000,
+    "updated_at": 1428034086
+  },
+  {
+    "id": "mysql_595",
+    "created_at": 1428034104,
+    "label": "roti",
+    "value": 22000,
+    "updated_at": 1428034104
+  },
+  {
+    "id": "mysql_596",
+    "created_at": 1428054967,
+    "label": "padang",
+    "value": 19000,
+    "updated_at": 1428054967
+  },
+  {
+    "id": "mysql_597",
+    "created_at": 1428290944,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1428290944
+  },
+  {
+    "id": "mysql_598",
+    "created_at": 1428291119,
+    "label": "rapel",
+    "value": 171700,
+    "updated_at": 1428291119
+  },
+  {
+    "id": "mysql_599",
+    "created_at": 1428291129,
+    "label": "buah",
+    "value": 6000,
+    "updated_at": 1428291129
+  },
+  {
+    "id": "mysql_600",
+    "created_at": 1428305404,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1428305404
+  },
+  {
+    "id": "mysql_601",
+    "created_at": 1428374892,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1428374892
+  },
+  {
+    "id": "mysql_602",
+    "created_at": 1428375015,
+    "label": "pln",
+    "value": 123735,
+    "updated_at": 1428375015
+  },
+  {
+    "id": "mysql_603",
+    "created_at": 1428397405,
+    "label": "maksi",
+    "value": 31000,
+    "updated_at": 1428397405
+  },
+  {
+    "id": "mysql_604",
+    "created_at": 1428405968,
+    "label": "bensin",
+    "value": 20000,
+    "updated_at": 1428405968
+  },
+  {
+    "id": "mysql_605",
+    "created_at": 1428406002,
+    "label": "akua",
+    "value": 27000,
+    "updated_at": 1428406002
+  },
+  {
+    "id": "mysql_606",
+    "created_at": 1428457039,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1428457039
+  },
+  {
+    "id": "mysql_607",
+    "created_at": 1428508549,
+    "label": "maksi",
+    "value": 21000,
+    "updated_at": 1428508549
+  },
+  {
+    "id": "mysql_608",
+    "created_at": 1428569247,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1428569247
+  },
+  {
+    "id": "mysql_609",
+    "created_at": 1428629922,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1428629922
+  },
+  {
+    "id": "mysql_610",
+    "created_at": 1428642827,
+    "label": "maksi buah",
+    "value": 27000,
+    "updated_at": 1428642827
+  },
+  {
+    "id": "mysql_611",
+    "created_at": 1428670817,
+    "label": "keran",
+    "value": 75000,
+    "updated_at": 1428670817
+  },
+  {
+    "id": "mysql_612",
+    "created_at": 1428670831,
+    "label": "bayar rt",
+    "value": 60000,
+    "updated_at": 1428670831
+  },
+  {
+    "id": "mysql_613",
+    "created_at": 1428676087,
+    "label": "roti",
+    "value": 23400,
+    "updated_at": 1428676087
+  },
+  {
+    "id": "mysql_614",
+    "created_at": 1428713868,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1428713868
+  },
+  {
+    "id": "mysql_615",
+    "created_at": 1428729023,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1428729023
+  },
+  {
+    "id": "mysql_616",
+    "created_at": 1428729179,
+    "label": "kartukridit",
+    "value": 562400,
+    "updated_at": 1428729179
+  },
+  {
+    "id": "mysql_617",
+    "created_at": 1428805863,
+    "label": "pisang",
+    "value": 40000,
+    "updated_at": 1428805863
+  },
+  {
+    "id": "mysql_618",
+    "created_at": 1428813468,
+    "label": "maksi",
+    "value": 65000,
+    "updated_at": 1428813468
+  },
+  {
+    "id": "mysql_619",
+    "created_at": 1428903332,
+    "label": "maksi buah",
+    "value": 19000,
+    "updated_at": 1428903332
+  },
+  {
+    "id": "mysql_620",
+    "created_at": 1428929262,
+    "label": "indomi",
+    "value": 10000,
+    "updated_at": 1428929262
+  },
+  {
+    "id": "mysql_621",
+    "created_at": 1429007186,
+    "label": "sarapan",
+    "value": 7000,
+    "updated_at": 1429007186
+  },
+  {
+    "id": "mysql_622",
+    "created_at": 1429007209,
+    "label": "maksi",
+    "value": 20500,
+    "updated_at": 1429007209
+  },
+  {
+    "id": "mysql_623",
+    "created_at": 1429007243,
+    "label": "akua",
+    "value": 29000,
+    "updated_at": 1429007243
+  },
+  {
+    "id": "mysql_624",
+    "created_at": 1429061176,
+    "label": "ngeteh",
+    "value": 2000,
+    "updated_at": 1429061176
+  },
+  {
+    "id": "mysql_625",
+    "created_at": 1429070149,
+    "label": "krl",
+    "value": 4000,
+    "updated_at": 1429070149
+  },
+  {
+    "id": "mysql_626",
+    "created_at": 1429082855,
+    "label": "makanenak",
+    "value": 150000,
+    "updated_at": 1429082855
+  },
+  {
+    "id": "mysql_627",
+    "created_at": 1429161199,
+    "label": "komik",
+    "value": 54000,
+    "updated_at": 1429161199
+  },
+  {
+    "id": "mysql_628",
+    "created_at": 1429161216,
+    "label": "maksi",
+    "value": 49000,
+    "updated_at": 1429161216
+  },
+  {
+    "id": "mysql_629",
+    "created_at": 1429161229,
+    "label": "buah",
+    "value": 73000,
+    "updated_at": 1429161229
+  },
+  {
+    "id": "mysql_630",
+    "created_at": 1429162789,
+    "label": "parkir",
+    "value": 5000,
+    "updated_at": 1429162789
+  },
+  {
+    "id": "mysql_631",
+    "created_at": 1429187402,
+    "label": "akua",
+    "value": 27000,
+    "updated_at": 1429187402
+  },
+  {
+    "id": "mysql_632",
+    "created_at": 1429243156,
+    "label": "dankin",
+    "value": 44000,
+    "updated_at": 1429243156
+  },
+  {
+    "id": "mysql_633",
+    "created_at": 1429247181,
+    "label": "maksi",
+    "value": 60000,
+    "updated_at": 1429247181
+  },
+  {
+    "id": "mysql_634",
+    "created_at": 1429255434,
+    "label": "parkir",
+    "value": 4000,
+    "updated_at": 1429255434
+  },
+  {
+    "id": "mysql_635",
+    "created_at": 1429326415,
+    "label": "sarapan",
+    "value": 19000,
+    "updated_at": 1429326415
+  },
+  {
+    "id": "mysql_636",
+    "created_at": 1429333316,
+    "label": "maksi",
+    "value": 11000,
+    "updated_at": 1429333316
+  },
+  {
+    "id": "mysql_637",
+    "created_at": 1429333604,
+    "label": "soklat",
+    "value": 38100,
+    "updated_at": 1429333604
+  },
+  {
+    "id": "mysql_638",
+    "created_at": 1429432840,
+    "label": "maksi",
+    "value": 63500,
+    "updated_at": 1429432840
+  },
+  {
+    "id": "mysql_639",
+    "created_at": 1429433991,
+    "label": "kudanan",
+    "value": 18000,
+    "updated_at": 1429433991
+  },
+  {
+    "id": "mysql_640",
+    "created_at": 1429482897,
+    "label": "bensin oli",
+    "value": 72000,
+    "updated_at": 1429482897
+  },
+  {
+    "id": "mysql_641",
+    "created_at": 1429513639,
+    "label": "ngeteh",
+    "value": 8000,
+    "updated_at": 1429513639
+  },
+  {
+    "id": "mysql_642",
+    "created_at": 1429513650,
+    "label": "maksibuah",
+    "value": 20000,
+    "updated_at": 1429513650
+  },
+  {
+    "id": "mysql_643",
+    "created_at": 1429518299,
+    "label": "servis",
+    "value": 70000,
+    "updated_at": 1429518299
+  },
+  {
+    "id": "mysql_644",
+    "created_at": 1429583318,
+    "label": "tehkacang",
+    "value": 12000,
+    "updated_at": 1429583318
+  },
+  {
+    "id": "mysql_645",
+    "created_at": 1429592103,
+    "label": "maksi",
+    "value": 14000,
+    "updated_at": 1429592103
+  },
+  {
+    "id": "mysql_646",
+    "created_at": 1429626243,
+    "label": "pisang",
+    "value": 16400,
+    "updated_at": 1429626243
+  },
+  {
+    "id": "mysql_647",
+    "created_at": 1429675941,
+    "label": "pdam",
+    "value": 35000,
+    "updated_at": 1429675941
+  },
+  {
+    "id": "mysql_648",
+    "created_at": 1429675951,
+    "label": "bensin",
+    "value": 19000,
+    "updated_at": 1429675951
+  },
+  {
+    "id": "mysql_649",
+    "created_at": 1429675959,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1429675959
+  },
+  {
+    "id": "mysql_650",
+    "created_at": 1429693793,
+    "label": "sate",
+    "value": 25000,
+    "updated_at": 1429693793
+  },
+  {
+    "id": "mysql_651",
+    "created_at": 1429766597,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1429766597
+  },
+  {
+    "id": "mysql_652",
+    "created_at": 1429794506,
+    "label": "roti",
+    "value": 15000,
+    "updated_at": 1429794506
+  },
+  {
+    "id": "mysql_653",
+    "created_at": 1429842204,
+    "label": "tehjahe",
+    "value": 5000,
+    "updated_at": 1429842204
+  },
+  {
+    "id": "mysql_654",
+    "created_at": 1429862160,
+    "label": "maksikomikbuah",
+    "value": 37500,
+    "updated_at": 1429862160
+  },
+  {
+    "id": "mysql_655",
+    "created_at": 1429927370,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1429927370
+  },
+  {
+    "id": "mysql_656",
+    "created_at": 1429940031,
+    "label": "maksibuah",
+    "value": 20000,
+    "updated_at": 1429940031
+  },
+  {
+    "id": "mysql_657",
+    "created_at": 1430044212,
+    "label": "parkir",
+    "value": 2000,
+    "updated_at": 1430044212
+  },
+  {
+    "id": "mysql_658",
+    "created_at": 1430044231,
+    "label": "bensin",
+    "value": 20000,
+    "updated_at": 1430044231
+  },
+  {
+    "id": "mysql_659",
+    "created_at": 1430044326,
+    "label": "maksi",
+    "value": 59000,
+    "updated_at": 1430044326
+  },
+  {
+    "id": "mysql_660",
+    "created_at": 1430110983,
+    "label": "maksibuah",
+    "value": 16000,
+    "updated_at": 1430110983
+  },
+  {
+    "id": "mysql_661",
+    "created_at": 1430179842,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1430179842
+  },
+  {
+    "id": "mysql_662",
+    "created_at": 1430197383,
+    "label": "maksi",
+    "value": 10000,
+    "updated_at": 1430197383
+  },
+  {
+    "id": "mysql_663",
+    "created_at": 1430272967,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1430272967
+  },
+  {
+    "id": "mysql_664",
+    "created_at": 1430305691,
+    "label": "maksibuah",
+    "value": 28000,
+    "updated_at": 1430305691
+  },
+  {
+    "id": "mysql_665",
+    "created_at": 1430372606,
+    "label": "bengsin",
+    "value": 21000,
+    "updated_at": 1430372606
+  },
+  {
+    "id": "mysql_666",
+    "created_at": 1430372615,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1430372615
+  },
+  {
+    "id": "mysql_667",
+    "created_at": 1430372628,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1430372628
+  },
+  {
+    "id": "mysql_668",
+    "created_at": 1430401705,
+    "label": "ban bangsat",
+    "value": 42000,
+    "updated_at": 1430401705
+  },
+  {
+    "id": "mysql_669",
+    "created_at": 1430474140,
+    "label": "krl",
+    "value": 10000,
+    "updated_at": 1430474140
+  },
+  {
+    "id": "mysql_670",
+    "created_at": 1430474157,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1430474157
+  },
+  {
+    "id": "mysql_671",
+    "created_at": 1430474186,
+    "label": "maksi",
+    "value": 70000,
+    "updated_at": 1430474186
+  },
+  {
+    "id": "mysql_672",
+    "created_at": 1430474202,
+    "label": "teh",
+    "value": 19000,
+    "updated_at": 1430474202
+  },
+  {
+    "id": "mysql_673",
+    "created_at": 1430533521,
+    "label": "parkir",
+    "value": 2000,
+    "updated_at": 1430533521
+  },
+  {
+    "id": "mysql_674",
+    "created_at": 1430533529,
+    "label": "kentangebi",
+    "value": 45000,
+    "updated_at": 1430533529
+  },
+  {
+    "id": "mysql_675",
+    "created_at": 1430533536,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1430533536
+  },
+  {
+    "id": "mysql_676",
+    "created_at": 1430635848,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1430635848
+  },
+  {
+    "id": "mysql_677",
+    "created_at": 1430636016,
+    "label": "rapel mi",
+    "value": 14000,
+    "updated_at": 1430636016
+  },
+  {
+    "id": "mysql_678",
+    "created_at": 1430641619,
+    "label": "indomi",
+    "value": 10000,
+    "updated_at": 1430641619
+  },
+  {
+    "id": "mysql_679",
+    "created_at": 1430651547,
+    "label": "roti",
+    "value": 40000,
+    "updated_at": 1430651547
+  },
+  {
+    "id": "mysql_680",
+    "created_at": 1430713766,
+    "label": "bensin",
+    "value": 23000,
+    "updated_at": 1430713766
+  },
+  {
+    "id": "mysql_681",
+    "created_at": 1430713773,
+    "label": "makan",
+    "value": 20000,
+    "updated_at": 1430713773
+  },
+  {
+    "id": "mysql_682",
+    "created_at": 1430732718,
+    "label": "capjaek",
+    "value": 14000,
+    "updated_at": 1430732718
+  },
+  {
+    "id": "mysql_683",
+    "created_at": 1430790025,
+    "label": "piknik",
+    "value": 50000,
+    "updated_at": 1430790025
+  },
+  {
+    "id": "mysql_684",
+    "created_at": 1430816685,
+    "label": "sarapan",
+    "value": 22000,
+    "updated_at": 1430816685
+  },
+  {
+    "id": "mysql_685",
+    "created_at": 1430836191,
+    "label": "makansore",
+    "value": 23000,
+    "updated_at": 1430836191
+  },
+  {
+    "id": "mysql_686",
+    "created_at": 1430872512,
+    "label": "krl juanda",
+    "value": 2000,
+    "updated_at": 1430872512
+  },
+  {
+    "id": "mysql_687",
+    "created_at": 1430886205,
+    "label": "akua",
+    "value": 3500,
+    "updated_at": 1430886205
+  },
+  {
+    "id": "mysql_688",
+    "created_at": 1430895185,
+    "label": "sabun",
+    "value": 48000,
+    "updated_at": 1430895185
+  },
+  {
+    "id": "mysql_689",
+    "created_at": 1430895193,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1430895193
+  },
+  {
+    "id": "mysql_690",
+    "created_at": 1430895216,
+    "label": "krl",
+    "value": 2000,
+    "updated_at": 1430895216
+  },
+  {
+    "id": "mysql_691",
+    "created_at": 1430977649,
+    "label": "tehjaherapelsarapan",
+    "value": 21000,
+    "updated_at": 1430977649
+  },
+  {
+    "id": "mysql_692",
+    "created_at": 1430977662,
+    "label": "buah",
+    "value": 6000,
+    "updated_at": 1430977662
+  },
+  {
+    "id": "mysql_693",
+    "created_at": 1430981682,
+    "label": "jeruknipis",
+    "value": 6000,
+    "updated_at": 1430981682
+  },
+  {
+    "id": "mysql_694",
+    "created_at": 1430983859,
+    "label": "pln",
+    "value": 123735,
+    "updated_at": 1430983859
+  },
+  {
+    "id": "mysql_695",
+    "created_at": 1430983880,
+    "label": "biaya pln",
+    "value": 3000,
+    "updated_at": 1430983880
+  },
+  {
+    "id": "mysql_696",
+    "created_at": 1430997646,
+    "label": "mi godhog",
+    "value": 11000,
+    "updated_at": 1430997646
+  },
+  {
+    "id": "mysql_697",
+    "created_at": 1431071793,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1431071793
+  },
+  {
+    "id": "mysql_698",
+    "created_at": 1431078831,
+    "label": "mi",
+    "value": 9100,
+    "updated_at": 1431078831
+  },
+  {
+    "id": "mysql_699",
+    "created_at": 1431132103,
+    "label": "bensin",
+    "value": 22000,
+    "updated_at": 1431132103
+  },
+  {
+    "id": "mysql_700",
+    "created_at": 1431132118,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1431132118
+  },
+  {
+    "id": "mysql_701",
+    "created_at": 1431162985,
+    "label": "sotojeruk",
+    "value": 16000,
+    "updated_at": 1431162985
+  },
+  {
+    "id": "mysql_702",
+    "created_at": 1431206650,
+    "label": "rt",
+    "value": 85000,
+    "updated_at": 1431206650
+  },
+  {
+    "id": "mysql_703",
+    "created_at": 1431266204,
+    "label": "sampo",
+    "value": 51200,
+    "updated_at": 1431266204
+  },
+  {
+    "id": "mysql_704",
+    "created_at": 1431323879,
+    "label": "sarapanmaksi",
+    "value": 4000,
+    "updated_at": 1431323879
+  },
+  {
+    "id": "mysql_705",
+    "created_at": 1431389035,
+    "label": "pitikrapel",
+    "value": 43000,
+    "updated_at": 1431389035
+  },
+  {
+    "id": "mysql_706",
+    "created_at": 1431407485,
+    "label": "maksi",
+    "value": 68000,
+    "updated_at": 1431407485
+  },
+  {
+    "id": "mysql_707",
+    "created_at": 1431410686,
+    "label": "bensin",
+    "value": 20000,
+    "updated_at": 1431410686
+  },
+  {
+    "id": "mysql_708",
+    "created_at": 1431434864,
+    "label": "pecel",
+    "value": 25000,
+    "updated_at": 1431434864
+  },
+  {
+    "id": "mysql_709",
+    "created_at": 1431497934,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1431497934
+  },
+  {
+    "id": "mysql_710",
+    "created_at": 1431497956,
+    "label": "maksi",
+    "value": 27500,
+    "updated_at": 1431497956
+  },
+  {
+    "id": "mysql_711",
+    "created_at": 1431566986,
+    "label": "rapel",
+    "value": 22000,
+    "updated_at": 1431566986
+  },
+  {
+    "id": "mysql_712",
+    "created_at": 1431582277,
+    "label": "maksi",
+    "value": 48000,
+    "updated_at": 1431582277
+  },
+  {
+    "id": "mysql_713",
+    "created_at": 1431582296,
+    "label": "dunkin",
+    "value": 57000,
+    "updated_at": 1431582296
+  },
+  {
+    "id": "mysql_714",
+    "created_at": 1431690015,
+    "label": "kartu kridit",
+    "value": 290003,
+    "updated_at": 1431690015
+  },
+  {
+    "id": "mysql_715",
+    "created_at": 1431690035,
+    "label": "rapel",
+    "value": 89000,
+    "updated_at": 1431690035
+  },
+  {
+    "id": "mysql_716",
+    "created_at": 1431690067,
+    "label": "sarapanmaksi",
+    "value": 35000,
+    "updated_at": 1431690067
+  },
+  {
+    "id": "mysql_717",
+    "created_at": 1431690078,
+    "label": "pulsa ibu",
+    "value": 100000,
+    "updated_at": 1431690078
+  },
+  {
+    "id": "mysql_718",
+    "created_at": 1431769540,
+    "label": "ngeteh",
+    "value": 40000,
+    "updated_at": 1431769540
+  },
+  {
+    "id": "mysql_719",
+    "created_at": 1431832426,
+    "label": "bensin",
+    "value": 19500,
+    "updated_at": 1431832426
+  },
+  {
+    "id": "mysql_720",
+    "created_at": 1431832440,
+    "label": "soklatrapel",
+    "value": 25000,
+    "updated_at": 1431832440
+  },
+  {
+    "id": "mysql_721",
+    "created_at": 1431869970,
+    "label": "nyamnyam",
+    "value": 44500,
+    "updated_at": 1431869970
+  },
+  {
+    "id": "mysql_722",
+    "created_at": 1431869993,
+    "label": "maksi",
+    "value": 14000,
+    "updated_at": 1431869993
+  },
+  {
+    "id": "mysql_723",
+    "created_at": 1431910492,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1431910492
+  },
+  {
+    "id": "mysql_724",
+    "created_at": 1432001761,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1432001761
+  },
+  {
+    "id": "mysql_725",
+    "created_at": 1432012288,
+    "label": "nasgor",
+    "value": 14000,
+    "updated_at": 1432012288
+  },
+  {
+    "id": "mysql_726",
+    "created_at": 1432026623,
+    "label": "pulsa",
+    "value": 50000,
+    "updated_at": 1432026623
+  },
+  {
+    "id": "mysql_727",
+    "created_at": 1432086126,
+    "label": "tehjahe",
+    "value": 13000,
+    "updated_at": 1432086126
+  },
+  {
+    "id": "mysql_728",
+    "created_at": 1432097204,
+    "label": "maksi",
+    "value": 14000,
+    "updated_at": 1432097204
+  },
+  {
+    "id": "mysql_729",
+    "created_at": 1432119315,
+    "label": "akua",
+    "value": 29700,
+    "updated_at": 1432119315
+  },
+  {
+    "id": "mysql_730",
+    "created_at": 1432163586,
+    "label": "bensin",
+    "value": 20000,
+    "updated_at": 1432163586
+  },
+  {
+    "id": "mysql_731",
+    "created_at": 1432174744,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1432174744
+  },
+  {
+    "id": "mysql_732",
+    "created_at": 1432198123,
+    "label": "maksi",
+    "value": 28000,
+    "updated_at": 1432198123
+  },
+  {
+    "id": "mysql_733",
+    "created_at": 1432276245,
+    "label": "jeruk",
+    "value": 6000,
+    "updated_at": 1432276245
+  },
+  {
+    "id": "mysql_734",
+    "created_at": 1432276272,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1432276272
+  },
+  {
+    "id": "mysql_735",
+    "created_at": 1432276285,
+    "label": "deterjen",
+    "value": 15000,
+    "updated_at": 1432276285
+  },
+  {
+    "id": "mysql_736",
+    "created_at": 1432276300,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1432276300
+  },
+  {
+    "id": "mysql_737",
+    "created_at": 1432364834,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1432364834
+  },
+  {
+    "id": "mysql_738",
+    "created_at": 1432364841,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1432364841
+  },
+  {
+    "id": "mysql_739",
+    "created_at": 1432446726,
+    "label": "soklat",
+    "value": 25200,
+    "updated_at": 1432446726
+  },
+  {
+    "id": "mysql_740",
+    "created_at": 1432446747,
+    "label": "maksi",
+    "value": 10000,
+    "updated_at": 1432446747
+  },
+  {
+    "id": "mysql_741",
+    "created_at": 1432529413,
+    "label": "rapel",
+    "value": 43000,
+    "updated_at": 1432529413
+  },
+  {
+    "id": "mysql_742",
+    "created_at": 1432529432,
+    "label": "taksi krl",
+    "value": 75000,
+    "updated_at": 1432529432
+  },
+  {
+    "id": "mysql_743",
+    "created_at": 1432529497,
+    "label": "sarapanmaksi",
+    "value": 31000,
+    "updated_at": 1432529497
+  },
+  {
+    "id": "mysql_744",
+    "created_at": 1432606863,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1432606863
+  },
+  {
+    "id": "mysql_745",
+    "created_at": 1432705382,
+    "label": "maksi",
+    "value": 42000,
+    "updated_at": 1432705382
+  },
+  {
+    "id": "mysql_746",
+    "created_at": 1432705408,
+    "label": "rapelan",
+    "value": 33000,
+    "updated_at": 1432705408
+  },
+  {
+    "id": "mysql_747",
+    "created_at": 1432729220,
+    "label": "mbakso",
+    "value": 14000,
+    "updated_at": 1432729220
+  },
+  {
+    "id": "mysql_748",
+    "created_at": 1432895771,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1432895771
+  },
+  {
+    "id": "mysql_749",
+    "created_at": 1432895786,
+    "label": "maksi",
+    "value": 27000,
+    "updated_at": 1432895786
+  },
+  {
+    "id": "mysql_750",
+    "created_at": 1432895877,
+    "label": "rapel",
+    "value": 50000,
+    "updated_at": 1432895877
+  },
+  {
+    "id": "mysql_751",
+    "created_at": 1432980113,
+    "label": "maksi",
+    "value": 150000,
+    "updated_at": 1432980113
+  },
+  {
+    "id": "mysql_752",
+    "created_at": 1433045025,
+    "label": "pdam",
+    "value": 48100,
+    "updated_at": 1433045025
+  },
+  {
+    "id": "mysql_753",
+    "created_at": 1433045038,
+    "label": "kangkung",
+    "value": 10000,
+    "updated_at": 1433045038
+  },
+  {
+    "id": "mysql_754",
+    "created_at": 1433075459,
+    "label": "makmal",
+    "value": 77000,
+    "updated_at": 1433075459
+  },
+  {
+    "id": "mysql_755",
+    "created_at": 1433075481,
+    "label": "rapel",
+    "value": 10000,
+    "updated_at": 1433075481
+  },
+  {
+    "id": "mysql_756",
+    "created_at": 1433122796,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1433122796
+  },
+  {
+    "id": "mysql_757",
+    "created_at": 1433203244,
+    "label": "rapel",
+    "value": 150000,
+    "updated_at": 1433203244
+  },
+  {
+    "id": "mysql_758",
+    "created_at": 1433233499,
+    "label": "pulsa simpati",
+    "value": 50000,
+    "updated_at": 1433233499
+  },
+  {
+    "id": "mysql_759",
+    "created_at": 1433233512,
+    "label": "pulsa xl",
+    "value": 25000,
+    "updated_at": 1433233512
+  },
+  {
+    "id": "mysql_760",
+    "created_at": 1433233529,
+    "label": "jus",
+    "value": 18000,
+    "updated_at": 1433233529
+  },
+  {
+    "id": "mysql_761",
+    "created_at": 1433302830,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1433302830
+  },
+  {
+    "id": "mysql_762",
+    "created_at": 1433393897,
+    "label": "sarapanmaksi",
+    "value": 27000,
+    "updated_at": 1433393897
+  },
+  {
+    "id": "mysql_763",
+    "created_at": 1433462498,
+    "label": "rapel",
+    "value": 23000,
+    "updated_at": 1433462498
+  },
+  {
+    "id": "mysql_764",
+    "created_at": 1433462535,
+    "label": "rapelmaning",
+    "value": 47000,
+    "updated_at": 1433462535
+  },
+  {
+    "id": "mysql_765",
+    "created_at": 1433492792,
+    "label": "maksi",
+    "value": 25000,
+    "updated_at": 1433492792
+  },
+  {
+    "id": "mysql_766",
+    "created_at": 1433492803,
+    "label": "pln",
+    "value": 132359,
+    "updated_at": 1433492803
+  },
+  {
+    "id": "mysql_767",
+    "created_at": 1433492838,
+    "label": "sarapan",
+    "value": 20500,
+    "updated_at": 1433492838
+  },
+  {
+    "id": "mysql_768",
+    "created_at": 1433637876,
+    "label": "rapel",
+    "value": 50000,
+    "updated_at": 1433637876
+  },
+  {
+    "id": "mysql_769",
+    "created_at": 1433652258,
+    "label": "teh",
+    "value": 7000,
+    "updated_at": 1433652258
+  },
+  {
+    "id": "mysql_770",
+    "created_at": 1433738825,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1433738825
+  },
+  {
+    "id": "mysql_771",
+    "created_at": 1433835105,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1433835105
+  },
+  {
+    "id": "mysql_772",
+    "created_at": 1433835120,
+    "label": "maksi",
+    "value": 32000,
+    "updated_at": 1433835120
+  },
+  {
+    "id": "mysql_773",
+    "created_at": 1433942327,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1433942327
+  },
+  {
+    "id": "mysql_774",
+    "created_at": 1433942369,
+    "label": "rapel",
+    "value": 12000,
+    "updated_at": 1433942369
+  },
+  {
+    "id": "mysql_775",
+    "created_at": 1434008298,
+    "label": "sarapanpompa",
+    "value": 15000,
+    "updated_at": 1434008298
+  },
+  {
+    "id": "mysql_776",
+    "created_at": 1434087358,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1434087358
+  },
+  {
+    "id": "mysql_777",
+    "created_at": 1434087375,
+    "label": "rapel",
+    "value": 21000,
+    "updated_at": 1434087375
+  },
+  {
+    "id": "mysql_778",
+    "created_at": 1434432128,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1434432128
+  },
+  {
+    "id": "mysql_779",
+    "created_at": 1434586585,
+    "label": "rapel bengsin",
+    "value": 25000,
+    "updated_at": 1434586585
+  },
+  {
+    "id": "mysql_780",
+    "created_at": 1434586596,
+    "label": "rapel sarapan",
+    "value": 15000,
+    "updated_at": 1434586596
+  },
+  {
+    "id": "mysql_781",
+    "created_at": 1434589961,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1434589961
+  },
+  {
+    "id": "mysql_782",
+    "created_at": 1434613601,
+    "label": "akua",
+    "value": 10000,
+    "updated_at": 1434613601
+  },
+  {
+    "id": "mysql_783",
+    "created_at": 1434613618,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1434613618
+  },
+  {
+    "id": "mysql_784",
+    "created_at": 1434718907,
+    "label": "bensin",
+    "value": 24000,
+    "updated_at": 1434718907
+  },
+  {
+    "id": "mysql_785",
+    "created_at": 1434719005,
+    "label": "maksi",
+    "value": 21000,
+    "updated_at": 1434719005
+  },
+  {
+    "id": "mysql_786",
+    "created_at": 1434719070,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1434719070
+  },
+  {
+    "id": "mysql_787",
+    "created_at": 1434719118,
+    "label": "rapel",
+    "value": 325000,
+    "updated_at": 1434719118
+  },
+  {
+    "id": "mysql_788",
+    "created_at": 1434763265,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1434763265
+  },
+  {
+    "id": "mysql_789",
+    "created_at": 1434763369,
+    "label": "kartukridit",
+    "value": 481910,
+    "updated_at": 1434763369
+  },
+  {
+    "id": "mysql_790",
+    "created_at": 1434793960,
+    "label": "sarapan",
+    "value": 16000,
+    "updated_at": 1434793960
+  },
+  {
+    "id": "mysql_791",
+    "created_at": 1434885195,
+    "label": "maksi",
+    "value": 60000,
+    "updated_at": 1434885195
+  },
+  {
+    "id": "mysql_792",
+    "created_at": 1434939511,
+    "label": "oli",
+    "value": 57000,
+    "updated_at": 1434939511
+  },
+  {
+    "id": "mysql_793",
+    "created_at": 1434939524,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1434939524
+  },
+  {
+    "id": "mysql_794",
+    "created_at": 1435101551,
+    "label": "rapel pulsa",
+    "value": 100000,
+    "updated_at": 1435101551
+  },
+  {
+    "id": "mysql_795",
+    "created_at": 1435101586,
+    "label": "rapel mangan",
+    "value": 50300,
+    "updated_at": 1435101586
+  },
+  {
+    "id": "mysql_796",
+    "created_at": 1435101601,
+    "label": "rapel servis",
+    "value": 55000,
+    "updated_at": 1435101601
+  },
+  {
+    "id": "mysql_797",
+    "created_at": 1435101718,
+    "label": "rapel air",
+    "value": 28000,
+    "updated_at": 1435101718
+  },
+  {
+    "id": "mysql_798",
+    "created_at": 1435101806,
+    "label": "rapel maksi",
+    "value": 21000,
+    "updated_at": 1435101806
+  },
+  {
+    "id": "mysql_799",
+    "created_at": 1435124639,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1435124639
+  },
+  {
+    "id": "mysql_800",
+    "created_at": 1435124691,
+    "label": "rawon",
+    "value": 29500,
+    "updated_at": 1435124691
+  },
+  {
+    "id": "mysql_801",
+    "created_at": 1435275358,
+    "label": "rapel",
+    "value": 20000,
+    "updated_at": 1435275358
+  },
+  {
+    "id": "mysql_802",
+    "created_at": 1435282594,
+    "label": "sarapan",
+    "value": 18000,
+    "updated_at": 1435282594
+  },
+  {
+    "id": "mysql_803",
+    "created_at": 1435307507,
+    "label": "maksi",
+    "value": 35000,
+    "updated_at": 1435307507
+  },
+  {
+    "id": "mysql_804",
+    "created_at": 1435415539,
+    "label": "kantong plastik",
+    "value": 110000,
+    "updated_at": 1435415539
+  },
+  {
+    "id": "mysql_805",
+    "created_at": 1435481542,
+    "label": "dunkin",
+    "value": 39000,
+    "updated_at": 1435481542
+  },
+  {
+    "id": "mysql_806",
+    "created_at": 1435481554,
+    "label": "maksi",
+    "value": 13000,
+    "updated_at": 1435481554
+  },
+  {
+    "id": "mysql_807",
+    "created_at": 1435555690,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1435555690
+  },
+  {
+    "id": "mysql_808",
+    "created_at": 1435555704,
+    "label": "maksi",
+    "value": 24000,
+    "updated_at": 1435555704
+  },
+  {
+    "id": "mysql_809",
+    "created_at": 1435571258,
+    "label": "nonton",
+    "value": 80000,
+    "updated_at": 1435571258
+  },
+  {
+    "id": "mysql_810",
+    "created_at": 1435641294,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1435641294
+  },
+  {
+    "id": "mysql_811",
+    "created_at": 1435641309,
+    "label": "lampu motor",
+    "value": 55000,
+    "updated_at": 1435641309
+  },
+  {
+    "id": "mysql_812",
+    "created_at": 1435641348,
+    "label": "wafer jeruk",
+    "value": 120000,
+    "updated_at": 1435641348
+  },
+  {
+    "id": "mysql_813",
+    "created_at": 1435641390,
+    "label": "iuran buko rt mbek sosial",
+    "value": 50000,
+    "updated_at": 1435641390
+  },
+  {
+    "id": "mysql_814",
+    "created_at": 1435649121,
+    "label": "pecel",
+    "value": 18000,
+    "updated_at": 1435649121
+  },
+  {
+    "id": "mysql_815",
+    "created_at": 1435718719,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1435718719
+  },
+  {
+    "id": "mysql_816",
+    "created_at": 1435755445,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1435755445
+  },
+  {
+    "id": "mysql_817",
+    "created_at": 1435755479,
+    "label": "nonton",
+    "value": 85000,
+    "updated_at": 1435755479
+  },
+  {
+    "id": "mysql_818",
+    "created_at": 1435802310,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1435802310
+  },
+  {
+    "id": "mysql_819",
+    "created_at": 1435877746,
+    "label": "bensin",
+    "value": 25000,
+    "updated_at": 1435877746
+  },
+  {
+    "id": "mysql_820",
+    "created_at": 1435877768,
+    "label": "akua",
+    "value": 26500,
+    "updated_at": 1435877768
+  },
+  {
+    "id": "mysql_821",
+    "created_at": 1435877794,
+    "label": "pulsa xl",
+    "value": 50000,
+    "updated_at": 1435877794
+  },
+  {
+    "id": "mysql_822",
+    "created_at": 1435888531,
+    "label": "sarapan",
+    "value": 22000,
+    "updated_at": 1435888531
+  },
+  {
+    "id": "mysql_823",
+    "created_at": 1435907356,
+    "label": "maksi",
+    "value": 24000,
+    "updated_at": 1435907356
+  },
+  {
+    "id": "mysql_824",
+    "created_at": 1435980271,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1435980271
+  },
+  {
+    "id": "mysql_825",
+    "created_at": 1436002809,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1436002809
+  },
+  {
+    "id": "mysql_826",
+    "created_at": 1436149310,
+    "label": "rapel",
+    "value": 130000,
+    "updated_at": 1436149310
+  },
+  {
+    "id": "mysql_827",
+    "created_at": 1436149442,
+    "label": "pln",
+    "value": 126735,
+    "updated_at": 1436149442
+  },
+  {
+    "id": "mysql_828",
+    "created_at": 1436187860,
+    "label": "satpam",
+    "value": 185000,
+    "updated_at": 1436187860
+  },
+  {
+    "id": "mysql_829",
+    "created_at": 1436187886,
+    "label": "kari",
+    "value": 150000,
+    "updated_at": 1436187886
+  },
+  {
+    "id": "mysql_830",
+    "created_at": 1436274942,
+    "label": "sarapan",
+    "value": 20000,
+    "updated_at": 1436274942
+  },
+  {
+    "id": "mysql_831",
+    "created_at": 1436274955,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1436274955
+  },
+  {
+    "id": "mysql_832",
+    "created_at": 1436274965,
+    "label": "kaos",
+    "value": 60000,
+    "updated_at": 1436274965
+  },
+  {
+    "id": "mysql_833",
+    "created_at": 1436275003,
+    "label": "makmal",
+    "value": 26000,
+    "updated_at": 1436275003
+  },
+  {
+    "id": "mysql_834",
+    "created_at": 1436420242,
+    "label": "sarapan",
+    "value": 20000,
+    "updated_at": 1436420242
+  },
+  {
+    "id": "mysql_835",
+    "created_at": 1436420255,
+    "label": "bengsin",
+    "value": 22000,
+    "updated_at": 1436420255
+  },
+  {
+    "id": "mysql_836",
+    "created_at": 1436420293,
+    "label": "maksi",
+    "value": 14000,
+    "updated_at": 1436420293
+  },
+  {
+    "id": "mysql_837",
+    "created_at": 1436420332,
+    "label": "rapel",
+    "value": 50000,
+    "updated_at": 1436420332
+  },
+  {
+    "id": "mysql_838",
+    "created_at": 1436527109,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1436527109
+  },
+  {
+    "id": "mysql_839",
+    "created_at": 1436527131,
+    "label": "maksi",
+    "value": 14000,
+    "updated_at": 1436527131
+  },
+  {
+    "id": "mysql_840",
+    "created_at": 1436528008,
+    "label": "pulsa xl",
+    "value": 50000,
+    "updated_at": 1436528008
+  },
+  {
+    "id": "mysql_841",
+    "created_at": 1436607811,
+    "label": "sarapanmaksisnek",
+    "value": 31000,
+    "updated_at": 1436607811
+  },
+  {
+    "id": "mysql_842",
+    "created_at": 1436677156,
+    "label": "maksi",
+    "value": 71500,
+    "updated_at": 1436677156
+  },
+  {
+    "id": "mysql_843",
+    "created_at": 1436752342,
+    "label": "bensin",
+    "value": 23000,
+    "updated_at": 1436752342
+  },
+  {
+    "id": "mysql_844",
+    "created_at": 1436752351,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1436752351
+  },
+  {
+    "id": "mysql_845",
+    "created_at": 1436752380,
+    "label": "rapel",
+    "value": 33000,
+    "updated_at": 1436752380
+  },
+  {
+    "id": "mysql_846",
+    "created_at": 1436770746,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1436770746
+  },
+  {
+    "id": "mysql_847",
+    "created_at": 1436868126,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1436868126
+  },
+  {
+    "id": "mysql_848",
+    "created_at": 1436868140,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1436868140
+  },
+  {
+    "id": "mysql_849",
+    "created_at": 1436929417,
+    "label": "rapel nambal",
+    "value": 56000,
+    "updated_at": 1436929417
+  },
+  {
+    "id": "mysql_850",
+    "created_at": 1436929425,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1436929425
+  },
+  {
+    "id": "mysql_851",
+    "created_at": 1437008407,
+    "label": "bengsin",
+    "value": 22000,
+    "updated_at": 1437008407
+  },
+  {
+    "id": "mysql_852",
+    "created_at": 1437008440,
+    "label": "rapel maksi",
+    "value": 21000,
+    "updated_at": 1437008440
+  },
+  {
+    "id": "mysql_853",
+    "created_at": 1437008451,
+    "label": "rapel makmal",
+    "value": 26000,
+    "updated_at": 1437008451
+  },
+  {
+    "id": "mysql_854",
+    "created_at": 1437031854,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1437031854
+  },
+  {
+    "id": "mysql_855",
+    "created_at": 1437031871,
+    "label": "nambal kathok",
+    "value": 25000,
+    "updated_at": 1437031871
+  },
+  {
+    "id": "mysql_856",
+    "created_at": 1437045426,
+    "label": "pisang",
+    "value": 51000,
+    "updated_at": 1437045426
+  },
+  {
+    "id": "mysql_857",
+    "created_at": 1437045454,
+    "label": "pdam",
+    "value": 28000,
+    "updated_at": 1437045454
+  },
+  {
+    "id": "mysql_858",
+    "created_at": 1437138187,
+    "label": "xl",
+    "value": 50000,
+    "updated_at": 1437138187
+  },
+  {
+    "id": "mysql_859",
+    "created_at": 1437274063,
+    "label": "rapel",
+    "value": 43000,
+    "updated_at": 1437274063
+  },
+  {
+    "id": "mysql_860",
+    "created_at": 1437274600,
+    "label": "rapel",
+    "value": 43000,
+    "updated_at": 1437274600
+  },
+  {
+    "id": "mysql_861",
+    "created_at": 1437369816,
+    "label": "oatmeal",
+    "value": 23000,
+    "updated_at": 1437369816
+  },
+  {
+    "id": "mysql_862",
+    "created_at": 1437457361,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1437457361
+  },
+  {
+    "id": "mysql_863",
+    "created_at": 1437457370,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1437457370
+  },
+  {
+    "id": "mysql_864",
+    "created_at": 1437563885,
+    "label": "raoel",
+    "value": 36000,
+    "updated_at": 1437563885
+  },
+  {
+    "id": "mysql_865",
+    "created_at": 1437563903,
+    "label": "ban asuuuuu",
+    "value": 40000,
+    "updated_at": 1437563903
+  },
+  {
+    "id": "mysql_866",
+    "created_at": 1437563941,
+    "label": "makan",
+    "value": 52000,
+    "updated_at": 1437563941
+  },
+  {
+    "id": "mysql_867",
+    "created_at": 1437688368,
+    "label": "rapel",
+    "value": 21000,
+    "updated_at": 1437688368
+  },
+  {
+    "id": "mysql_868",
+    "created_at": 1437795906,
+    "label": "sarapan",
+    "value": 14000,
+    "updated_at": 1437795906
+  },
+  {
+    "id": "mysql_869",
+    "created_at": 1437795925,
+    "label": "dankin",
+    "value": 44000,
+    "updated_at": 1437795925
+  },
+  {
+    "id": "mysql_870",
+    "created_at": 1437795939,
+    "label": "pisang",
+    "value": 43700,
+    "updated_at": 1437795939
+  },
+  {
+    "id": "mysql_871",
+    "created_at": 1437797409,
+    "label": "maksi",
+    "value": 71500,
+    "updated_at": 1437797409
+  },
+  {
+    "id": "mysql_872",
+    "created_at": 1437803093,
+    "label": "parkir",
+    "value": 3000,
+    "updated_at": 1437803093
+  },
+  {
+    "id": "mysql_873",
+    "created_at": 1437809159,
+    "label": "roti",
+    "value": 39500,
+    "updated_at": 1437809159
+  },
+  {
+    "id": "mysql_874",
+    "created_at": 1437809165,
+    "label": "roti",
+    "value": 39500,
+    "updated_at": 1437809165
+  },
+  {
+    "id": "mysql_875",
+    "created_at": 1437828586,
+    "label": "xl",
+    "value": 50000,
+    "updated_at": 1437828586
+  },
+  {
+    "id": "mysql_876",
+    "created_at": 1437898054,
+    "label": "maksi",
+    "value": 36000,
+    "updated_at": 1437898054
+  },
+  {
+    "id": "mysql_877",
+    "created_at": 1437955389,
+    "label": "pulsa ibu",
+    "value": 100000,
+    "updated_at": 1437955389
+  },
+  {
+    "id": "mysql_878",
+    "created_at": 1437959495,
+    "label": "sarapan",
+    "value": 20000,
+    "updated_at": 1437959495
+  },
+  {
+    "id": "mysql_879",
+    "created_at": 1437979499,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1437979499
+  },
+  {
+    "id": "mysql_880",
+    "created_at": 1437989415,
+    "label": "ban",
+    "value": 220000,
+    "updated_at": 1437989415
+  },
+  {
+    "id": "mysql_881",
+    "created_at": 1437989428,
+    "label": "bubur",
+    "value": 10000,
+    "updated_at": 1437989428
+  },
+  {
+    "id": "mysql_882",
+    "created_at": 1437990796,
+    "label": "somay semangka",
+    "value": 23000,
+    "updated_at": 1437990796
+  },
+  {
+    "id": "mysql_883",
+    "created_at": 1438001300,
+    "label": "tes",
+    "value": 1,
+    "updated_at": 1438001300
+  },
+  {
+    "id": "mysql_884",
+    "created_at": 1438062315,
+    "label": "maksi",
+    "value": 24000,
+    "updated_at": 1438062315
+  },
+  {
+    "id": "mysql_885",
+    "created_at": 1438062346,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1438062346
+  },
+  {
+    "id": "mysql_886",
+    "created_at": 1438131541,
+    "label": "rapel bensin",
+    "value": 48800,
+    "updated_at": 1438131541
+  },
+  {
+    "id": "mysql_887",
+    "created_at": 1438132158,
+    "label": "sarapan",
+    "value": 19000,
+    "updated_at": 1438132158
+  },
+  {
+    "id": "mysql_888",
+    "created_at": 1438148055,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1438148055
+  },
+  {
+    "id": "mysql_889",
+    "created_at": 1438227100,
+    "label": "sarapan",
+    "value": 8000,
+    "updated_at": 1438227100
+  },
+  {
+    "id": "mysql_890",
+    "created_at": 1438227109,
+    "label": "pulsa",
+    "value": 50000,
+    "updated_at": 1438227109
+  },
+  {
+    "id": "mysql_891",
+    "created_at": 1438237343,
+    "label": "gantiban senen",
+    "value": 13800,
+    "updated_at": 1438237343
+  },
+  {
+    "id": "mysql_892",
+    "created_at": 1438238373,
+    "label": "nyumbang",
+    "value": 50000,
+    "updated_at": 1438238373
+  },
+  {
+    "id": "mysql_893",
+    "created_at": 1438318215,
+    "label": "rapel",
+    "value": 75000,
+    "updated_at": 1438318215
+  },
+  {
+    "id": "mysql_894",
+    "created_at": 1438318229,
+    "label": "maksi",
+    "value": 15000,
+    "updated_at": 1438318229
+  },
+  {
+    "id": "mysql_895",
+    "created_at": 1438322294,
+    "label": "kates",
+    "value": 6000,
+    "updated_at": 1438322294
+  },
+  {
+    "id": "mysql_896",
+    "created_at": 1438387360,
+    "label": "tol",
+    "value": 14000,
+    "updated_at": 1438387360
+  },
+  {
+    "id": "mysql_897",
+    "created_at": 1438389089,
+    "label": "taksi",
+    "value": 120000,
+    "updated_at": 1438389089
+  },
+  {
+    "id": "mysql_898",
+    "created_at": 1438389105,
+    "label": "nggubet plastik akua",
+    "value": 60000,
+    "updated_at": 1438389105
+  },
+  {
+    "id": "mysql_899",
+    "created_at": 1438528107,
+    "label": "rapel",
+    "value": 136000,
+    "updated_at": 1438528107
+  },
+  {
+    "id": "mysql_900",
+    "created_at": 1438528141,
+    "label": "taksi",
+    "value": 140000,
+    "updated_at": 1438528141
+  },
+  {
+    "id": "mysql_901",
+    "created_at": 1438528233,
+    "label": "mi godhog dll",
+    "value": 102000,
+    "updated_at": 1438528233
+  },
+  {
+    "id": "mysql_902",
+    "created_at": 1438565316,
+    "label": "fotokopi",
+    "value": 2000,
+    "updated_at": 1438565316
+  },
+  {
+    "id": "mysql_903",
+    "created_at": 1438749717,
+    "label": "taksi",
+    "value": 200000,
+    "updated_at": 1438749717
+  },
+  {
+    "id": "mysql_904",
+    "created_at": 1438749742,
+    "label": "rapel",
+    "value": 300000,
+    "updated_at": 1438749742
+  },
+  {
+    "id": "mysql_905",
+    "created_at": 1438777773,
+    "label": "maksi",
+    "value": 28000,
+    "updated_at": 1438777773
+  },
+  {
+    "id": "mysql_906",
+    "created_at": 1438777785,
+    "label": "bensin",
+    "value": 22000,
+    "updated_at": 1438777785
+  },
+  {
+    "id": "mysql_907",
+    "created_at": 1438837215,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1438837215
+  },
+  {
+    "id": "mysql_908",
+    "created_at": 1438837229,
+    "label": "akua",
+    "value": 4000,
+    "updated_at": 1438837229
+  },
+  {
+    "id": "mysql_909",
+    "created_at": 1438838106,
+    "label": "soto",
+    "value": 11000,
+    "updated_at": 1438838106
+  },
+  {
+    "id": "mysql_910",
+    "created_at": 1438908702,
+    "label": "sarapan",
+    "value": 17000,
+    "updated_at": 1438908702
+  },
+  {
+    "id": "mysql_911",
+    "created_at": 1438923894,
+    "label": "maksi semangka",
+    "value": 46000,
+    "updated_at": 1438923894
+  },
+  {
+    "id": "mysql_912",
+    "created_at": 1438950004,
+    "label": "akua",
+    "value": 30000,
+    "updated_at": 1438950004
+  },
+  {
+    "id": "mysql_913",
+    "created_at": 1438997289,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1438997289
+  },
+  {
+    "id": "mysql_914",
+    "created_at": 1439008024,
+    "label": "maksi",
+    "value": 20000,
+    "updated_at": 1439008024
+  },
+  {
+    "id": "mysql_915",
+    "created_at": 1439030086,
+    "label": "klengkeng",
+    "value": 77000,
+    "updated_at": 1439030086
+  },
+  {
+    "id": "mysql_916",
+    "created_at": 1439100623,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1439100623
+  },
+  {
+    "id": "mysql_917",
+    "created_at": 1439113905,
+    "label": "daktarin",
+    "value": 123000,
+    "updated_at": 1439113905
+  },
+  {
+    "id": "mysql_918",
+    "created_at": 1439172723,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1439172723
+  },
+  {
+    "id": "mysql_919",
+    "created_at": 1439172752,
+    "label": "rapel kari",
+    "value": 42000,
+    "updated_at": 1439172752
+  },
+  {
+    "id": "mysql_920",
+    "created_at": 1439172765,
+    "label": "bensin",
+    "value": 25000,
+    "updated_at": 1439172765
+  },
+  {
+    "id": "mysql_921",
+    "created_at": 1439272386,
+    "label": "sarapan",
+    "value": 11000,
+    "updated_at": 1439272386
+  },
+  {
+    "id": "mysql_922",
+    "created_at": 1439272434,
+    "label": "rapel maksi komik",
+    "value": 50000,
+    "updated_at": 1439272434
+  },
+  {
+    "id": "mysql_923",
+    "created_at": 1439272441,
+    "label": "maksi",
+    "value": 16500,
+    "updated_at": 1439272441
+  },
+  {
+    "id": "mysql_924",
+    "created_at": 1439272531,
+    "label": "pln",
+    "value": 126735,
+    "updated_at": 1439272531
+  },
+  {
+    "id": "mysql_925",
+    "created_at": 1439345117,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1439345117
+  },
+  {
+    "id": "mysql_926",
+    "created_at": 1439345143,
+    "label": "rapel somay",
+    "value": 10000,
+    "updated_at": 1439345143
+  },
+  {
+    "id": "mysql_927",
+    "created_at": 1439378588,
+    "label": "nangka",
+    "value": 44000,
+    "updated_at": 1439378588
+  },
+  {
+    "id": "mysql_928",
+    "created_at": 1439432651,
+    "label": "tehjahe",
+    "value": 10000,
+    "updated_at": 1439432651
+  },
+  {
+    "id": "mysql_929",
+    "created_at": 1439517422,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1439517422
+  },
+  {
+    "id": "mysql_930",
+    "created_at": 1439590707,
+    "label": "rapel maksibuah",
+    "value": 21000,
+    "updated_at": 1439590707
+  },
+  {
+    "id": "mysql_931",
+    "created_at": 1439590733,
+    "label": "rapel roti",
+    "value": 29000,
+    "updated_at": 1439590733
+  },
+  {
+    "id": "mysql_932",
+    "created_at": 1439616625,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1439616625
+  },
+  {
+    "id": "mysql_933",
+    "created_at": 1439616635,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1439616635
+  },
+  {
+    "id": "mysql_934",
+    "created_at": 1439616647,
+    "label": "cucimontor",
+    "value": 10000,
+    "updated_at": 1439616647
+  },
+  {
+    "id": "mysql_935",
+    "created_at": 1439934580,
+    "label": "rapel",
+    "value": 100000,
+    "updated_at": 1439934580
+  },
+  {
+    "id": "mysql_936",
+    "created_at": 1439985265,
+    "label": "nangka",
+    "value": 18000,
+    "updated_at": 1439985265
+  },
+  {
+    "id": "mysql_937",
+    "created_at": 1439985290,
+    "label": "sarapan buah",
+    "value": 25000,
+    "updated_at": 1439985290
+  },
+  {
+    "id": "mysql_938",
+    "created_at": 1440063962,
+    "label": "maksi bubur",
+    "value": 39000,
+    "updated_at": 1440063962
+  },
+  {
+    "id": "mysql_939",
+    "created_at": 1440064060,
+    "label": "sarapan",
+    "value": 22000,
+    "updated_at": 1440064060
+  },
+  {
+    "id": "mysql_940",
+    "created_at": 1440064086,
+    "label": "air",
+    "value": 33500,
+    "updated_at": 1440064086
+  },
+  {
+    "id": "mysql_941",
+    "created_at": 1440064528,
+    "label": "empal",
+    "value": 16000,
+    "updated_at": 1440064528
+  },
+  {
+    "id": "mysql_942",
+    "created_at": 1440120270,
+    "label": "sarapan",
+    "value": 20000,
+    "updated_at": 1440120270
+  },
+  {
+    "id": "mysql_943",
+    "created_at": 1440120304,
+    "label": "rapel bubur",
+    "value": 10000,
+    "updated_at": 1440120304
+  },
+  {
+    "id": "mysql_944",
+    "created_at": 1440134599,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1440134599
+  },
+  {
+    "id": "mysql_945",
+    "created_at": 1440193494,
+    "label": "rapel colokan",
+    "value": 64000,
+    "updated_at": 1440193494
+  },
+  {
+    "id": "mysql_946",
+    "created_at": 1440225034,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1440225034
+  },
+  {
+    "id": "mysql_947",
+    "created_at": 1440225051,
+    "label": "sarapan",
+    "value": 15000,
+    "updated_at": 1440225051
+  },
+  {
+    "id": "mysql_948",
+    "created_at": 1440291860,
+    "label": "roti",
+    "value": 34000,
+    "updated_at": 1440291860
+  },
+  {
+    "id": "mysql_949",
+    "created_at": 1440291880,
+    "label": "bensin",
+    "value": 25000,
+    "updated_at": 1440291880
+  },
+  {
+    "id": "mysql_950",
+    "created_at": 1440291904,
+    "label": "kopi",
+    "value": 30000,
+    "updated_at": 1440291904
+  },
+  {
+    "id": "mysql_951",
+    "created_at": 1440291926,
+    "label": "sosial rt",
+    "value": 50000,
+    "updated_at": 1440291926
+  },
+  {
+    "id": "mysql_952",
+    "created_at": 1440311175,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1440311175
+  },
+  {
+    "id": "mysql_953",
+    "created_at": 1440319470,
+    "label": "somay",
+    "value": 18000,
+    "updated_at": 1440319470
+  },
+  {
+    "id": "mysql_954",
+    "created_at": 1440383105,
+    "label": "oli",
+    "value": 53800,
+    "updated_at": 1440383105
+  },
+  {
+    "id": "mysql_955",
+    "created_at": 1440383215,
+    "label": "sarapan krl",
+    "value": 22000,
+    "updated_at": 1440383215
+  },
+  {
+    "id": "mysql_956",
+    "created_at": 1440417032,
+    "label": "maksi",
+    "value": 13000,
+    "updated_at": 1440417032
+  },
+  {
+    "id": "mysql_957",
+    "created_at": 1440417041,
+    "label": "bubur",
+    "value": 12000,
+    "updated_at": 1440417041
+  },
+  {
+    "id": "mysql_958",
+    "created_at": 1440417062,
+    "label": "krl",
+    "value": 2000,
+    "updated_at": 1440417062
+  },
+  {
+    "id": "mysql_959",
+    "created_at": 1440417239,
+    "label": "tagsi",
+    "value": 85000,
+    "updated_at": 1440417239
+  },
+  {
+    "id": "mysql_960",
+    "created_at": 1440465617,
+    "label": "sarapan",
+    "value": 20000,
+    "updated_at": 1440465617
+  },
+  {
+    "id": "mysql_961",
+    "created_at": 1440482270,
+    "label": "maksi",
+    "value": 11000,
+    "updated_at": 1440482270
+  },
+  {
+    "id": "mysql_962",
+    "created_at": 1440499060,
+    "label": "bakso",
+    "value": 16000,
+    "updated_at": 1440499060
+  },
+  {
+    "id": "mysql_963",
+    "created_at": 1440499096,
+    "label": "servis",
+    "value": 84700,
+    "updated_at": 1440499096
+  },
+  {
+    "id": "mysql_964",
+    "created_at": 1440567632,
+    "label": "maksi",
+    "value": 27500,
+    "updated_at": 1440567632
+  },
+  {
+    "id": "mysql_965",
+    "created_at": 1440567660,
+    "label": "sarapan",
+    "value": 10000,
+    "updated_at": 1440567660
+  },
+  {
+    "id": "mysql_966",
+    "created_at": 1440635370,
+    "label": "bensin",
+    "value": 21000,
+    "updated_at": 1440635370
+  },
+  {
+    "id": "mysql_967",
+    "created_at": 1440640368,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1440640368
+  },
+  {
+    "id": "mysql_968",
+    "created_at": 1440732158,
+    "label": "rapel",
+    "value": 31000,
+    "updated_at": 1440732158
+  },
+  {
+    "id": "mysql_969",
+    "created_at": 1440732176,
+    "label": "sarapan",
+    "value": 13000,
+    "updated_at": 1440732176
+  },
+  {
+    "id": "mysql_970",
+    "created_at": 1440971662,
+    "label": "rapelan",
+    "value": 300000,
+    "updated_at": 1440971662
+  },
+  {
+    "id": "mysql_971",
+    "created_at": 1440997374,
+    "label": "sarapan maksi",
+    "value": 35000,
+    "updated_at": 1440997374
+  },
+  {
+    "id": "mysql_972",
+    "created_at": 1441059836,
+    "label": "bensin dkk",
+    "value": 32000,
+    "updated_at": 1441059836
+  },
+  {
+    "id": "mysql_973",
+    "created_at": 1441116119,
+    "label": "sarapan",
+    "value": 19000,
+    "updated_at": 1441116119
+  },
+  {
+    "id": "mysql_974",
+    "created_at": 1441116128,
+    "label": "buah",
+    "value": 9000,
+    "updated_at": 1441116128
+  },
+  {
+    "id": "mysql_975",
+    "created_at": 1441116139,
+    "label": "makmal",
+    "value": 19000,
+    "updated_at": 1441116139
+  },
+  {
+    "id": "mysql_976",
+    "created_at": 1441163769,
+    "label": "sarapa",
+    "value": 27000,
+    "updated_at": 1441163769
+  },
+  {
+    "id": "mysql_977",
+    "created_at": 1441163779,
+    "label": "buah",
+    "value": 9000,
+    "updated_at": 1441163779
+  },
+  {
+    "id": "mysql_978",
+    "created_at": 1441195429,
+    "label": "somay",
+    "value": 10000,
+    "updated_at": 1441195429
+  },
+  {
+    "id": "mysql_979",
+    "created_at": 1441195450,
+    "label": "maksi",
+    "value": 14500,
+    "updated_at": 1441195450
+  },
+  {
+    "id": "mysql_980",
+    "created_at": 1441195485,
+    "label": "bolot",
+    "value": 600000,
+    "updated_at": 1441195485
+  },
+  {
+    "id": "mysql_981",
+    "created_at": 1441264920,
+    "label": "sarapan",
+    "value": 19000,
+    "updated_at": 1441264920
+  },
+  {
+    "id": "mysql_982",
+    "created_at": 1441341530,
+    "label": "sarapan",
+    "value": 18000,
+    "updated_at": 1441341530
+  },
+  {
+    "id": "mysql_983",
+    "created_at": 1441341908,
+    "label": "balsem",
+    "value": 14000,
+    "updated_at": 1441341908
+  },
+  {
+    "id": "mysql_984",
+    "created_at": 1441342048,
+    "label": "rapel",
+    "value": 59000,
+    "updated_at": 1441342048
+  },
+  {
+    "id": "mysql_985",
+    "created_at": 1441441851,
+    "label": "maksi",
+    "value": 32000,
+    "updated_at": 1441441851
+  },
+  {
+    "id": "mysql_986",
+    "created_at": 1441442031,
+    "label": "pln",
+    "value": 126735,
+    "updated_at": 1441442031
+  },
+  {
+    "id": "mysql_987",
+    "created_at": 1441512127,
+    "label": "bensin",
+    "value": 25000,
+    "updated_at": 1441512127
+  },
+  {
+    "id": "mysql_988",
+    "created_at": 1441519809,
+    "label": "gadogado mundhak regane",
+    "value": 12000,
+    "updated_at": 1441519809
+  },
+  {
+    "id": "mysql_989",
+    "created_at": 1441536846,
+    "label": "kiwi",
+    "value": 56000,
+    "updated_at": 1441536846
+  },
+  {
+    "id": "mysql_990",
+    "created_at": 1441536865,
+    "label": "rapel roti",
+    "value": 60000,
+    "updated_at": 1441536865
+  },
+  {
+    "id": "mysql_991",
+    "created_at": 1441618262,
+    "label": "maksi",
+    "value": 41000,
+    "updated_at": 1441618262
+  },
+  {
+    "id": "mysql_992",
+    "created_at": 1441689771,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1441689771
+  },
+  {
+    "id": "mysql_993",
+    "created_at": 1441691665,
+    "label": "kates",
+    "value": 6000,
+    "updated_at": 1441691665
+  },
+  {
+    "id": "mysql_994",
+    "created_at": 1441770833,
+    "label": "pdam",
+    "value": 29500,
+    "updated_at": 1441770833
+  },
+  {
+    "id": "mysql_995",
+    "created_at": 1441873285,
+    "label": "buwah",
+    "value": 8000,
+    "updated_at": 1441873285
+  },
+  {
+    "id": "mysql_996",
+    "created_at": 1441873382,
+    "label": "rapel",
+    "value": 22000,
+    "updated_at": 1441873382
+  },
+  {
+    "id": "mysql_997",
+    "created_at": 1441893026,
+    "label": "bensin",
+    "value": 18000,
+    "updated_at": 1441893026
+  },
+  {
+    "id": "mysql_998",
+    "created_at": 1441893054,
+    "label": "soklat",
+    "value": 8000,
+    "updated_at": 1441893054
+  },
+  {
+    "id": "mysql_999",
+    "created_at": 1441961844,
+    "label": "maksi",
+    "value": 40000,
+    "updated_at": 1441961844
+  },
+  {
+    "id": "mysql_1000",
+    "created_at": 1442036988,
+    "label": "gadogado buwah",
+    "value": 21000,
+    "updated_at": 1442036988
+  },
+  {
+    "id": "mysql_1001",
+    "created_at": 1442043734,
+    "label": "kartukridit",
+    "value": 686018,
+    "updated_at": 1442043734
+  },
+  {
+    "id": "mysql_1002",
+    "created_at": 1442288024,
+    "label": "sarapan",
+    "value": 6000,
+    "updated_at": 1442288024
+  },
+  {
+    "id": "mysql_1003",
+    "created_at": 1442288231,
+    "label": "rapel server njeplak",
+    "value": 150000,
+    "updated_at": 1442288231
+  },
+  {
+    "id": "mysql_1004",
+    "created_at": 1442288240,
+    "label": "bengsin",
+    "value": 20000,
+    "updated_at": 1442288240
+  },
+  {
+    "id": "mysql_1005",
+    "created_at": 1442288249,
+    "label": "buah",
+    "value": 6000,
+    "updated_at": 1442288249
+  },
+  {
+    "id": "mysql_1006",
+    "created_at": 1442288541,
+    "label": "tes",
+    "value": 1,
+    "updated_at": 1442288541
+  },
+  {
+    "id": "mysql_1007",
+    "created_at": 1442293926,
+    "label": "maksi",
+    "value": 17000,
+    "updated_at": 1442293926
+  },
+  {
+    "id": "mysql_1008",
+    "created_at": 1442313093,
+    "label": "bawang sampo",
+    "value": 120000,
+    "updated_at": 1442313093
+  },
+  {
+    "id": "mysql_1009",
+    "created_at": 1442379642,
+    "label": "tuna",
+    "value": 13000,
+    "updated_at": 1442379642
+  },
+  {
+    "id": "mysql_1010",
+    "created_at": 1442379661,
+    "label": "maksi",
+    "value": 23000,
+    "updated_at": 1442379661
+  },
+  {
+    "id": "mysql_1011",
+    "created_at": 1442380915,
+    "label": "esteh",
+    "value": 2000,
+    "updated_at": 1442380915
+  },
+  {
+    "id": "mysql_1012",
+    "created_at": 1442383844,
+    "label": "buwah",
+    "value": 6000,
+    "updated_at": 1442383844
+  },
+  {
+    "id": "mysql_1013",
+    "created_at": 1442398256,
+    "label": "alteko",
+    "value": 27400,
+    "updated_at": 1442398256
+  },
+  {
+    "id": "mysql_1014",
+    "created_at": 1442456242,
+    "label": "tuna",
+    "value": 13000,
+    "updated_at": 1442456242
+  },
+  {
+    "id": "mysql_1015",
+    "created_at": 1442491559,
+    "label": "akua",
+    "value": 12400,
+    "updated_at": 1442491559
+  },
+  {
+    "id": "mysql_1016",
+    "created_at": 1442491596,
+    "label": "pecel",
+    "value": 10000,
+    "updated_at": 1442491596
+  },
+  {
+    "id": "mysql_1017",
+    "created_at": 1442537700,
+    "label": "bengsin",
+    "value": 21000,
+    "updated_at": 1442537700
+  },
+  {
+    "id": "mysql_1018",
+    "created_at": 1442542305,
+    "label": "teh jahe tempe",
+    "value": 10000,
+    "updated_at": 1442542305
+  },
+  {
+    "id": "mysql_1019",
+    "created_at": 1442635081,
+    "label": "ppjb gembus",
+    "value": 106000,
+    "updated_at": 1442635081
+  },
+  {
+    "id": "mysql_1020",
+    "created_at": 1442640416,
+    "label": "maksi",
+    "value": 16000,
+    "updated_at": 1442640416
+  },
+  {
+    "id": "mysql_1021",
+    "created_at": 1442644180,
+    "label": "milo",
+    "value": 12000,
+    "updated_at": 1442644180
+  },
+  {
+    "id": "mysql_1022",
+    "created_at": 1442654820,
+    "label": "tehjahe",
+    "value": 5000,
+    "updated_at": 1442654820
+  },
+  {
+    "id": "mysql_1023",
+    "created_at": 1442737503,
+    "label": "patin",
+    "value": 72300,
+    "updated_at": 1442737503
+  },
+  {
+    "id": "mysql_1024",
+    "created_at": 1442737515,
+    "label": "akua",
+    "value": 12000,
+    "updated_at": 1442737515
+  },
+  {
+    "id": "mysql_1025",
+    "created_at": 1442737530,
+    "label": "komik",
+    "value": 48000,
+    "updated_at": 1442737530
+  },
+  {
+    "id": "mysql_1026",
+    "created_at": 1442746830,
+    "label": "rapel roti",
+    "value": 112400,
+    "updated_at": 1442746830
+  },
+  {
+    "id": "mysql_1027",
+    "created_at": 1442803711,
+    "label": "tuna",
+    "value": 10000,
+    "updated_at": 1442803711
+  },
+  {
+    "id": "mysql_1028",
+    "created_at": 1442900926,
+    "label": "tuna maksi",
+    "value": 31000,
+    "updated_at": 1442900926
+  },
+  {
+    "id": "mysql_1029",
+    "created_at": 1442900957,
+    "label": "rapel",
+    "value": 12000,
+    "updated_at": 1442900957
+  },
+  {
+    "id": "mysql_1030",
+    "created_at": 1442903608,
+    "label": "buwah",
+    "value": 15000,
+    "updated_at": 1442903608
+  },
+  {
+    "id": "mysql_1031",
+    "created_at": 1442978835,
+    "label": "ikan kembung",
+    "value": 10000,
+    "updated_at": 1442978835
+  },
+  {
+    "id": "mysql_1032",
+    "created_at": 1442978855,
+    "label": "rapel mi",
+    "value": 15000,
+    "updated_at": 1442978855
+  },
+  {
+    "id": "mysql_1033",
+    "created_at": 1442985311,
+    "label": "maksi",
+    "value": 19000,
+    "updated_at": 1442985311
+  },
+  {
+    "id": "mysql_1034",
+    "created_at": 1442988660,
+    "label": "pelem",
+    "value": 10000,
+    "updated_at": 1442988660
+  },
+  {
+    "id": "mysql_1035",
+    "created_at": 1443051789,
+    "label": "rapel psang",
+    "value": 35700,
+    "updated_at": 1443051789
+  },
+  {
+    "id": "mysql_1036",
+    "created_at": 1443094727,
+    "label": "bengsin",
+    "value": 22000,
+    "updated_at": 1443094727
+  },
+  {
+    "id": "mysql_1037",
+    "created_at": 1443163965,
+    "label": "maksi buwah",
+    "value": 29000,
+    "updated_at": 1443163965
+  },
+  {
+    "id": "mysql_1038",
+    "created_at": 1443181938,
+    "label": "jus lotis",
+    "value": 16000,
+    "updated_at": 1443181938
+  },
+  {
+    "id": "mysql_1039",
+    "created_at": 1443267394,
+    "label": "sarapan",
+    "value": 9000,
+    "updated_at": 1443267394
+  },
+  {
+    "id": "mysql_1040",
+    "created_at": 1443267411,
+    "label": "pulsa ibu",
+    "value": 100000,
+    "updated_at": 1443267411
+  },
+  {
+    "id": "mysql_1041",
+    "created_at": 1443267431,
+    "label": "maksi",
+    "value": 18000,
+    "updated_at": 1443267431
+  },
+  {
+    "id": "mysql_1042",
+    "created_at": 1443267466,
+    "label": "roti",
+    "value": 50500,
+    "updated_at": 1443267466
+  },
+  {
+    "id": "mysql_1043",
+    "created_at": 1443272198,
+    "label": "pisang",
+    "value": 30500,
+    "updated_at": 1443272198
+  },
+  {
+    "id": "mysql_1044",
+    "created_at": 1443272215,
+    "label": "akua",
+    "value": 10500,
+    "updated_at": 1443272215
+  },
+  {
+    "id": "mysql_1045",
+    "created_at": 1443423497,
+    "label": "tuna",
+    "value": 10000,
+    "updated_at": 1443423497
+  },
+  {
+    "id": "mysql_1046",
+    "created_at": 1443423510,
+    "label": "rosella",
+    "value": 25000,
+    "updated_at": 1443423510
+  },
+  {
+    "id": "mysql_1047",
+    "created_at": 1444119387,
+    "label": "pln",
+    "value": 126735,
+    "updated_at": 1444119387
+  },
+  {
+    "id": "mysql_1048",
+    "created_at": 1444119526,
+    "label": "pulsa xl",
+    "value": 50000,
+    "updated_at": 1444119526
+  },
+  {
+    "id": "mysql_1049",
+    "created_at": 1444119568,
+    "label": "rapel jogja",
+    "value": 950000,
+    "updated_at": 1444119568
+  },
+  {
+    "id": "mysql_1050",
+    "created_at": 1444176588,
+    "label": "sarapan",
+    "value": 12000,
+    "updated_at": 1444176588
+  },
+  {
+    "id": "mysql_1051",
+    "created_at": 1444176624,
+    "label": "rapel makan",
+    "value": 51000,
+    "updated_at": 1444176624
+  },
+  {
+    "id": "mysql_1052",
+    "created_at": 1444176631,
+    "label": "bensin",
+    "value": 23000,
+    "updated_at": 1444176631
+  },
+  {
+    "id": "mysql_1053",
+    "created_at": 1444200732,
+    "label": "maksi",
+    "value": 17200,
+    "updated_at": 1444200732
+  },
+  {
+    "id": "mysql_1054",
+    "created_at": 1444200741,
+    "label": "buah",
+    "value": 9000,
+    "updated_at": 1444200741
+  },
+  {
+    "id": "mysql_1055",
+    "created_at": 1444255749,
+    "label": "rapel bubur",
+    "value": 9000,
+    "updated_at": 1444255749
+  }
+]

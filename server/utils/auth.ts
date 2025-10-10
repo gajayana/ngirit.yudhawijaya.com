@@ -1,5 +1,6 @@
 import { serverSupabaseUser, serverSupabaseClient } from '#supabase/server';
 import type { H3Event } from 'h3';
+import type { UserRoleData } from '~/utils/constants/role';
 
 /**
  * Get authenticated user ID from Supabase session
@@ -30,32 +31,32 @@ export async function checkUserRole(
   const userId = await getAuthenticatedUserId(event);
   const supabase = await serverSupabaseClient(event);
 
-  const { data: userRole, error: roleError } = await supabase
+  const { data, error } = await supabase
     .from('user_roles')
     .select('role, is_blocked')
     .eq('user_id', userId)
     .single();
 
-  if (roleError || !userRole) {
+  if (error || !data) {
     throw createError({
       statusCode: 403,
       statusMessage: 'Forbidden - No role found',
     });
   }
 
-  if (userRole.is_blocked) {
+  if ((data as UserRoleData).is_blocked) {
     throw createError({
       statusCode: 403,
       statusMessage: 'Forbidden - Account blocked',
     });
   }
 
-  if (!allowedRoles.includes(userRole.role)) {
+  if (!allowedRoles.includes((data as UserRoleData).role)) {
     throw createError({
       statusCode: 403,
       statusMessage: `Forbidden - Requires one of: ${allowedRoles.join(', ')}`,
     });
   }
 
-  return { userId, role: userRole.role };
+  return { userId, role: (data as UserRoleData).role };
 }

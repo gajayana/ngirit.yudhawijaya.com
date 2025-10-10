@@ -8,7 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "firestore:fetch": "tsx scripts/firestore.ts"
+    "firestore:fetch": "tsx scripts/firestore.ts",
+    "mysql:fetch": "tsx scripts/mysql.ts",
+    "data:merge": "tsx scripts/merge.ts"
   },
   "dependencies": {
     "@nuxt/fonts": "0.11.4",
