@@ -506,28 +506,82 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Mobile-optimized layout ready for widgets
 
 #### Dashboard Widgets (all in `/dashboard`)
-- [ ] **Today's Expenses Widget**
-  - List today's expenses sorted by `created_at DESC`
-  - Show: description, amount, time
-  - Mobile-optimized list with touch targets
-  - Use Decimal.js for amount calculations
-- [ ] **Monthly Summary Widget**
-  - Group current month's expenses by description/label
-  - Show: grouped label, total sum for each label
-  - Sorted by total sum DESC
-  - Use Decimal.js for all summations
-- [ ] **Expense Summary Card**
-  - Display total sum of today's expenses
-  - Display total sum of current month's expenses
-  - Show comparison/percentage if possible
-  - Use Decimal.js for all calculations
-- [ ] **Quick Add Expense Widget**
-  - Input field for description
-  - Input field for amount (number)
-  - Optional: category selector (nullable)
-  - Submit button to create expense
-  - Mobile-optimized with 48px+ touch targets
-  - Validate amount with Decimal.js before submission
+- [x] **Expense Summary Card** ✅ (Oct 10, 2025 - UI Only)
+  - [x] Display total sum of today's expenses
+  - [x] Display total sum of current month's expenses
+  - [x] Show comparison percentage with last month
+  - [x] Gradient cards with icons
+  - [x] Uses Decimal.js for formatting
+  - [ ] **Data integration pending**: Fetch real data from API
+  - [ ] **Realtime pending**: Subscribe to transactions channel
+
+- [x] **Quick Add Expense Widget** ✅ (Oct 10, 2025 - UI Only)
+  - [x] **Design**: Floating action button (bottom-right) with fullscreen dialog
+  - [x] **Smart Parser**: Single textarea with natural language parsing
+    - [x] Supports formats: "Makan 35000", "Bensin 50rb", "Parkir 5k"
+    - [x] Auto-extracts description and amount from input
+    - [x] Handles abbreviations: `rb`, `ribu`, `k` (multiply by 1000)
+    - [x] Real-time preview showing parsed data
+  - [x] **Mobile UX Optimizations**:
+    - [x] Fullscreen dialog on mobile (slides up from bottom)
+    - [x] Centered modal on desktop (scale transition)
+    - [x] Auto-focus textarea on open
+    - [x] Escape key to close
+    - [x] Touch-friendly buttons (52px min height)
+  - [x] Category selector (optional, 6 categories with emoji icons)
+  - [x] Success toast inside dialog
+  - [x] Validates amount with Decimal.js before submission
+  - [x] Uses Teleport API for fullscreen overlay
+  - [ ] **Data integration pending**: POST to `/api/v1/transactions`
+
+- [x] **Today's Expenses Widget** ✅ (Oct 10, 2025 - UI Only)
+  - [x] List today's expenses sorted by `created_at DESC`
+  - [x] Show: description, amount, time, category
+  - [x] Empty state when no expenses
+  - [x] "Show All" button when > 5 items
+  - [x] Mobile-optimized list with touch targets
+  - [x] Uses Decimal.js for amount calculations
+  - [ ] **Data integration pending**: Fetch today's transactions from API
+  - [ ] **Realtime pending**: Auto-update on new transactions
+
+- [x] **Monthly Summary Widget** ✅ (Oct 10, 2025 - UI Only)
+  - [x] Group current month's expenses by category/label
+  - [x] Show: grouped label, total sum, transaction count
+  - [x] Progress bars showing percentage of total
+  - [x] Sorted by total sum DESC
+  - [x] Total footer with monthly sum
+  - [x] Uses Decimal.js for all summations
+  - [ ] **Data integration pending**: Fetch monthly aggregated data from API
+  - [ ] **Realtime pending**: Auto-update on new transactions
+
+**Realtime Subscription Pattern (for Phase 2 data integration):**
+```typescript
+// Listen to all transaction changes
+const supabase = useSupabaseClient();
+const channel = supabase
+  .channel('transactions-channel')
+  .on(
+    'postgres_changes',
+    { event: '*', schema: 'public', table: 'transactions' },
+    (payload) => {
+      console.log('Transaction change:', payload);
+      // Refresh widget data based on event type
+      if (payload.eventType === 'INSERT') {
+        // Add new transaction to lists
+      } else if (payload.eventType === 'UPDATE') {
+        // Update existing transaction
+      } else if (payload.eventType === 'DELETE') {
+        // Remove transaction from lists
+      }
+    }
+  )
+  .subscribe();
+
+// Cleanup on unmount
+onUnmounted(() => {
+  supabase.removeChannel(channel);
+});
+```
 
 #### Transaction CRUD API Endpoints
 - [ ] GET `/api/v1/transactions` - List user's transactions
