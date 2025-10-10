@@ -18,7 +18,7 @@ export default defineEventHandler(async event => {
 
     // Fetch user role data from database
     const { data: roleData, error } = await supabase
-      .from('user_roles')
+      .from('user_data')
       .select('id, user_id, role, is_blocked, created_at, updated_at')
       .eq('user_id', userId)
       .single();

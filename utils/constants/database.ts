@@ -245,7 +245,7 @@ export type Database = {
           },
         ]
       }
-      user_roles: {
+      user_data: {
         Row: {
           created_at: string
           deleted_at: string | null

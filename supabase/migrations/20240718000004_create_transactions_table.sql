@@ -28,7 +28,7 @@ ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own non-deleted transactions"
 ON transactions FOR SELECT
 USING (
-  auth.uid() = created_by AND
+  (SELECT auth.uid()) = created_by AND
   deleted_at IS NULL
 );
 
@@ -37,8 +37,8 @@ CREATE POLICY "Managers can view all non-deleted transactions"
 ON transactions FOR SELECT
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'manager'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'manager'
   ) AND
   deleted_at IS NULL
 );
@@ -48,21 +48,21 @@ CREATE POLICY "Superadmins can view all transactions"
 ON transactions FOR SELECT
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   )
 );
 
 -- Policy to allow authenticated users to create their own transactions
 CREATE POLICY "Users can insert their own transactions"
 ON transactions FOR INSERT
-WITH CHECK (auth.uid() = created_by);
+WITH CHECK ((SELECT auth.uid()) = created_by);
 
 -- Policy to allow users to update their own transactions (if not deleted)
 CREATE POLICY "Users can update their own transactions"
 ON transactions FOR UPDATE
 USING (
-  auth.uid() = created_by AND
+  (SELECT auth.uid()) = created_by AND
   deleted_at IS NULL
 );
 
@@ -71,8 +71,8 @@ CREATE POLICY "Managers can update any transaction"
 ON transactions FOR UPDATE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('manager', 'superadmin')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('manager', 'superadmin')
   )
 );
 
@@ -81,8 +81,8 @@ CREATE POLICY "Superadmins can delete transactions"
 ON transactions FOR DELETE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   )
 );
 
@@ -107,14 +107,14 @@ RETURNS TRIGGER AS $$
 BEGIN
   -- Check if user is superadmin, if not, perform soft delete
   IF NOT EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   ) THEN
     -- Only allow users to soft delete their own transactions
-    IF OLD.created_by = auth.uid() THEN
+    IF OLD.created_by = (SELECT auth.uid()) THEN
       UPDATE transactions
       SET deleted_at = NOW()
-      WHERE id = OLD.id AND created_by = auth.uid();
+      WHERE id = OLD.id AND created_by = (SELECT auth.uid());
     END IF;
     RETURN NULL;
   END IF;

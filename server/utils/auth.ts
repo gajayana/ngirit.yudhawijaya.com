@@ -32,7 +32,7 @@ export async function checkUserRole(
   const supabase = await serverSupabaseClient(event);
 
   const { data, error } = await supabase
-    .from('user_roles')
+    .from('user_data')
     .select('role, is_blocked')
     .eq('user_id', userId)
     .single();

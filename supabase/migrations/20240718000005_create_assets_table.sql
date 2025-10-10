@@ -62,7 +62,7 @@ ALTER TABLE assets ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view their own assets"
 ON assets FOR SELECT
 USING (
-  auth.uid() = created_by AND
+  (SELECT auth.uid()) = created_by AND
   deleted_at IS NULL
 );
 
@@ -71,25 +71,25 @@ CREATE POLICY "Superadmins and managers can view all assets"
 ON assets FOR SELECT
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('superadmin', 'manager')
   )
 );
 
 -- Policy to allow authenticated users to create their own assets
 CREATE POLICY "Users can insert their own assets"
 ON assets FOR INSERT
-WITH CHECK (auth.uid() = created_by);
+WITH CHECK ((SELECT auth.uid()) = created_by);
 
 -- Policy to allow users to update their own assets (if not deleted)
 CREATE POLICY "Users can update their own assets"
 ON assets FOR UPDATE
 USING (
-  auth.uid() = created_by AND
+  (SELECT auth.uid()) = created_by AND
   deleted_at IS NULL
 )
 WITH CHECK (
-  auth.uid() = created_by
+  (SELECT auth.uid()) = created_by
 );
 
 -- Policy to allow superadmins and managers to update any asset
@@ -97,8 +97,8 @@ CREATE POLICY "Superadmins and managers can update any asset"
 ON assets FOR UPDATE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('superadmin', 'manager')
   )
 );
 
@@ -107,8 +107,8 @@ CREATE POLICY "Superadmins can delete assets"
 ON assets FOR DELETE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   )
 );
 
@@ -137,11 +137,11 @@ RETURNS TRIGGER AS $$
 BEGIN
   -- Check if user is superadmin, if not, perform soft delete
   IF NOT EXISTS (
-    SELECT 1 FROM public.user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM public.user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   ) THEN
     -- Only allow users to soft delete their own assets
-    IF OLD.created_by = auth.uid() THEN
+    IF OLD.created_by = (SELECT auth.uid()) THEN
       UPDATE public.assets
       SET deleted_at = NOW(), is_active = FALSE
       WHERE id = OLD.id;

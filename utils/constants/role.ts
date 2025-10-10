@@ -14,7 +14,7 @@ export const USER_ROLE = {
 /**
  * Interface representing user role data from the database
  */
-export type UserRoleData = Database['public']['Tables']['user_roles']['Row'];
+export type UserRoleData = Database['public']['Tables']['user_data']['Row'];
 
 /**
  * Interface for the user role state context

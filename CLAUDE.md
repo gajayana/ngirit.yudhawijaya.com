@@ -273,40 +273,45 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Transactions table
   - [x] Assets table (12 asset types)
   - [x] RLS performance optimization (auth_rls_initplan & multiple_permissive_policies)
-- [ ] **[P0] Enhanced Data Migration System** 🔄 (In Progress - Phase 1.5)
-  - [ ] **Data Organization**
-    - [ ] Create `supabase/data/oldies/` directory structure
-    - [ ] Move `spendings_18bulan.sql` → `supabase/data/oldies/`
-    - [ ] Modify `scripts/firestore.ts` to save to `supabase/data/oldies/expense-firestore.json`
-  - [ ] **MySQL Migration Script** (`scripts/mysql.ts`)
-    - [ ] Read MySQL dump file at `supabase/data/oldies/spendings_18bulan.sql`
-    - [ ] Parse `tblspending` table data (columns: `ID`, `dt`, `event`, `spending`)
-    - [ ] Transform to unified JSON format (same structure as Firestore export)
-    - [ ] Save to `supabase/data/oldies/expense-mysql.json`
-    - [ ] Show statistics: total records, date range, total value
-    - [ ] Run with: `pnpm mysql:fetch`
-  - [ ] **Data Merge Script** (`scripts/merge.ts`)
-    - [ ] Read `supabase/data/oldies/expense-firestore.json`
-    - [ ] Read `supabase/data/oldies/expense-mysql.json`
-    - [ ] Combine both datasets into single array
-    - [ ] Sort by date ascending (oldest first)
-    - [ ] Deduplicate based on date + description + amount
-    - [ ] Save to `supabase/data/combined-expense.json`
-    - [ ] Show merge statistics: Firestore count, MySQL count, duplicates removed, final total
-    - [ ] Run with: `pnpm data:merge`
-  - [ ] **Migration Workflow**
-    1. Run `pnpm firestore:fetch` → generates `oldies/expense-firestore.json`
-    2. Run `pnpm mysql:fetch` → generates `oldies/expense-mysql.json`
-    3. Run `pnpm data:merge` → generates `combined-expense.json`
-    4. Import via UI: Superadmin uploads `combined-expense.json` at `/dashboard/import`
-    5. Existing import endpoint handles the rest (batch insert, user mapping, etc.)
+- [x] **[P0] Enhanced Data Migration System** ✅ (Phase 1.5 - Completed Oct 10, 2025)
+  - [x] **Data Organization**
+    - [x] Created `supabase/data/oldies/` directory structure
+    - [x] Moved `spendings_18bulan.sql` → `supabase/data/oldies/`
+    - [x] Modified `scripts/firestore.ts` to save to `supabase/data/oldies/expense-firestore.json`
+  - [x] **MySQL Migration Script** (`scripts/mysql.ts`)
+    - [x] Read MySQL dump file at `supabase/data/oldies/spendings_18bulan.sql`
+    - [x] Parse `tblspending` table data (columns: `ID`, `dt`, `event`, `spending`)
+    - [x] Transform to unified JSON format (same structure as Firestore export)
+    - [x] Save to `supabase/data/oldies/expense-mysql.json`
+    - [x] Show statistics: total records, date range, total value
+    - [x] Run with: `pnpm mysql:fetch`
+    - [x] Result: 1,055 MySQL records from Aug 9, 2014 - Oct 8, 2015
+  - [x] **Data Merge Script** (`scripts/merge.ts`)
+    - [x] Read `supabase/data/oldies/expense-firestore.json`
+    - [x] Read `supabase/data/oldies/expense-mysql.json`
+    - [x] Combine both datasets into single array
+    - [x] Sort by date ascending (oldest first)
+    - [x] Keep all records (no deduplication to preserve data integrity)
+    - [x] Save to `supabase/data/combined-expense.json`
+    - [x] Show merge statistics: Firestore count, MySQL count, final total
+    - [x] Run with: `pnpm data:merge`
+    - [x] Result: 2,652 total records (1,597 Firestore + 1,055 MySQL)
+  - [x] **Migration Workflow Completed**
+    1. ✅ Run `pnpm firestore:fetch` → generates `oldies/expense-firestore.json`
+    2. ✅ Run `pnpm mysql:fetch` → generates `oldies/expense-mysql.json`
+    3. ✅ Run `pnpm data:merge` → generates `combined-expense.json`
+    4. ⏭️ Import via UI: Superadmin uploads `combined-expense.json` at `/dashboard/import`
+    5. ⏭️ Existing import endpoint handles the rest (batch insert, user mapping, etc.)
+  - [x] **Final Migration Statistics**
+    - Total records: 2,652 expense records
+    - Date range: Aug 9, 2014 → Oct 10, 2025 (11+ years)
+    - Total value: Rp 291,770,331
+    - Ready for import: `supabase/data/combined-expense.json`
 
-  - [x] **Completed Migration Features** ✅
+  - [x] **Initial Migration Features** ✅
     - [x] Firestore fetch script at `scripts/firestore.ts`
       - [x] Fetches ALL spendings collection from Firebase Firestore (no pagination limits)
       - [x] Sorted by `created_at` ascending (oldest first)
-      - [x] Currently contains 1,530 spending records
-      - [x] Saves to `supabase/data/spendings.json`
       - [x] Authentication with Firebase email/password
       - [x] Shows statistics: total value, date range, document count
       - [x] Run with: `pnpm firestore:fetch`

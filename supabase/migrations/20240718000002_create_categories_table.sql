@@ -25,51 +25,46 @@ CREATE INDEX categories_type_idx ON categories (type);
 -- Add RLS (Row Level Security) policies
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 
--- Policy for all users to view non-deleted categories
-CREATE POLICY "All users can view non-deleted categories"
-ON categories FOR SELECT
-USING (deleted_at IS NULL);
-
--- Policy for superadmins to view all categories including deleted ones
-CREATE POLICY "Superadmins and managers can view all categories"
+-- Consolidated SELECT policy (optimized with SELECT (SELECT auth.uid()))
+CREATE POLICY "Users can view categories based on role"
 ON categories FOR SELECT
 USING (
+  -- All users can view non-deleted categories
+  deleted_at IS NULL
+  OR
+  -- Superadmins and managers can view all categories
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('superadmin', 'manager')
   )
 );
 
--- Policy to allow any authenticated user to create categories
+-- INSERT policy (optimized with SELECT (SELECT auth.uid()))
 CREATE POLICY "Users can insert their own categories"
 ON categories FOR INSERT
-WITH CHECK (auth.uid() = created_by);
+WITH CHECK ((SELECT auth.uid()) = created_by);
 
--- Policy to allow creator users to update their own categories (if not deleted)
-CREATE POLICY "Users can update their own categories"
+-- Consolidated UPDATE policy (optimized with SELECT (SELECT auth.uid()))
+CREATE POLICY "Users can update categories based on role"
 ON categories FOR UPDATE
 USING (
-  auth.uid() = created_by AND
-  deleted_at IS NULL
-);
-
--- Policy to allow superadmins to update any category
-CREATE POLICY "Superadmins and managers can update any category"
-ON categories FOR UPDATE
-USING (
+  -- Users can update their own non-deleted categories
+  ((SELECT auth.uid()) = created_by AND deleted_at IS NULL)
+  OR
+  -- Superadmins and managers can update any category
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('superadmin', 'manager')
   )
 );
 
--- Policy to allow superadmins to hard delete categories
+-- DELETE policy (optimized with SELECT (SELECT auth.uid()))
 CREATE POLICY "Superadmins can delete categories"
 ON categories FOR DELETE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   )
 );
 
@@ -88,18 +83,18 @@ BEFORE UPDATE ON categories
 FOR EACH ROW
 EXECUTE FUNCTION update_categories_updated_at();
 
--- Create function for soft delete
+-- Create function for soft delete (optimized with SELECT (SELECT auth.uid()))
 CREATE OR REPLACE FUNCTION soft_delete_category()
 RETURNS TRIGGER AS $$
 BEGIN
   -- Check if user is superadmin, if not, perform soft delete
   IF NOT EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   ) THEN
     UPDATE categories
     SET deleted_at = NOW()
-    WHERE id = OLD.id AND created_by = auth.uid();
+    WHERE id = OLD.id AND created_by = (SELECT auth.uid());
     RETURN NULL;
   END IF;
   -- If user is superadmin, allow the hard delete to proceed

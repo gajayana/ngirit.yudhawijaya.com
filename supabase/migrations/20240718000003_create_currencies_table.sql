@@ -40,21 +40,21 @@ CREATE POLICY "Superadmins and managers can view all currencies"
 ON currencies FOR SELECT
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('superadmin', 'manager')
   )
 );
 
 -- Policy to allow any authenticated user to create currencies
 CREATE POLICY "Users can insert their own currencies"
 ON currencies FOR INSERT
-WITH CHECK (auth.uid() = created_by);
+WITH CHECK ((SELECT auth.uid()) = created_by);
 
 -- Policy to allow creator users to update their own currencies (if not deleted)
 CREATE POLICY "Users can update their own currencies"
 ON currencies FOR UPDATE
 USING (
-  auth.uid() = created_by AND
+  (SELECT auth.uid()) = created_by AND
   deleted_at IS NULL
 );
 
@@ -63,8 +63,8 @@ CREATE POLICY "Superadmins and managers can update any currency"
 ON currencies FOR UPDATE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role IN ('superadmin', 'manager')
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role IN ('superadmin', 'manager')
   )
 );
 
@@ -73,8 +73,8 @@ CREATE POLICY "Superadmins can delete currencies"
 ON currencies FOR DELETE
 USING (
   EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   )
 );
 
@@ -103,12 +103,12 @@ RETURNS TRIGGER AS $$
 BEGIN
   -- Check if user is superadmin, if not, perform soft delete
   IF NOT EXISTS (
-    SELECT 1 FROM user_roles
-    WHERE user_id = auth.uid() AND role = 'superadmin'
+    SELECT 1 FROM user_data
+    WHERE user_id = (SELECT auth.uid()) AND role = 'superadmin'
   ) THEN
     UPDATE currencies
     SET deleted_at = NOW()
-    WHERE id = OLD.id AND created_by = auth.uid();
+    WHERE id = OLD.id AND created_by = (SELECT auth.uid());
     RETURN NULL;
   END IF;
   -- If user is superadmin, allow the hard delete to proceed
