@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import type { UserRole } from '~/utils/constants/role';
-import { USER_ROLE } from '~/utils/constants/role';
+import type { UserRole } from '~/utils/constants/user';
+import { USER_ROLE } from '~/utils/constants/user';
 
 /**
  * Pinia store for user authentication and role management
@@ -39,10 +39,10 @@ export const useAuthStore = defineStore('auth', () => {
         body: {},
       });
 
-      userRole.value = data.role.role;
-      isBlocked.value = data.role.is_blocked;
+      userRole.value = data.user.role;
+      isBlocked.value = data.user.is_blocked;
       isFetched.value = true;
-      return data.role;
+      return data.user;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch user role');
       userRole.value = null;

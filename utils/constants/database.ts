@@ -249,6 +249,8 @@ export type Database = {
         Row: {
           created_at: string
           deleted_at: string | null
+          email: string
+          full_name: string | null
           id: string
           is_blocked: boolean
           role: Database["public"]["Enums"]["user_role"]
@@ -258,6 +260,8 @@ export type Database = {
         Insert: {
           created_at?: string
           deleted_at?: string | null
+          email: string
+          full_name?: string | null
           id?: string
           is_blocked?: boolean
           role?: Database["public"]["Enums"]["user_role"]
@@ -267,6 +271,8 @@ export type Database = {
         Update: {
           created_at?: string
           deleted_at?: string | null
+          email?: string
+          full_name?: string | null
           id?: string
           is_blocked?: boolean
           role?: Database["public"]["Enums"]["user_role"]
@@ -297,6 +303,21 @@ export type Database = {
           currency_id: string
           total_balance: number
         }[]
+      }
+      is_superadmin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      update_user_blocked_status: {
+        Args: { blocked: boolean; target_user_id: string }
+        Returns: boolean
+      }
+      update_user_role: {
+        Args: {
+          new_role: Database["public"]["Enums"]["user_role"]
+          target_user_id: string
+        }
+        Returns: boolean
       }
     }
     Enums: {

@@ -1,4 +1,4 @@
-import type { UserRoleData } from '~/utils/constants/role';
+import type { UserData } from '~/utils/constants/user';
 import { serverSupabaseClient } from '#supabase/server';
 
 interface ApiError {
@@ -16,14 +16,13 @@ export default defineEventHandler(async event => {
     const userId = await getAuthenticatedUserId(event);
     const supabase = await serverSupabaseClient(event);
 
-    // Fetch user role data from database
-    const { data: roleData, error } = await supabase
+    // Fetch user data from database
+    const { data: userData, error } = await supabase
       .from('user_data')
-      .select('id, user_id, role, is_blocked, created_at, updated_at')
+      .select('*')
       .eq('user_id', userId)
+      .is('deleted_at', null)
       .single();
-
-    console.log({ roleData });
 
     if (error) {
       throw createError({
@@ -32,15 +31,15 @@ export default defineEventHandler(async event => {
       });
     }
 
-    if (!roleData) {
+    if (!userData) {
       throw createError({
         statusCode: 404,
-        message: 'No role found for user',
+        message: 'No user data found',
       });
     }
 
     return {
-      role: roleData as UserRoleData,
+      user: userData as UserData,
     };
   } catch (error: unknown) {
     const apiError = error as ApiError;

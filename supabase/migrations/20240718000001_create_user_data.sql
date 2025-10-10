@@ -8,6 +8,7 @@ CREATE TYPE user_role AS ENUM ('superadmin', 'manager', 'user');
 CREATE TABLE IF NOT EXISTS user_data (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+  email TEXT NOT NULL UNIQUE,
   full_name TEXT,
   role user_role NOT NULL DEFAULT 'user',
   is_blocked BOOLEAN NOT NULL DEFAULT FALSE,
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS user_data (
 -- Add index for faster role lookups
 CREATE INDEX idx_user_data_user_id ON user_data(user_id);
 CREATE INDEX idx_user_data_role ON user_data(role);
+CREATE INDEX idx_user_data_email ON user_data(email);
 
 -- Enable RLS (Row Level Security)
 ALTER TABLE user_data ENABLE ROW LEVEL SECURITY;
@@ -77,9 +79,10 @@ EXECUTE FUNCTION update_updated_at_column();
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.user_data (user_id, full_name, role)
+  INSERT INTO public.user_data (user_id, email, full_name, role)
   VALUES (
     NEW.id,
+    NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email),
     'user'
   );
@@ -92,14 +95,16 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
--- Function to auto-update user_data.full_name when auth.users metadata changes
+-- Function to auto-update user_data when auth.users changes
 CREATE OR REPLACE FUNCTION handle_user_updated()
 RETURNS TRIGGER AS $$
 BEGIN
-  -- Update full_name if it changed in auth metadata
-  IF (NEW.raw_user_meta_data->>'full_name') IS DISTINCT FROM (OLD.raw_user_meta_data->>'full_name') THEN
+  -- Update email or full_name if they changed
+  IF NEW.email IS DISTINCT FROM OLD.email OR (NEW.raw_user_meta_data->>'full_name') IS DISTINCT FROM (OLD.raw_user_meta_data->>'full_name') THEN
     UPDATE public.user_data
-    SET full_name = COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email)
+    SET
+      email = NEW.email,
+      full_name = COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email)
     WHERE user_id = NEW.id;
   END IF;
   RETURN NEW;
@@ -110,7 +115,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_auth_user_updated
   AFTER UPDATE ON auth.users
   FOR EACH ROW
-  WHEN (NEW.raw_user_meta_data IS DISTINCT FROM OLD.raw_user_meta_data)
+  WHEN (NEW.email IS DISTINCT FROM OLD.email OR NEW.raw_user_meta_data IS DISTINCT FROM OLD.raw_user_meta_data)
   EXECUTE FUNCTION handle_user_updated();
 
 -- ============================================================================
@@ -197,6 +202,7 @@ EXECUTE FUNCTION soft_delete_user_data();
 -- ============================================================================
 
 COMMENT ON TABLE user_data IS 'Stores user profile information, roles, and status. Automatically synced with auth.users. Supports soft delete.';
+COMMENT ON COLUMN user_data.email IS 'User email, auto-synced from auth.users.email';
 COMMENT ON COLUMN user_data.full_name IS 'User full name, auto-populated from auth.users metadata';
 COMMENT ON COLUMN user_data.role IS 'User role: superadmin, manager, or user';
 COMMENT ON COLUMN user_data.is_blocked IS 'Whether the user account is blocked';
