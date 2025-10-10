@@ -493,11 +493,17 @@ supabase gen types typescript --local > utils/constants/database.ts
   - Always round to 2 decimal places for display
 
 #### Restructure Pages
-- [ ] Move current `/dashboard` content to `/profile` page
-  - User info card
-  - Debug info
-  - Admin tools widget
-- [ ] Transform `/dashboard` into main expense tracking interface
+- [x] Move current `/dashboard` content to `/profile` page ✅ (Oct 10, 2025)
+  - [x] Created `/profile` page with user info card
+  - [x] Moved debug info section
+  - [x] Moved admin tools widget
+  - [x] Moved logout button
+  - [x] Added User ID display
+- [x] Transform `/dashboard` into main expense tracking interface ✅ (Oct 10, 2025)
+  - [x] Created new dashboard with header and profile link
+  - [x] Added "Coming Soon" placeholder with feature preview
+  - [x] Listed upcoming widgets: Today's Expenses, Monthly Summary, Quick Add
+  - [x] Mobile-optimized layout ready for widgets
 
 #### Dashboard Widgets (all in `/dashboard`)
 - [ ] **Today's Expenses Widget**
