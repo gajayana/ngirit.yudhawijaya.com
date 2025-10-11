@@ -261,9 +261,20 @@ isZero(0); // true
 **Usage Rules:**
 1. ✅ **Always import** `useFinancial()` in components/composables dealing with money
 2. ✅ **Use for all calculations**: totals, averages, percentages, tax calculations
-3. ✅ **Use in API endpoints**: Server-side calculations must also use Decimal.js
-4. ❌ **Never use native operators** for money: no `+`, `-`, `*`, `/`
-5. ✅ **Database storage**: Already configured as `DECIMAL(15,2)` in migrations
+3. ✅ **Use for comparisons**: Always use `compare()` function for sorting/comparing amounts
+4. ✅ **Use in API endpoints**: Server-side calculations must also use Decimal.js
+5. ❌ **Never use native operators** for money: no `+`, `-`, `*`, `/`, or direct comparison
+6. ✅ **Database storage**: Already configured as `DECIMAL(15,2)` in migrations
+
+**Examples:**
+```typescript
+// ✅ CORRECT - Using compare() for sorting
+const { compare } = useFinancial();
+summaries.sort((a, b) => compare(b.total, a.total)); // Sort descending
+
+// ❌ WRONG - Direct numeric comparison
+summaries.sort((a, b) => b.total - a.total); // Floating-point errors!
+```
 
 ### UI & Styling
 - **Framework**: Nuxt UI (built on Tailwind CSS)
@@ -572,15 +583,15 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [ ] **Data integration pending**: Fetch today's transactions from API
   - [ ] **Realtime pending**: Auto-update on new transactions
 
-- [x] **Monthly Summary Widget** ✅ (Oct 10, 2025 - UI Only)
-  - [x] Group current month's expenses by category/label
+- [x] **Monthly Summary Widget** ✅ (Oct 12, 2025)
+  - [x] Group current month's expenses by **description** (case insensitive)
   - [x] Show: grouped label, total sum, transaction count
   - [x] Progress bars showing percentage of total
-  - [x] Sorted by total sum DESC
+  - [x] Sorted by total sum DESC using `compare()` from Decimal.js
   - [x] Total footer with monthly sum
-  - [x] Uses Decimal.js for all summations
-  - [ ] **Data integration pending**: Fetch monthly aggregated data from API
-  - [ ] **Realtime pending**: Auto-update on new transactions
+  - [x] Uses Decimal.js for all summations and comparisons
+  - [x] **Data integration**: Connected to transaction store via `monthlySummaryByDescription`
+  - [x] **Realtime**: Auto-updates when transactions change via Pinia reactivity
 
 **Data Integration Strategy:**
 
@@ -613,6 +624,12 @@ getters: {
   monthlyTotal: number                      // Sum of all current month expenses
   monthlyCount: number                      // Count of all current month transactions
   monthlySummaryByCategory: Array<{         // Grouped by category
+    label: string,
+    total: number,
+    count: number,
+    percentage: number
+  }>
+  monthlySummaryByDescription: Array<{      // Grouped by description (case insensitive)
     label: string,
     total: number,
     count: number,
@@ -707,7 +724,7 @@ const { todayTotal, monthlyTotal, todayCount, monthlyCount } = storeToRefs(trans
 const { todayTransactions } = storeToRefs(transactionStore);
 
 // MonthlySummaryWidget.vue
-const { monthlySummaryByCategory, monthlyTotal } = storeToRefs(transactionStore);
+const { monthlySummaryByDescription, monthlyTotal } = storeToRefs(transactionStore);
 
 // QuickAddWidget.vue
 const transactionStore = useTransactionStore();

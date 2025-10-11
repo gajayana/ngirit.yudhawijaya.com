@@ -15,13 +15,8 @@
 
     <!-- Empty State -->
     <div v-if="expenses.length === 0" class="py-8 text-center">
-      <UIcon
-        name="i-heroicons-inbox"
-        class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700"
-      />
-      <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
-        Belum ada pengeluaran hari ini
-      </p>
+      <UIcon name="i-heroicons-inbox" class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700" />
+      <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Belum ada pengeluaran hari ini</p>
       <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">
         Gunakan tombol "Tambah Pengeluaran" untuk mencatat
       </p>
@@ -32,13 +27,16 @@
       <div
         v-for="expense in expenses"
         :key="expense.id"
-        class="flex items-center justify-between rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50"
+        class="flex items-center gap-3 rounded-lg border border-gray-100 p-3 transition hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50"
       >
+        <!-- Content -->
         <div class="min-w-0 flex-1">
           <p class="truncate text-sm font-medium">{{ expense.description }}</p>
           <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{{ expense.time }}</p>
         </div>
-        <div class="ml-4 text-right">
+
+        <!-- Amount -->
+        <div class="text-right">
           <p class="text-sm font-semibold text-red-600 dark:text-red-400">
             {{ formatCurrency(expense.amount) }}
           </p>
@@ -46,8 +44,42 @@
             {{ expense.category }}
           </p>
         </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-1">
+          <UButton
+            icon="i-heroicons-pencil"
+            size="xs"
+            color="primary"
+            variant="ghost"
+            square
+            @click="openEditDialog(expense.id)"
+          />
+          <UButton
+            icon="i-heroicons-trash"
+            size="xs"
+            color="error"
+            variant="ghost"
+            square
+            @click="openDeleteDialog(expense.id)"
+          />
+        </div>
       </div>
     </div>
+
+    <!-- Edit Transaction Dialog -->
+    <DashboardEditTransactionDialog
+      v-model:open="isEditDialogOpen"
+      :transaction-id="selectedTransactionId"
+      @updated="handleTransactionUpdated"
+    />
+
+    <!-- Delete Confirmation Dialog -->
+    <DashboardDeleteTransactionDialog
+      v-model:open="isDeleteDialogOpen"
+      :transaction-id="selectedTransactionId"
+      @deleted="handleTransactionDeleted"
+    />
 
     <!-- Show All Button (if more than 5) -->
     <div v-if="expenses.length > 5" class="mt-4">
@@ -62,9 +94,15 @@
 <script setup lang="ts">
   const { formatCurrency } = useFinancial();
   const transactionStore = useTransactionStore();
+  const toast = useToast();
 
   // Consume data from store
   const { todayTransactions } = storeToRefs(transactionStore);
+
+  // Dialog states
+  const isEditDialogOpen = ref(false);
+  const isDeleteDialogOpen = ref(false);
+  const selectedTransactionId = ref<string | null>(null);
 
   // Transform transactions for display
   const expenses = computed(() => {
@@ -88,4 +126,34 @@
       month: 'long',
     });
   });
+
+  // Open edit dialog
+  function openEditDialog(transactionId: string) {
+    selectedTransactionId.value = transactionId;
+    isEditDialogOpen.value = true;
+  }
+
+  // Open delete dialog
+  function openDeleteDialog(transactionId: string) {
+    selectedTransactionId.value = transactionId;
+    isDeleteDialogOpen.value = true;
+  }
+
+  // Handle transaction updated
+  function handleTransactionUpdated() {
+    toast.add({
+      title: 'Berhasil!',
+      description: 'Transaksi berhasil diperbarui',
+      color: 'success',
+    });
+  }
+
+  // Handle transaction deleted
+  function handleTransactionDeleted() {
+    toast.add({
+      title: 'Berhasil!',
+      description: 'Transaksi berhasil dihapus',
+      color: 'success',
+    });
+  }
 </script>
