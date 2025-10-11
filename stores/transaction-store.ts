@@ -157,6 +157,54 @@ export const useTransactionStore = defineStore('transaction', () => {
     return summaries.sort((a, b) => b.total - a.total);
   });
 
+  /**
+   * Get monthly summary grouped by description (case insensitive)
+   */
+  const monthlySummaryByDescription = computed(() => {
+    const expenseTransactions = transactions.value.filter(
+      t => t.transaction_type === TRANSACTION_TYPE.EXPENSE
+    );
+
+    // Group by description (case insensitive)
+    const grouped = new Map<
+      string,
+      {
+        total: number;
+        count: number;
+        originalDescription: string; // Keep original case for display
+      }
+    >();
+
+    for (const tx of expenseTransactions) {
+      const descriptionLower = tx.description.toLowerCase();
+      const originalDescription = tx.description;
+
+      if (!grouped.has(descriptionLower)) {
+        grouped.set(descriptionLower, {
+          total: 0,
+          count: 0,
+          originalDescription, // Use first occurrence's original case
+        });
+      }
+
+      const group = grouped.get(descriptionLower)!;
+      group.total = add(group.total, tx.amount);
+      group.count++;
+    }
+
+    // Convert to array and calculate percentages
+    const total = monthlyTotal.value;
+    const summaries = Array.from(grouped.values()).map(data => ({
+      label: data.originalDescription,
+      total: data.total,
+      count: data.count,
+      percentage: total > 0 ? Math.round((data.total / total) * 100) : 0,
+    }));
+
+    // Sort by total descending
+    return summaries.sort((a, b) => b.total - a.total);
+  });
+
   // ============================================================================
   // Actions
   // ============================================================================
@@ -413,6 +461,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     monthlyTotal,
     monthlyCount,
     monthlySummaryByCategory,
+    monthlySummaryByDescription,
 
     // Actions
     fetchCurrentMonth,

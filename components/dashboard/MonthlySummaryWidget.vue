@@ -69,11 +69,11 @@
   const { formatCurrency } = useFinancial();
   const transactionStore = useTransactionStore();
 
-  // Consume data from store
-  const { monthlySummaryByCategory, monthlyTotal } = storeToRefs(transactionStore);
+  // Consume data from store - grouped by description instead of category
+  const { monthlySummaryByDescription, monthlyTotal } = storeToRefs(transactionStore);
 
   // Use the store's summary data directly
-  const summaries = monthlySummaryByCategory;
+  const summaries = monthlySummaryByDescription;
 
   // Current month formatted
   const currentMonth = computed(() => {
