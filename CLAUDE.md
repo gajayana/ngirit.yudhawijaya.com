@@ -279,27 +279,35 @@ isZero(0); // true
   - Optimize for one-handed use
 
 ### Server API Patterns
+
+**⚠️ CRITICAL: Always use `getAuthenticatedUserId()` for user authentication**
+
 - Use `defineEventHandler()` for all endpoints
-- Authentication: Always check `serverSupabaseUser()` before proceeding
+- **Authentication**: Always use `getAuthenticatedUserId(event)` helper from `server/utils/auth.ts`
+  - **Never use** `serverSupabaseUser()` directly - it may change in future library versions
+  - `getAuthenticatedUserId()` is centralized and throws proper 401 errors automatically
+  - Returns `user.sub` which is the consistent user ID in `@nuxtjs/supabase`
 - Error Handling: Use `createError()` with appropriate status codes
 - Query Building: Use Supabase query builder with RLS enforcement
 - Soft Deletes: Filter out soft-deleted records with `.is('deleted_at', null)`
+- **Category Joins**: When fetching transactions, always use `.select('*, categories(id, name, icon, color, type)')` to return joined category data
 - Example endpoint structure (note `/v1/` prefix in file path):
   ```typescript
   // File: server/api/v1/resource/index.get.ts
   // URL: /api/v1/resource
-  export default defineEventHandler(async event => {
-    const supabase = await serverSupabaseClient(event);
-    const user = await serverSupabaseUser(event);
+  import { serverSupabaseClient } from '#supabase/server';
+  import type { Database } from '~/utils/constants/database';
 
-    if (!user) {
-      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
-    }
+  export default defineEventHandler(async event => {
+    const supabase = await serverSupabaseClient<Database>(event);
+    const userId = await getAuthenticatedUserId(event); // ✅ Use helper
+
+    // No need to check if (!userId) - helper throws 401 automatically
 
     const { data, error } = await supabase
       .from('table_name')
       .select('*')
-      .eq('created_by', user.id)
+      .eq('created_by', userId)
       .is('deleted_at', null);
 
     if (error) throw createError({ statusCode: 500, statusMessage: 'Error message' });
@@ -715,34 +723,44 @@ await transactionStore.addTransaction(transactions); // POST via store action
 - ✅ Type-safe with transaction types from `utils/constants/transaction.ts`
 
 #### Transaction CRUD API Endpoints
-- [x] **GET `/api/v1/transactions`** ✅ (Oct 10, 2025) - List user's transactions
+- [x] **GET `/api/v1/transactions`** ✅ (Oct 11, 2025) - List user's transactions
   - Query params: `date` (YYYY-MM-DD), `month` (YYYY-MM), `limit`, `offset`
-  - Filter by current user (from auth)
-  - Returns transactions with joined category data
+  - Filter by current user (from auth via `getAuthenticatedUserId()`)
+  - Returns transactions with joined category data using `.select('*, categories(...)')`
   - Sorted by `created_at DESC`
   - Filters out soft-deleted records
   - File: `server/api/v1/transactions/index.get.ts`
 
-- [x] **POST `/api/v1/transactions`** ✅ (Oct 10, 2025) - Create new transactions (bulk)
+- [x] **POST `/api/v1/transactions`** ✅ (Oct 11, 2025) - Create new transactions (bulk)
   - Body: `{ transactions: [{ description, amount, transaction_type, category? }] }`
   - Supports bulk insert (array of transactions)
   - Validates each transaction (description, amount > 0, transaction_type)
-  - Sets `created_by` from authenticated user
+  - Sets `created_by` from authenticated user via `getAuthenticatedUserId()`
   - Returns inserted transactions with category data
   - File: `server/api/v1/transactions/index.post.ts`
 
-- [x] **PUT `/api/v1/transactions/:id`** ✅ (Oct 10, 2025) - Update transaction
+- [x] **PUT `/api/v1/transactions/:id`** ✅ (Oct 11, 2025) - Update transaction
   - Body: `{ description?, amount?, transaction_type?, category? }`
   - Permission checks: Owner OR manager/superadmin
+  - Uses `getAuthenticatedUserId()` for auth
   - Validates amount if provided (must be > 0)
   - Returns updated transaction with category data
   - File: `server/api/v1/transactions/[id].put.ts`
 
-- [x] **DELETE `/api/v1/transactions/:id`** ✅ (Oct 10, 2025) - Delete transaction (soft delete)
+- [x] **DELETE `/api/v1/transactions/:id`** ✅ (Oct 11, 2025) - Delete transaction (soft delete)
   - Soft delete: sets `deleted_at` timestamp
   - Permission checks: Owner OR manager/superadmin
+  - Uses `getAuthenticatedUserId()` for auth
   - Returns success message
   - File: `server/api/v1/transactions/[id].delete.ts`
+
+**Architecture Refactoring (Oct 11, 2025):**
+- ✅ All endpoints refactored to use `getAuthenticatedUserId()` helper from `server/utils/auth.ts`
+- ✅ Removed direct `serverSupabaseUser()` calls for better centralization
+- ✅ Fixed GET endpoint to return joined category data (was returning only category UUID)
+- ✅ Added proper TypeScript generic types to all `$fetch` calls in store
+- ✅ Fixed realtime channel type mismatch by using `any` type
+- ✅ All CRUD operations now use API endpoints instead of direct Supabase client queries
 
 #### Permission System
 - [x] **Implement RLS policy checks in API endpoints** ✅ (Oct 10, 2025)
