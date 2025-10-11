@@ -2,8 +2,11 @@ import { defineStore } from 'pinia';
 import type {
   TransactionWithCategory,
   TransactionInput,
+  TransactionInsert,
+  TransactionUpdate,
 } from '~/utils/constants/transaction';
 import { TRANSACTION_TYPE } from '~/utils/constants/transaction';
+import type { Database } from '~/utils/constants/database';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 
 /**
@@ -12,7 +15,7 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
  */
 export const useTransactionStore = defineStore('transaction', () => {
   const { sum, add } = useFinancial();
-  const supabase = useSupabaseClient();
+  const supabase = useSupabaseClient<Database>();
 
   // State
   const transactions = ref<TransactionWithCategory[]>([]);
@@ -222,8 +225,8 @@ export const useTransactionStore = defineStore('transaction', () => {
 
       console.log('Adding transactions for user:', user.id);
 
-      // Prepare transactions with created_by
-      const transactionsToInsert = newTransactions.map(tx => ({
+      // Prepare transactions with created_by using proper type
+      const transactionsToInsert: TransactionInsert[] = newTransactions.map(tx => ({
         description: tx.description,
         amount: tx.amount,
         transaction_type: tx.transaction_type,
@@ -269,45 +272,86 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   /**
    * Update transaction
+   * Uses direct Supabase update with RLS protection
    */
-  async function updateTransaction(id: string, data: Partial<TransactionInput>) {
+  async function updateTransaction(id: string, updateData: Partial<TransactionInput>) {
     try {
-      const response = await $fetch<{ success: boolean; data: TransactionWithCategory }>(
-        `/api/v1/transactions/${id}`,
-        {
-          method: 'PUT',
-          body: data,
-        }
-      );
+      console.log('Updating transaction:', id);
+
+      // Prepare update data with proper type
+      const updatePayload: TransactionUpdate = {
+        description: updateData.description,
+        amount: updateData.amount,
+        transaction_type: updateData.transaction_type,
+        category: updateData.category,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Update directly via Supabase client
+      // RLS policies will enforce that user can only update their own transactions
+      const { data, error: updateError } = await supabase
+        .from('transactions')
+        .update(updatePayload)
+        .eq('id', id)
+        .select('*')
+        .single();
+
+      if (updateError) {
+        console.error('Supabase update error:', updateError);
+        throw new Error(updateError.message);
+      }
+
+      console.log('✅ Updated transaction');
 
       // Update in local state
       const index = transactions.value.findIndex(t => t.id === id);
       if (index !== -1) {
-        transactions.value[index] = response.data;
+        transactions.value[index] = data as TransactionWithCategory;
       }
 
-      return response;
+      return {
+        success: true,
+        data: data as TransactionWithCategory,
+      };
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to update transaction');
-      console.error('Error updating transaction:', err);
+      console.error('❌ Error updating transaction:', err);
       throw err;
     }
   }
 
   /**
    * Delete transaction (soft delete)
+   * Uses direct Supabase update with RLS protection
    */
   async function deleteTransaction(id: string) {
     try {
-      await $fetch(`/api/v1/transactions/${id}`, {
-        method: 'DELETE',
-      });
+      console.log('Soft deleting transaction:', id);
+
+      // Prepare soft delete payload with proper type
+      const deletePayload: TransactionUpdate = {
+        deleted_at: new Date().toISOString(),
+      };
+
+      // Soft delete via Supabase client (set deleted_at timestamp)
+      // RLS policies will enforce that user can only delete their own transactions
+      const { error: deleteError } = await supabase
+        .from('transactions')
+        .update(deletePayload)
+        .eq('id', id);
+
+      if (deleteError) {
+        console.error('Supabase delete error:', deleteError);
+        throw new Error(deleteError.message);
+      }
+
+      console.log('✅ Soft deleted transaction');
 
       // Remove from local state
       transactions.value = transactions.value.filter(t => t.id !== id);
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to delete transaction');
-      console.error('Error deleting transaction:', err);
+      console.error('❌ Error deleting transaction:', err);
       throw err;
     }
   }
