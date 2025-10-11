@@ -11,7 +11,7 @@ import type { Database } from '~/utils/constants/database';
  * Manages current month's transactions with realtime subscriptions
  */
 export const useTransactionStore = defineStore('transaction', () => {
-  const { sum, add } = useFinancial();
+  const { sum, add, compare } = useFinancial();
   const supabase = useSupabaseClient<Database>();
 
   // State
@@ -153,8 +153,8 @@ export const useTransactionStore = defineStore('transaction', () => {
       color: data.category?.color || null,
     }));
 
-    // Sort by total descending
-    return summaries.sort((a, b) => b.total - a.total);
+    // Sort by total descending using Decimal.js compare
+    return summaries.sort((a, b) => compare(b.total, a.total));
   });
 
   /**
@@ -201,8 +201,8 @@ export const useTransactionStore = defineStore('transaction', () => {
       percentage: total > 0 ? Math.round((data.total / total) * 100) : 0,
     }));
 
-    // Sort by total descending
-    return summaries.sort((a, b) => b.total - a.total);
+    // Sort by total descending using Decimal.js compare
+    return summaries.sort((a, b) => compare(b.total, a.total));
   });
 
   // ============================================================================
