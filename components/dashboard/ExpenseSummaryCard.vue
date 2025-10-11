@@ -66,14 +66,12 @@
 
 <script setup lang="ts">
   const { formatCurrency } = useFinancial();
+  const transactionStore = useTransactionStore();
 
-  // Mock data for UI preview - will be replaced with real data later
-  const todayTotal = ref(80000);
-  const todayCount = ref(3);
-
-  const monthlyTotal = ref(1820000);
-  const monthlyCount = ref(93);
+  // Consume data from store
+  const { todayTotal, todayCount, monthlyTotal, monthlyCount } = storeToRefs(transactionStore);
 
   // Comparison with last month (positive = higher, negative = lower)
-  const comparisonPercentage = ref(15.5);
+  // TODO: Implement last month comparison in future phase
+  const comparisonPercentage = ref(0);
 </script>

@@ -14,7 +14,10 @@ export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
   const user = await serverSupabaseUser(event);
 
+  console.log('POST /api/v1/transactions - User:', user?.id || 'NOT FOUND');
+
   if (!user) {
+    console.error('No user found in session');
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
 

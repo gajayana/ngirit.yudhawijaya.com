@@ -185,7 +185,10 @@
 </template>
 
 <script setup lang="ts">
+  import { TRANSACTION_TYPE } from '~/utils/constants/transaction';
+
   const { formatCurrency, isValidAmount, sum } = useFinancial();
+  const transactionStore = useTransactionStore();
 
   // Dialog state
   const isOpen = ref(false);
@@ -285,20 +288,23 @@
     isSubmitting.value = true;
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
       // Filter out expenses with zero amount
       const validExpenses = parsedExpenses.value.filter(e => e.amount > 0);
 
-      console.log(`Submitting ${validExpenses.length} expense(s):`, {
-        expenses: validExpenses.map(e => ({
-          description: e.description,
-          amount: e.amount,
-          category: form.value.category || null,
-        })),
-        total: totalAmount.value,
-      });
+      // Prepare transactions for API
+      const transactions = validExpenses.map(e => ({
+        description: e.description,
+        amount: e.amount,
+        transaction_type: TRANSACTION_TYPE.EXPENSE,
+        category: form.value.category || null,
+      }));
+
+      console.log(`Submitting ${transactions.length} expense(s):`, transactions);
+
+      // Call store action to add transactions
+      await transactionStore.addTransaction(transactions);
+
+      console.log('✅ Transactions added successfully');
 
       // Show success message
       showSuccess.value = true;
@@ -308,7 +314,8 @@
         closeDialog();
       }, 1500);
     } catch (error) {
-      console.error('Failed to add expense:', error);
+      console.error('❌ Failed to add expense:', error);
+      // TODO: Show error toast to user
     } finally {
       isSubmitting.value = false;
     }

@@ -66,40 +66,14 @@
 </template>
 
 <script setup lang="ts">
-  const { formatCurrency, sum } = useFinancial();
+  const { formatCurrency } = useFinancial();
+  const transactionStore = useTransactionStore();
 
-  // Mock data for UI preview - will be replaced with real data later
-  const summaries = ref([
-    {
-      label: 'Makanan & Minuman',
-      total: 850000,
-      count: 45,
-      percentage: 85,
-    },
-    {
-      label: 'Transportasi',
-      total: 320000,
-      count: 28,
-      percentage: 32,
-    },
-    {
-      label: 'Belanja',
-      total: 450000,
-      count: 12,
-      percentage: 45,
-    },
-    {
-      label: 'Hiburan',
-      total: 200000,
-      count: 8,
-      percentage: 20,
-    },
-  ]);
+  // Consume data from store
+  const { monthlySummaryByCategory, monthlyTotal } = storeToRefs(transactionStore);
 
-  // Calculate monthly total
-  const monthlyTotal = computed(() => {
-    return sum(summaries.value.map(s => s.total));
-  });
+  // Use the store's summary data directly
+  const summaries = monthlySummaryByCategory;
 
   // Current month formatted
   const currentMonth = computed(() => {

@@ -7,9 +7,12 @@ export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
   const user = await serverSupabaseUser(event);
 
-  if (!user) {
+  if (!user || !user.id) {
+    console.error('No user or user ID found');
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
+
+  console.log('Fetching transactions for user:', user.id);
 
   // Get query params
   const query = getQuery(event);
@@ -18,10 +21,12 @@ export default defineEventHandler(async event => {
   const limit = query.limit ? parseInt(query.limit as string) : undefined;
   const offset = query.offset ? parseInt(query.offset as string) : 0;
 
+  console.log('Query params:', { date, month, limit, offset });
+
   // Build query
   let queryBuilder = supabase
     .from('transactions')
-    .select('*, categories(id, name, icon, color, type)')
+    .select('*')
     .eq('created_by', user.id)
     .is('deleted_at', null)
     .order('created_at', { ascending: false });

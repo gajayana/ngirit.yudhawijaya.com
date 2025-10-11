@@ -39,11 +39,30 @@
 <script setup lang="ts">
   const user = useSupabaseUser();
   const router = useRouter();
+  const transactionStore = useTransactionStore();
 
   // Redirect to login if not authenticated
   watchEffect(() => {
     if (!user.value) {
       router.push('/');
     }
+  });
+
+  // Fetch current month's transactions and start realtime subscription
+  onMounted(async () => {
+    if (user.value) {
+      console.log('Dashboard mounted - user:', user.value.id);
+      await transactionStore.fetchCurrentMonth();
+
+      // Re-enable realtime subscription
+      console.log('Initializing realtime subscription...');
+      transactionStore.initRealtimeSubscription();
+    }
+  });
+
+  // Clean up realtime subscription on unmount
+  onUnmounted(() => {
+    console.log('Dashboard unmounted - cleaning up subscription');
+    transactionStore.cleanupRealtimeSubscription();
   });
 </script>

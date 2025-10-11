@@ -61,31 +61,24 @@
 
 <script setup lang="ts">
   const { formatCurrency } = useFinancial();
+  const transactionStore = useTransactionStore();
 
-  // Mock data for UI preview - will be replaced with real data later
-  const expenses = ref([
-    {
-      id: '1',
-      description: 'Makan siang di warung',
-      amount: 25000,
-      time: '12:30',
-      category: 'Makanan',
-    },
-    {
-      id: '2',
-      description: 'Bensin motor',
-      amount: 50000,
-      time: '08:15',
-      category: 'Transportasi',
-    },
-    {
-      id: '3',
-      description: 'Parkir mall',
-      amount: 5000,
-      time: '14:20',
-      category: 'Transportasi',
-    },
-  ]);
+  // Consume data from store
+  const { todayTransactions } = storeToRefs(transactionStore);
+
+  // Transform transactions for display
+  const expenses = computed(() => {
+    return todayTransactions.value.map(tx => ({
+      id: tx.id,
+      description: tx.description,
+      amount: tx.amount,
+      time: new Date(tx.created_at).toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+      category: tx.category?.name || null,
+    }));
+  });
 
   // Current date formatted
   const currentDate = computed(() => {
