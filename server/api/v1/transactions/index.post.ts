@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
 
 type TransactionInsert = Database['public']['Tables']['transactions']['Insert'];
@@ -12,11 +12,11 @@ interface TransactionInput {
 
 export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
-  const user = await serverSupabaseUser(event);
+  const userId = await getAuthenticatedUserId(event);
 
-  console.log('POST /api/v1/transactions - User:', user?.id || 'NOT FOUND');
+  console.log('POST /api/v1/transactions - User:', userId);
 
-  if (!user) {
+  if (!userId) {
     console.error('No user found in session');
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
@@ -61,7 +61,7 @@ export default defineEventHandler(async event => {
     amount: tx.amount,
     transaction_type: tx.transaction_type,
     category: tx.category || null,
-    created_by: user.id,
+    created_by: userId,
   }));
 
   // Insert transactions

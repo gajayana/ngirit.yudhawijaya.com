@@ -1,4 +1,4 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
 import type { UserData } from '~/utils/constants/user';
 
@@ -13,11 +13,7 @@ interface TransactionUpdateInput {
 
 export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
-  const user = await serverSupabaseUser(event);
-
-  if (!user) {
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
-  }
+  const userId = await getAuthenticatedUserId(event);
 
   const id = getRouterParam(event, 'id');
 
@@ -64,13 +60,13 @@ export default defineEventHandler(async event => {
   const { data: userData } = await supabase
     .from('user_data')
     .select('role')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .single();
 
   const userRole = (userData as UserData)?.role || 'user';
 
   // Check permissions
-  const isOwner = existingTransaction.created_by === user.id;
+  const isOwner = existingTransaction.created_by === userId;
   const isManager = userRole === 'manager' || userRole === 'superadmin';
 
   if (!isOwner && !isManager) {

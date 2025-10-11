@@ -2,12 +2,9 @@ import { defineStore } from 'pinia';
 import type {
   TransactionWithCategory,
   TransactionInput,
-  TransactionInsert,
-  TransactionUpdate,
 } from '~/utils/constants/transaction';
 import { TRANSACTION_TYPE } from '~/utils/constants/transaction';
 import type { Database } from '~/utils/constants/database';
-import type { RealtimeChannel } from '@supabase/supabase-js';
 
 /**
  * Pinia store for transaction management
@@ -25,7 +22,8 @@ export const useTransactionStore = defineStore('transaction', () => {
   const isSubscribed = ref(false);
 
   // Realtime channel
-  let realtimeChannel: RealtimeChannel;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let realtimeChannel: any;
 
   // ============================================================================
   // Helper Functions
@@ -164,7 +162,7 @@ export const useTransactionStore = defineStore('transaction', () => {
   // ============================================================================
 
   /**
-   * Fetch current month's transactions
+   * Fetch current month's transactions via API endpoint
    */
   async function fetchCurrentMonth() {
     isLoading.value = true;
@@ -173,96 +171,64 @@ export const useTransactionStore = defineStore('transaction', () => {
     try {
       currentMonth.value = getCurrentMonthString();
 
-      // Calculate month range
-      const [year, monthNum] = currentMonth.value.split('-');
-      if (!year || !monthNum) {
-        throw new Error('Invalid month format');
-      }
-      const startOfMonth = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
-      const endOfMonth = new Date(parseInt(year), parseInt(monthNum), 0, 23, 59, 59, 999);
-
       console.log('Fetching transactions for month:', currentMonth.value);
-      console.log('Date range:', startOfMonth.toISOString(), 'to', endOfMonth.toISOString());
 
-      // Fetch directly from Supabase (client-side)
-      const { data, error: fetchError } = await supabase
-        .from('transactions')
-        .select('*')
-        .gte('created_at', startOfMonth.toISOString())
-        .lte('created_at', endOfMonth.toISOString())
-        .is('deleted_at', null)
-        .order('created_at', { ascending: false });
+      // Fetch via API endpoint with proper auth handling
+      const response = await $fetch<{
+        success: boolean;
+        data: TransactionWithCategory[];
+        count: number;
+      }>('/api/v1/transactions', {
+        method: 'GET',
+        query: {
+          month: currentMonth.value,
+        },
+        credentials: 'include',
+      });
 
-      if (fetchError) {
-        console.error('Supabase error:', fetchError);
-        throw new Error(fetchError.message);
-      }
-
-      console.log('Fetched transactions:', data?.length || 0);
-      transactions.value = (data || []) as TransactionWithCategory[];
+      console.log('✅ Fetched transactions:', response.count);
+      transactions.value = response.data;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch transactions');
-      console.error('Error fetching transactions:', err);
+      console.error('❌ Error fetching transactions:', err);
     } finally {
       isLoading.value = false;
     }
   }
 
   /**
-   * Add new transaction(s) (bulk insert)
-   * Uses direct Supabase insert since API endpoints don't work well with client-side auth
+   * Add new transaction(s) (bulk insert) via API endpoint
    */
   async function addTransaction(newTransactions: TransactionInput[]) {
     try {
-      console.log('Adding transactions via Supabase client...');
+      console.log('Adding transactions via API endpoint...');
 
-      // Get authenticated user
-      const { data: { user } } = await supabase.auth.getUser();
+      // Call API endpoint - it will handle user auth and created_by
+      const response = await $fetch<{
+        success: boolean;
+        data: TransactionWithCategory[];
+        count: number;
+      }>('/api/v1/transactions', {
+        method: 'POST',
+        body: {
+          transactions: newTransactions,
+        },
+        credentials: 'include',
+      });
 
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
-
-      console.log('Adding transactions for user:', user.id);
-
-      // Prepare transactions with created_by using proper type
-      const transactionsToInsert: TransactionInsert[] = newTransactions.map(tx => ({
-        description: tx.description,
-        amount: tx.amount,
-        transaction_type: tx.transaction_type,
-        category: tx.category || null,
-        created_by: user.id,
-      }));
-
-      // Insert directly via Supabase client
-      // RLS policies will enforce that user can only insert with their own ID
-      const { data, error: insertError } = await supabase
-        .from('transactions')
-        .insert(transactionsToInsert)
-        .select('*');
-
-      if (insertError) {
-        console.error('Supabase insert error:', insertError);
-        throw new Error(insertError.message);
-      }
-
-      console.log('✅ Inserted transactions:', data?.length || 0);
+      console.log('✅ Inserted transactions:', response.count);
 
       // Optimistically add to store for instant feedback
       // Only add if they belong to current month
       const currentMonthString = getCurrentMonthString();
-      const currentMonthTransactions = (data || []).filter(
+      const currentMonthTransactions = response.data.filter(
         t => getMonthFromDate(t.created_at) === currentMonthString
       );
 
-      // Prepend to transactions array (cast to proper type)
-      transactions.value.unshift(...(currentMonthTransactions as TransactionWithCategory[]));
+      // Prepend to transactions array
+      transactions.value.unshift(...currentMonthTransactions);
 
-      return {
-        success: true,
-        data: data as TransactionWithCategory[],
-        count: data?.length || 0,
-      };
+      return response;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to add transaction');
       console.error('❌ Error adding transaction:', err);
@@ -271,48 +237,31 @@ export const useTransactionStore = defineStore('transaction', () => {
   }
 
   /**
-   * Update transaction
-   * Uses direct Supabase update with RLS protection
+   * Update transaction via API endpoint
    */
   async function updateTransaction(id: string, updateData: Partial<TransactionInput>) {
     try {
-      console.log('Updating transaction:', id);
+      console.log('Updating transaction via API:', id);
 
-      // Prepare update data with proper type
-      const updatePayload: TransactionUpdate = {
-        description: updateData.description,
-        amount: updateData.amount,
-        transaction_type: updateData.transaction_type,
-        category: updateData.category,
-        updated_at: new Date().toISOString(),
-      };
-
-      // Update directly via Supabase client
-      // RLS policies will enforce that user can only update their own transactions
-      const { data, error: updateError } = await supabase
-        .from('transactions')
-        .update(updatePayload)
-        .eq('id', id)
-        .select('*')
-        .single();
-
-      if (updateError) {
-        console.error('Supabase update error:', updateError);
-        throw new Error(updateError.message);
-      }
+      // Call API endpoint - it will handle user auth and permissions
+      const response = await $fetch<{
+        success: boolean;
+        data: TransactionWithCategory;
+      }>(`/api/v1/transactions/${id}`, {
+        method: 'PUT',
+        body: updateData,
+        credentials: 'include',
+      });
 
       console.log('✅ Updated transaction');
 
       // Update in local state
       const index = transactions.value.findIndex(t => t.id === id);
       if (index !== -1) {
-        transactions.value[index] = data as TransactionWithCategory;
+        transactions.value[index] = response.data;
       }
 
-      return {
-        success: true,
-        data: data as TransactionWithCategory,
-      };
+      return response;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to update transaction');
       console.error('❌ Error updating transaction:', err);
@@ -321,31 +270,19 @@ export const useTransactionStore = defineStore('transaction', () => {
   }
 
   /**
-   * Delete transaction (soft delete)
-   * Uses direct Supabase update with RLS protection
+   * Delete transaction (soft delete) via API endpoint
    */
   async function deleteTransaction(id: string) {
     try {
-      console.log('Soft deleting transaction:', id);
+      console.log('Deleting transaction via API:', id);
 
-      // Prepare soft delete payload with proper type
-      const deletePayload: TransactionUpdate = {
-        deleted_at: new Date().toISOString(),
-      };
+      // Call API endpoint - it will handle user auth and permissions
+      await $fetch(`/api/v1/transactions/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
 
-      // Soft delete via Supabase client (set deleted_at timestamp)
-      // RLS policies will enforce that user can only delete their own transactions
-      const { error: deleteError } = await supabase
-        .from('transactions')
-        .update(deletePayload)
-        .eq('id', id);
-
-      if (deleteError) {
-        console.error('Supabase delete error:', deleteError);
-        throw new Error(deleteError.message);
-      }
-
-      console.log('✅ Soft deleted transaction');
+      console.log('✅ Deleted transaction');
 
       // Remove from local state
       transactions.value = transactions.value.filter(t => t.id !== id);

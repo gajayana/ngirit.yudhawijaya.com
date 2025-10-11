@@ -1,18 +1,19 @@
-import { serverSupabaseClient, serverSupabaseUser } from '#supabase/server';
+import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
 
 type Transaction = Database['public']['Tables']['transactions']['Row'];
 
 export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
-  const user = await serverSupabaseUser(event);
+  const userId = await getAuthenticatedUserId(event);
+  console.log({ userId });
 
-  if (!user || !user.id) {
+  if (!userId) {
     console.error('No user or user ID found');
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
 
-  console.log('Fetching transactions for user:', user.id);
+  console.log('Fetching transactions for user:', userId);
 
   // Get query params
   const query = getQuery(event);
@@ -23,11 +24,11 @@ export default defineEventHandler(async event => {
 
   console.log('Query params:', { date, month, limit, offset });
 
-  // Build query
+  // Build query with category join
   let queryBuilder = supabase
     .from('transactions')
-    .select('*')
-    .eq('created_by', user.id)
+    .select('*, categories(id, name, icon, color, type)')
+    .eq('created_by', userId)
     .is('deleted_at', null)
     .order('created_at', { ascending: false });
 
