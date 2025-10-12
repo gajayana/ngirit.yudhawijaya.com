@@ -45,8 +45,8 @@
           </p>
         </div>
 
-        <!-- Actions -->
-        <div class="flex items-center gap-1">
+        <!-- Actions (only show if user has permission) -->
+        <div v-if="expense.canModify" class="flex items-center gap-1">
           <UButton
             icon="i-heroicons-pencil"
             size="xs"
@@ -94,15 +94,31 @@
 <script setup lang="ts">
   const { formatCurrency } = useFinancial();
   const transactionStore = useTransactionStore();
+  const authStore = useAuthStore();
   const toast = useToast();
 
   // Consume data from store
   const { todayTransactions } = storeToRefs(transactionStore);
+  const { isAdmin } = storeToRefs(authStore);
+  const user = useSupabaseUser();
 
   // Dialog states
   const isEditDialogOpen = ref(false);
   const isDeleteDialogOpen = ref(false);
   const selectedTransactionId = ref<string | null>(null);
+
+  /**
+   * Check if user can edit/delete a transaction
+   * Users can only edit/delete their own transactions
+   * Managers and superadmins can edit/delete all transactions
+   */
+  function canModifyTransaction(transactionCreatedBy: string): boolean {
+    // Admins (manager/superadmin) can modify all transactions
+    if (isAdmin.value) return true;
+
+    // Regular users can only modify their own transactions
+    return user.value?.id === transactionCreatedBy;
+  }
 
   // Transform transactions for display
   const expenses = computed(() => {
@@ -115,6 +131,8 @@
         minute: '2-digit',
       }),
       category: tx.category?.name || null,
+      createdBy: tx.created_by,
+      canModify: canModifyTransaction(tx.created_by),
     }));
   });
 

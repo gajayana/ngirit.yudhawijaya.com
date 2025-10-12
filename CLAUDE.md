@@ -786,9 +786,12 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - ✅ Superadmins can view/edit all transactions (role-based checks)
   - ✅ Permission logic in PUT and DELETE endpoints
   - Note: Hard delete not implemented (only soft delete for data integrity)
-- [ ] Add permission checks in UI
-  - Show edit/delete buttons only for owned transactions
-  - Show all transactions for managers/superadmins
+- [x] **Add permission checks in UI** ✅ (Oct 12, 2025)
+  - ✅ Show edit/delete buttons only for owned transactions
+  - ✅ Show all transactions for managers/superadmins
+  - ✅ Implemented `canModifyTransaction()` helper in TodayExpensesWidget
+  - ✅ Conditional rendering using `v-if="expense.canModify"`
+  - ✅ Uses `isAdmin` computed from auth store for role checking
 
 #### Implementation Plan
 1. **Install decimal.js** - Add dependency for accurate financial calculations
@@ -800,6 +803,212 @@ await transactionStore.addTransaction(transactions); // POST via store action
 7. **Add Edit/Delete functionality** - Inline editing with modals
 8. **Test permissions** - Verify RLS and UI permissions work correctly
 9. **Test calculations** - Verify all financial calculations are accurate
+
+#### Family Sharing Feature 👨‍👩‍👧‍👦
+**Goal:** Allow users to create families and share expense tracking with family members
+
+##### Database Schema
+- [ ] **Create migration for families table**
+  ```sql
+  -- Migration: supabase/migrations/[timestamp]_create_families.sql
+
+  -- Families table
+  CREATE TABLE families (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    description TEXT,
+    created_by UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMPTZ
+  );
+
+  -- Family members junction table
+  CREATE TABLE family_members (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    family_id UUID NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    role TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),
+    joined_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMPTZ,
+    UNIQUE(family_id, user_id)
+  );
+
+  -- Indexes
+  CREATE INDEX idx_families_created_by ON families(created_by) WHERE deleted_at IS NULL;
+  CREATE INDEX idx_family_members_family_id ON family_members(family_id) WHERE deleted_at IS NULL;
+  CREATE INDEX idx_family_members_user_id ON family_members(user_id) WHERE deleted_at IS NULL;
+
+  -- RLS Policies
+  ALTER TABLE families ENABLE ROW LEVEL SECURITY;
+  ALTER TABLE family_members ENABLE ROW LEVEL SECURITY;
+
+  -- Families: Users can view families they belong to
+  CREATE POLICY "Users can view their families"
+    ON families FOR SELECT
+    USING (
+      (SELECT auth.uid()) IN (
+        SELECT user_id FROM family_members
+        WHERE family_id = families.id AND deleted_at IS NULL
+      )
+    );
+
+  -- Families: Only creators can create
+  CREATE POLICY "Users can create families"
+    ON families FOR INSERT
+    WITH CHECK (created_by = (SELECT auth.uid()));
+
+  -- Families: Only owners can update
+  CREATE POLICY "Owners can update families"
+    ON families FOR UPDATE
+    USING (
+      (SELECT auth.uid()) IN (
+        SELECT user_id FROM family_members
+        WHERE family_id = families.id
+        AND role = 'owner'
+        AND deleted_at IS NULL
+      )
+    );
+
+  -- Families: Only owners can delete (soft delete)
+  CREATE POLICY "Owners can delete families"
+    ON families FOR UPDATE
+    USING (
+      created_by = (SELECT auth.uid())
+      AND deleted_at IS NULL
+    )
+    WITH CHECK (deleted_at IS NOT NULL);
+
+  -- Family Members: Users can view members of their families
+  CREATE POLICY "Users can view family members"
+    ON family_members FOR SELECT
+    USING (
+      (SELECT auth.uid()) IN (
+        SELECT user_id FROM family_members fm2
+        WHERE fm2.family_id = family_members.family_id
+        AND fm2.deleted_at IS NULL
+      )
+    );
+
+  -- Family Members: Owners and admins can add members
+  CREATE POLICY "Owners and admins can add members"
+    ON family_members FOR INSERT
+    WITH CHECK (
+      (SELECT auth.uid()) IN (
+        SELECT user_id FROM family_members
+        WHERE family_id = family_members.family_id
+        AND role IN ('owner', 'admin')
+        AND deleted_at IS NULL
+      )
+    );
+
+  -- Family Members: Owners and admins can remove members
+  CREATE POLICY "Owners and admins can remove members"
+    ON family_members FOR UPDATE
+    USING (
+      (SELECT auth.uid()) IN (
+        SELECT user_id FROM family_members fm2
+        WHERE fm2.family_id = family_members.family_id
+        AND fm2.role IN ('owner', 'admin')
+        AND fm2.deleted_at IS NULL
+      )
+    );
+
+  -- Triggers for updated_at
+  CREATE TRIGGER update_families_updated_at
+    BEFORE UPDATE ON families
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+  CREATE TRIGGER update_family_members_updated_at
+    BEFORE UPDATE ON family_members
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  ```
+
+##### Transaction Visibility Updates
+- [ ] **Update transactions RLS policies to include family members**
+  - Users can view their own transactions
+  - Users can view transactions from family members they share a family with
+  - Implement via LEFT JOIN with family_members table
+  ```sql
+  -- Migration: Add family visibility to transactions
+  CREATE POLICY "Users can view family transactions"
+    ON transactions FOR SELECT
+    USING (
+      created_by = (SELECT auth.uid())
+      OR created_by IN (
+        SELECT fm2.user_id
+        FROM family_members fm1
+        JOIN family_members fm2 ON fm1.family_id = fm2.family_id
+        WHERE fm1.user_id = (SELECT auth.uid())
+        AND fm1.deleted_at IS NULL
+        AND fm2.deleted_at IS NULL
+      )
+    );
+  ```
+
+##### API Endpoints
+- [ ] **Family Management Endpoints**
+  - `GET /api/v1/families` - List user's families
+  - `POST /api/v1/families` - Create new family
+  - `GET /api/v1/families/:id` - Get family details
+  - `PUT /api/v1/families/:id` - Update family (owner only)
+  - `DELETE /api/v1/families/:id` - Delete family (soft delete, owner only)
+  - `GET /api/v1/families/:id/members` - List family members
+  - `POST /api/v1/families/:id/members` - Add member to family (by email)
+  - `DELETE /api/v1/families/:id/members/:userId` - Remove member from family
+
+##### Profile Page Widget
+- [ ] **Family Management Widget** (`components/profile/FamilyManagementWidget.vue`)
+  - Show list of user's families
+  - Create new family button
+  - For each family:
+    - Family name and description
+    - List of members with their roles
+    - Add member button (search by email)
+    - Remove member button (owners/admins only)
+    - Edit family button (owners only)
+    - Leave family button (members only)
+    - Delete family button (owners only)
+  - Mobile-optimized design with touch targets
+  - Uses Teleport pattern for dialogs
+  - All text in Bahasa Indonesia
+
+##### Family Types
+- [ ] **Create family types** in `utils/constants/family.ts`
+  ```typescript
+  import type { Database } from './database';
+
+  export type Family = Database['public']['Tables']['families']['Row'];
+  export type FamilyInsert = Database['public']['Tables']['families']['Insert'];
+  export type FamilyUpdate = Database['public']['Tables']['families']['Update'];
+
+  export type FamilyMember = Database['public']['Tables']['family_members']['Row'];
+  export type FamilyMemberInsert = Database['public']['Tables']['family_members']['Insert'];
+  export type FamilyMemberUpdate = Database['public']['Tables']['family_members']['Update'];
+
+  export type FamilyMemberRole = Database['public']['Enums']['family_member_role'];
+
+  export const FAMILY_MEMBER_ROLE = {
+    OWNER: 'owner',
+    ADMIN: 'admin',
+    MEMBER: 'member',
+  } as const satisfies Record<string, FamilyMemberRole>;
+
+  export interface FamilyWithMembers extends Family {
+    members: Array<FamilyMember & { user_data: { email: string; full_name: string } }>;
+  }
+  ```
+
+##### Implementation Checklist
+1. Create families migration with RLS policies
+2. Update transactions RLS to include family visibility
+3. Create family types in `utils/constants/family.ts`
+4. Build family API endpoints (8 endpoints)
+5. Create FamilyManagementWidget component
+6. Add widget to `/profile` page
+7. Test family creation, member management, and transaction visibility
 
 ### Phase 3: AI-Powered Smart Input & Settings 🔮
 **Goal:** Enhance UX with AI and user configuration
