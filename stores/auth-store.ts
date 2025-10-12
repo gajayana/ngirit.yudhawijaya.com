@@ -87,6 +87,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   // Computed properties
+  const userId = computed(() => user.value?.sub || null);
   const isAdmin = computed(() => hasRole([USER_ROLE.SUPERADMIN, USER_ROLE.MANAGER]));
   const isSuperAdmin = computed(() => hasRole(USER_ROLE.SUPERADMIN));
 
@@ -132,6 +133,7 @@ export const useAuthStore = defineStore('auth', () => {
     canAccess,
 
     // Computed
+    userId,
     isAdmin,
     isSuperAdmin,
   };

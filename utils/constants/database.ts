@@ -198,6 +198,77 @@ export type Database = {
         }
         Relationships: []
       }
+      families: {
+        Row: {
+          created_at: string
+          created_by: string
+          deleted_at: string | null
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          deleted_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      family_members: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          family_id: string
+          id: string
+          joined_at: string
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          family_id: string
+          id?: string
+          joined_at?: string
+          role?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          family_id?: string
+          id?: string
+          joined_at?: string
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_members_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount: number
@@ -303,6 +374,18 @@ export type Database = {
           currency_id: string
           total_balance: number
         }[]
+      }
+      has_family_role: {
+        Args: { p_family_id: string; p_roles: string[]; p_user_id: string }
+        Returns: boolean
+      }
+      is_family_member: {
+        Args: { p_family_id: string; p_user_id: string }
+        Returns: boolean
+      }
+      is_family_transaction: {
+        Args: { p_transaction_created_by: string; p_user_id: string }
+        Returns: boolean
       }
       is_superadmin: {
         Args: Record<PropertyKey, never>

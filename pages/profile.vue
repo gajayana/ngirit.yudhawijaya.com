@@ -46,6 +46,9 @@
         </div>
       </div>
 
+      <!-- Family Management Widget -->
+      <ProfileFamilyManagementWidget />
+
       <!-- Superadmin Actions - Only visible for superadmin -->
       <DashboardAdminTools />
 
