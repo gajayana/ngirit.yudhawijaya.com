@@ -34,36 +34,26 @@ export default defineEventHandler(async (event): Promise<AddFamilyMemberResponse
 
   const email = body.email.trim().toLowerCase();
 
-  // Validate role
-  const role = body.role || FAMILY_MEMBER_ROLE.MEMBER;
-  if (!Object.values(FAMILY_MEMBER_ROLE).includes(role)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Invalid role',
-    });
-  }
-
   try {
-    // Check if current user is owner or admin
-    const { data: currentMember, error: currentMemberError } = await supabase
-      .from('family_members')
-      .select('role')
-      .eq('family_id', familyId)
-      .eq('user_id', userId)
+    // Check if current user is the owner of the family
+    const { data: family, error: familyError } = await supabase
+      .from('families')
+      .select('created_by')
+      .eq('id', familyId)
       .is('deleted_at', null)
       .single();
 
-    if (currentMemberError || !currentMember) {
+    if (familyError || !family) {
       throw createError({
-        statusCode: 403,
-        statusMessage: 'You are not a member of this family',
+        statusCode: 404,
+        statusMessage: 'Family not found',
       });
     }
 
-    if (currentMember.role !== 'owner' && currentMember.role !== 'admin') {
+    if (family.created_by !== userId) {
       throw createError({
         statusCode: 403,
-        statusMessage: 'Only owners and admins can add members',
+        statusMessage: 'Only the family owner can add members',
       });
     }
 
@@ -103,7 +93,6 @@ export default defineEventHandler(async (event): Promise<AddFamilyMemberResponse
       const { data: restoredMember, error: restoreError } = await supabase
         .from('family_members')
         .update({
-          role,
           deleted_at: null,
           joined_at: new Date().toISOString(),
         })
@@ -142,7 +131,6 @@ export default defineEventHandler(async (event): Promise<AddFamilyMemberResponse
       .insert({
         family_id: familyId,
         user_id: targetUser.user_id,
-        role,
       })
       .select('*')
       .single();

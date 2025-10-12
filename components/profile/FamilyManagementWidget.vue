@@ -87,12 +87,6 @@
               <p class="truncate text-gray-500">{{ member.user_data?.email }}</p>
             </div>
             <div class="flex items-center gap-2">
-              <span
-                class="rounded px-2 py-0.5 text-xs font-medium"
-                :class="getRoleBadgeClass(member.role)"
-              >
-                {{ getRoleLabel(member.role) }}
-              </span>
               <UButton
                 v-if="canRemoveMember(family, member)"
                 icon="i-heroicons-x-mark"
@@ -464,7 +458,6 @@
 
   const memberForm = ref({
     email: '',
-    role: FAMILY_MEMBER_ROLE.MEMBER as string,
   });
 
   // Load families on mount
@@ -500,65 +493,25 @@
   }
 
   // Permission helpers
-  function getUserRole(family: FamilyWithMembers): string | null {
-    if (!userId.value) {
-      console.log('getUserRole - user not loaded yet');
-      return null;
-    }
-    const member = family.members?.find((m: any) => m.user_id === userId.value);
-    console.log('getUserRole - userId.value:', userId.value);
-    console.log('getUserRole - family.members:', family.members);
-    console.log('getUserRole - found member:', member);
-    return member?.role || null;
-  }
-
   function isOwner(family: FamilyWithMembers): boolean {
     if (!userId.value) return false;
-    return getUserRole(family) === FAMILY_MEMBER_ROLE.OWNER;
+    return family.created_by === userId.value;
   }
 
   function canAddMember(family: FamilyWithMembers): boolean {
-    if (!userId.value) return false;
-    const role = getUserRole(family);
-    return role === FAMILY_MEMBER_ROLE.OWNER || role === FAMILY_MEMBER_ROLE.ADMIN;
+    // Only owner can add members
+    return isOwner(family);
   }
 
   function canRemoveMember(family: FamilyWithMembers, member: FamilyMemberWithUser): boolean {
-    const userRole = getUserRole(family);
     const isSelf = member.user_id === userId.value;
+    const isOwnerUser = isOwner(family);
 
     // Members can leave (remove themselves)
     if (isSelf) return true;
 
-    // Owners and admins can remove others
-    return userRole === FAMILY_MEMBER_ROLE.OWNER || userRole === FAMILY_MEMBER_ROLE.ADMIN;
-  }
-
-  // Role helpers
-  function getRoleLabel(role: string): string {
-    switch (role) {
-      case FAMILY_MEMBER_ROLE.OWNER:
-        return 'Pemilik';
-      case FAMILY_MEMBER_ROLE.ADMIN:
-        return 'Admin';
-      case FAMILY_MEMBER_ROLE.MEMBER:
-        return 'Anggota';
-      default:
-        return role;
-    }
-  }
-
-  function getRoleBadgeClass(role: string): string {
-    switch (role) {
-      case FAMILY_MEMBER_ROLE.OWNER:
-        return 'bg-primary-100 text-primary-700 dark:bg-primary-900/20 dark:text-primary-300';
-      case FAMILY_MEMBER_ROLE.ADMIN:
-        return 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300';
-      case FAMILY_MEMBER_ROLE.MEMBER:
-        return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
-      default:
-        return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
-    }
+    // Only owner can remove others
+    return isOwnerUser;
   }
 
   // Dialog handlers - Create Family
@@ -688,7 +641,6 @@
     selectedFamily.value = family;
     memberForm.value = {
       email: '',
-      role: FAMILY_MEMBER_ROLE.MEMBER,
     };
     isAddMemberDialogOpen.value = true;
   }
@@ -708,7 +660,6 @@
         method: 'POST',
         body: {
           email: memberForm.value.email.trim(),
-          role: memberForm.value.role,
         },
         credentials: 'include',
       });
