@@ -428,8 +428,14 @@
 </template>
 
 <script setup lang="ts">
-  import type { FamilyWithMembers, FamilyMemberWithUser } from '~/utils/constants/family';
-  import { FAMILY_MEMBER_ROLE } from '~/utils/constants/family';
+  import type {
+    FamilyWithMembers,
+    FamilyMember,
+    FamilyMemberWithUser,
+    FamilyListResponse,
+    AddFamilyMemberResponse,
+    RemoveFamilyMemberResponse,
+  } from '~/utils/constants/family';
 
   const toast = useToast();
   const authStore = useAuthStore();
@@ -474,12 +480,12 @@
   async function fetchFamilies() {
     isLoading.value = true;
     try {
-      const response = await $fetch('/api/v1/families', {
+      const response = await $fetch<FamilyListResponse>('/api/v1/families', {
         method: 'GET',
         credentials: 'include',
       });
 
-      families.value = response.data as any;
+      families.value = response.data;
     } catch (error) {
       console.error('Error fetching families:', error);
       toast.add({
@@ -503,7 +509,7 @@
     return isOwner(family);
   }
 
-  function canRemoveMember(family: FamilyWithMembers, member: FamilyMemberWithUser): boolean {
+  function canRemoveMember(family: FamilyWithMembers, member: Pick<FamilyMember, 'user_id'>): boolean {
     const isSelf = member.user_id === userId.value;
     const isOwnerUser = isOwner(family);
 
@@ -656,7 +662,7 @@
     isSaving.value = true;
 
     try {
-      const response = await $fetch(`/api/v1/families/${selectedFamily.value.id}/members`, {
+      const response = await $fetch<AddFamilyMemberResponse>(`/api/v1/families/${selectedFamily.value.id}/members`, {
         method: 'POST',
         body: {
           email: memberForm.value.email.trim(),
@@ -675,15 +681,17 @@
       isSaving.value = false;
       closeAddMemberDialog();
       fetchFamilies();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error adding member:', error);
-      console.error('Error data:', error.data);
-      console.error('Error statusCode:', error.statusCode);
-      console.error('Error statusMessage:', error.statusMessage);
+
+      const errorMessage = error && typeof error === 'object' && 'data' in error && error.data &&
+        typeof error.data === 'object' && 'statusMessage' in error.data
+        ? String(error.data.statusMessage)
+        : 'Gagal menambahkan anggota';
 
       toast.add({
         title: 'Error',
-        description: error.data?.statusMessage || error.statusMessage || 'Gagal menambahkan anggota',
+        description: errorMessage,
         color: 'error',
       });
       isSaving.value = false;
@@ -692,8 +700,8 @@
 
   // Dialog handlers - Remove Member
   function openRemoveMemberDialog(family: FamilyWithMembers, member: FamilyMemberWithUser) {
-    selectedFamily.value = family;
     selectedMember.value = member;
+    selectedFamily.value = family;
     isRemoveMemberDialogOpen.value = true;
   }
 
@@ -708,7 +716,7 @@
     isSaving.value = true;
 
     try {
-      await $fetch(`/api/v1/families/${selectedFamily.value.id}/members/${selectedMember.value.user_id}`, {
+      await $fetch<RemoveFamilyMemberResponse>(`/api/v1/families/${selectedFamily.value.id}/members/${selectedMember.value.user_id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -724,11 +732,17 @@
       isSaving.value = false;
       closeRemoveMemberDialog();
       fetchFamilies();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error removing member:', error);
+
+      const errorMessage = error && typeof error === 'object' && 'data' in error && error.data &&
+        typeof error.data === 'object' && 'message' in error.data
+        ? String(error.data.message)
+        : 'Gagal menghapus anggota';
+
       toast.add({
         title: 'Error',
-        description: error.data?.message || 'Gagal menghapus anggota',
+        description: errorMessage,
         color: 'error',
       });
       isSaving.value = false;

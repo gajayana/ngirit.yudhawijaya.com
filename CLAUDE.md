@@ -167,6 +167,11 @@ type Transaction = Database['public']['Tables']['transactions']['Row']; // Use i
   - `server/api/assets/index.get.ts` (116 lines) ✓
 
 ### TypeScript
+- **⚠️ CRITICAL: AVOID USING `any` TYPE AT ALL COSTS**
+  - Always use proper types from `utils/constants/`
+  - Use type narrowing with type guards instead of `any`
+  - Use `unknown` if you truly don't know the type, then narrow it
+  - ESLint will flag `any` usage - fix immediately
 - **⚠️ ALWAYS import types from `utils/constants/` - never define inline types**
 - Use interfaces over types for extendability
 - Avoid enums; use const objects with `satisfies` keyword
