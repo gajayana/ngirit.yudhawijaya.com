@@ -17,41 +17,56 @@ export default defineEventHandler(async event => {
 
   // Get query params
   const query = getQuery(event);
-  const date = query.date as string | undefined; // YYYY-MM-DD format
-  const month = query.month as string | undefined; // YYYY-MM format
+  const start = query.start as string | undefined; // ISO 8601 datetime
+  const end = query.end as string | undefined; // ISO 8601 datetime
+  const includeFamily = query.include_family === 'true' || query.include_family === true;
   const limit = query.limit ? parseInt(query.limit as string) : undefined;
   const offset = query.offset ? parseInt(query.offset as string) : 0;
 
-  console.log('Query params:', { date, month, limit, offset });
+  console.log('Query params:', { start, end, includeFamily, limit, offset });
+
+  // Determine which user IDs to query
+  let userIds = [userId]; // Default: only current user
+
+  if (includeFamily) {
+    // Fetch all family members
+    const { data: familyMembers, error: familyError } = await supabase
+      .from('family_members')
+      .select('family_id, user_id')
+      .is('deleted_at', null);
+
+    if (familyError) {
+      console.error('Error fetching family members:', familyError);
+    } else if (familyMembers && familyMembers.length > 0) {
+      // Find all families the user belongs to
+      const userFamilyIds = familyMembers
+        .filter(m => m.user_id === userId)
+        .map(m => m.family_id);
+
+      // Get all member IDs from those families
+      const allFamilyMemberIds = familyMembers
+        .filter(m => userFamilyIds.includes(m.family_id))
+        .map(m => m.user_id);
+
+      // Use unique user IDs
+      userIds = Array.from(new Set(allFamilyMemberIds));
+      console.log('Including family members:', userIds.length, 'users');
+    }
+  }
 
   // Build query with category join
   let queryBuilder = supabase
     .from('transactions')
     .select('*, categories(id, name, icon, color, type)')
-    .eq('created_by', userId)
+    .in('created_by', userIds)
     .is('deleted_at', null)
     .order('created_at', { ascending: false });
 
-  // Filter by specific date (today's transactions)
-  if (date) {
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date(date);
-    endOfDay.setHours(23, 59, 59, 999);
-
+  // Filter by date range if provided
+  if (start && end) {
     queryBuilder = queryBuilder
-      .gte('created_at', startOfDay.toISOString())
-      .lte('created_at', endOfDay.toISOString());
-  }
-  // Filter by month (YYYY-MM)
-  else if (month) {
-    const [year, monthNum] = month.split('-');
-    const startOfMonth = new Date(parseInt(year), parseInt(monthNum) - 1, 1);
-    const endOfMonth = new Date(parseInt(year), parseInt(monthNum), 0, 23, 59, 59, 999);
-
-    queryBuilder = queryBuilder
-      .gte('created_at', startOfMonth.toISOString())
-      .lte('created_at', endOfMonth.toISOString());
+      .gte('created_at', start)
+      .lte('created_at', end);
   }
 
   // Apply pagination

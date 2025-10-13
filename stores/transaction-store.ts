@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { startOfMonth, endOfMonth } from 'date-fns';
 import type {
   TransactionWithCategory,
   TransactionInput,
@@ -20,6 +21,8 @@ export const useTransactionStore = defineStore('transaction', () => {
   const isLoading = ref(false);
   const error = ref<Error | null>(null);
   const isSubscribed = ref(false);
+  const familyMemberIds = ref<string[]>([]); // IDs of family members (including self)
+  const includeFamily = ref(true); // Toggle for showing family transactions (default: true)
 
   // Realtime channel
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -158,6 +161,11 @@ export const useTransactionStore = defineStore('transaction', () => {
   });
 
   /**
+   * Check if user has family members (more than just themselves)
+   */
+  const hasFamilyMembers = computed(() => familyMemberIds.value.length > 1);
+
+  /**
    * Get monthly summary grouped by description (case insensitive)
    */
   const monthlySummaryByDescription = computed(() => {
@@ -210,6 +218,45 @@ export const useTransactionStore = defineStore('transaction', () => {
   // ============================================================================
 
   /**
+   * Fetch family member IDs from all families the user belongs to
+   */
+  async function fetchFamilyMembers() {
+    try {
+      console.log('Fetching family members...');
+      const response = await $fetch<{
+        success: boolean;
+        data: Array<{
+          id: string;
+          members: Array<{
+            user_id: string;
+          }>;
+        }>;
+      }>('/api/v1/families', {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      console.log('API response:', response);
+      console.log('Families count:', response.data.length);
+
+      // Extract all unique user IDs from all families
+      const allMemberIds = new Set<string>();
+      response.data.forEach(family => {
+        console.log('Family:', family.id, 'Members:', family.members.length);
+        family.members.forEach(member => {
+          allMemberIds.add(member.user_id);
+        });
+      });
+
+      familyMemberIds.value = Array.from(allMemberIds);
+      console.log('✅ Fetched family members:', familyMemberIds.value.length, familyMemberIds.value);
+    } catch (err) {
+      console.error('❌ Error fetching family members:', err);
+      familyMemberIds.value = [];
+    }
+  }
+
+  /**
    * Fetch current month's transactions via API endpoint
    */
   async function fetchCurrentMonth() {
@@ -219,7 +266,14 @@ export const useTransactionStore = defineStore('transaction', () => {
     try {
       currentMonth.value = getCurrentMonthString();
 
+      // Calculate start and end of current month in UTC
+      const now = new Date();
+      const start = startOfMonth(now);
+      const end = endOfMonth(now);
+
       console.log('Fetching transactions for month:', currentMonth.value);
+      console.log('Date range (UTC):', start.toISOString(), 'to', end.toISOString());
+      console.log('Include family:', includeFamily.value);
 
       // Fetch via API endpoint with proper auth handling
       const response = await $fetch<{
@@ -229,7 +283,9 @@ export const useTransactionStore = defineStore('transaction', () => {
       }>('/api/v1/transactions', {
         method: 'GET',
         query: {
-          month: currentMonth.value,
+          start: start.toISOString(),
+          end: end.toISOString(),
+          include_family: includeFamily.value,
         },
         credentials: 'include',
       });
@@ -453,6 +509,8 @@ export const useTransactionStore = defineStore('transaction', () => {
     isLoading,
     error,
     isSubscribed,
+    familyMemberIds,
+    includeFamily,
 
     // Getters
     todayTransactions,
@@ -462,8 +520,10 @@ export const useTransactionStore = defineStore('transaction', () => {
     monthlyCount,
     monthlySummaryByCategory,
     monthlySummaryByDescription,
+    hasFamilyMembers,
 
     // Actions
+    fetchFamilyMembers,
     fetchCurrentMonth,
     addTransaction,
     updateTransaction,

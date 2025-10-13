@@ -9,9 +9,16 @@
             Kelola keuangan Anda dengan mudah
           </p>
         </div>
-        <NuxtLink to="/profile" class="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-          <UIcon name="i-heroicons-user-circle" class="h-6 w-6" />
-        </NuxtLink>
+        <div class="flex items-center gap-3">
+          <!-- Family Toggle (Client-only to avoid SSR hydration issues) -->
+          <ClientOnly>
+            <DashboardFamilyToggle />
+          </ClientOnly>
+          <!-- Profile Link -->
+          <NuxtLink to="/profile" class="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <UIcon name="i-heroicons-user-circle" class="h-6 w-6" />
+          </NuxtLink>
+        </div>
       </div>
 
       <!-- Expense Summary Cards -->
@@ -29,7 +36,10 @@
 
     <div v-else class="flex min-h-[50vh] items-center justify-center">
       <div class="text-center">
-        <UIcon name="i-heroicons-arrow-path" class="mx-auto h-8 w-8 animate-spin text-primary-500" />
+        <UIcon
+          name="i-heroicons-arrow-path"
+          class="mx-auto h-8 w-8 animate-spin text-primary-500"
+        />
         <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Mengalihkan ke halaman masuk...</p>
       </div>
     </div>
@@ -52,6 +62,11 @@
   onMounted(async () => {
     if (user.value) {
       console.log('Dashboard mounted - user:', user.value.id);
+
+      // Fetch family members first to determine if toggle should be shown
+      await transactionStore.fetchFamilyMembers();
+
+      // Then fetch transactions
       await transactionStore.fetchCurrentMonth();
 
       // Re-enable realtime subscription

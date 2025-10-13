@@ -809,11 +809,13 @@ await transactionStore.addTransaction(transactions); // POST via store action
 8. **Test permissions** - Verify RLS and UI permissions work correctly
 9. **Test calculations** - Verify all financial calculations are accurate
 
-#### Family Sharing Feature 👨‍👩‍👧‍👦
+#### Family Sharing Feature 👨‍👩‍👧‍👦 ✅
 **Goal:** Allow users to create families and share expense tracking with family members
 
+**Completed:** Oct 13, 2025
+
 ##### Database Schema
-- [ ] **Create migration for families table**
+- [x] **Create migration for families table** ✅
   ```sql
   -- Migration: supabase/migrations/[timestamp]_create_families.sql
 
@@ -932,88 +934,97 @@ await transactionStore.addTransaction(transactions); // POST via store action
   ```
 
 ##### Transaction Visibility Updates
-- [ ] **Update transactions RLS policies to include family members**
-  - Users can view their own transactions
-  - Users can view transactions from family members they share a family with
-  - Implement via LEFT JOIN with family_members table
-  ```sql
-  -- Migration: Add family visibility to transactions
-  CREATE POLICY "Users can view family transactions"
-    ON transactions FOR SELECT
-    USING (
-      created_by = (SELECT auth.uid())
-      OR created_by IN (
-        SELECT fm2.user_id
-        FROM family_members fm1
-        JOIN family_members fm2 ON fm1.family_id = fm2.family_id
-        WHERE fm1.user_id = (SELECT auth.uid())
-        AND fm1.deleted_at IS NULL
-        AND fm2.deleted_at IS NULL
-      )
-    );
-  ```
+- [x] **Update transactions RLS policies to include family members** ✅
+  - RLS policy created with SECURITY DEFINER function `is_family_transaction()`
+  - Users can view their own transactions + family members' transactions
+  - Implemented in migration: `supabase/migrations/20241012000007_add_family_visibility_to_transactions.sql`
 
 ##### API Endpoints
-- [ ] **Family Management Endpoints**
-  - `GET /api/v1/families` - List user's families
-  - `POST /api/v1/families` - Create new family
-  - `GET /api/v1/families/:id` - Get family details
+- [x] **Family Management Endpoints** ✅ (All 8 endpoints completed)
+  - `GET /api/v1/families` - List user's families with members
+  - `POST /api/v1/families` - Create new family (auto-adds creator as owner)
+  - `GET /api/v1/families/:id` - Get family details with members
   - `PUT /api/v1/families/:id` - Update family (owner only)
   - `DELETE /api/v1/families/:id` - Delete family (soft delete, owner only)
   - `GET /api/v1/families/:id/members` - List family members
-  - `POST /api/v1/families/:id/members` - Add member to family (by email)
-  - `DELETE /api/v1/families/:id/members/:userId` - Remove member from family
+  - `POST /api/v1/families/:id/members` - Add member by email (owner only, simplified from owner/admin)
+  - `DELETE /api/v1/families/:id/members/:userId` - Remove member (owner can remove anyone, members can leave)
+  - All endpoints manually join user_data due to PostgREST foreign key limitations
+
+##### Transaction Store Updates
+- [x] **Family Transaction Filtering** ✅ (Oct 13, 2025)
+  - Added `date-fns` package for proper date/timezone handling
+  - Added `familyMemberIds: string[]` state to cache family member IDs
+  - Added `includeFamily: boolean` state (default: `true`)
+  - Added `hasFamilyMembers` computed getter (checks if more than 1 member)
+  - Created `fetchFamilyMembers()` action to fetch and cache family member IDs
+  - Updated `fetchCurrentMonth()` to use ISO datetime ranges with `startOfMonth`/`endOfMonth`
+  - Sends `start`, `end`, `include_family` query params to API
+
+##### Transaction API Updates
+- [x] **GET `/api/v1/transactions` Enhanced** ✅ (Oct 13, 2025)
+  - Replaced `date`/`month` params with `start`/`end` ISO datetime params
+  - Added `include_family` boolean query param
+  - When `include_family=true`: server fetches family member IDs and queries `WHERE created_by IN (userIds)`
+  - Returns all family transactions without showing whose transaction it is
+  - Uses UTC timestamps (PostgreSQL `timestamptz`)
+
+##### Dashboard UI
+- [x] **Family Toggle Component** ✅ (Oct 13, 2025)
+  - Created `components/dashboard/FamilyToggle.vue` (client-only component)
+  - Custom toggle switch using Tailwind CSS (UToggle had SSR issues)
+  - Toggle label: "Keluarga" (Bahasa Indonesia)
+  - Only shows if `hasFamilyMembers` is true (more than just self)
+  - Positioned in dashboard header next to profile icon
+  - Wrapped in `<ClientOnly>` to avoid SSR hydration mismatch
+  - Default state: ON (shows family transactions by default)
+  - Clicking toggle refetches transactions with new filter
 
 ##### Profile Page Widget
-- [ ] **Family Management Widget** (`components/profile/FamilyManagementWidget.vue`)
-  - Show list of user's families
-  - Create new family button
+- [x] **Family Management Widget** ✅ (`components/profile/FamilyManagementWidget.vue`)
+  - Complete family CRUD interface
+  - 4 dialogs: Create Family, Edit Family, Add Member, Remove Member confirmation
+  - Shows list of user's families with member counts
   - For each family:
     - Family name and description
-    - List of members with their roles
-    - Add member button (search by email)
-    - Remove member button (owners/admins only)
-    - Edit family button (owners only)
-    - Leave family button (members only)
-    - Delete family button (owners only)
-  - Mobile-optimized design with touch targets
-  - Uses Teleport pattern for dialogs
+    - List of members with email and full name
+    - Add member button (by email, owner only)
+    - Remove member button (owner can remove anyone, members can leave)
+    - Edit family button (owner only)
+    - Delete family button (owner only, soft delete)
+  - Mobile-optimized design with 48px+ touch targets
+  - Uses Teleport API for fullscreen dialogs
   - All text in Bahasa Indonesia
+  - No TypeScript `any` usage - all properly typed
 
 ##### Family Types
-- [ ] **Create family types** in `utils/constants/family.ts`
-  ```typescript
-  import type { Database } from './database';
+- [x] **Create family types** ✅ in `utils/constants/family.ts`
+  - All types derived from `Database` types
+  - Includes: `Family`, `FamilyInsert`, `FamilyUpdate`
+  - Includes: `FamilyMember`, `FamilyMemberInsert`, `FamilyMemberUpdate`
+  - Includes: `FamilyMemberRole`, `FAMILY_MEMBER_ROLE` const
+  - Includes: `FamilyWithMembers` interface
+  - Response types: `FamilyListResponse`, `AddFamilyMemberResponse`, `RemoveFamilyMemberResponse`
+  - Input types: `FamilyInput`, `AddFamilyMemberInput`
 
-  export type Family = Database['public']['Tables']['families']['Row'];
-  export type FamilyInsert = Database['public']['Tables']['families']['Insert'];
-  export type FamilyUpdate = Database['public']['Tables']['families']['Update'];
+##### Implementation Summary
+- [x] ✅ Create families migration with RLS policies (Oct 12, 2025)
+- [x] ✅ Update transactions RLS to include family visibility (Oct 12, 2025)
+- [x] ✅ Create family types in `utils/constants/family.ts` (Oct 12, 2025)
+- [x] ✅ Build family API endpoints - 8 endpoints (Oct 12, 2025)
+- [x] ✅ Create FamilyManagementWidget component (Oct 12, 2025)
+- [x] ✅ Add widget to `/profile` page (Oct 12, 2025)
+- [x] ✅ Implement family transaction filtering in dashboard (Oct 13, 2025)
+- [x] ✅ Add family toggle UI component (Oct 13, 2025)
+- [x] ✅ Test family creation, member management, and transaction visibility (Oct 13, 2025)
 
-  export type FamilyMember = Database['public']['Tables']['family_members']['Row'];
-  export type FamilyMemberInsert = Database['public']['Tables']['family_members']['Insert'];
-  export type FamilyMemberUpdate = Database['public']['Tables']['family_members']['Update'];
-
-  export type FamilyMemberRole = Database['public']['Enums']['family_member_role'];
-
-  export const FAMILY_MEMBER_ROLE = {
-    OWNER: 'owner',
-    ADMIN: 'admin',
-    MEMBER: 'member',
-  } as const satisfies Record<string, FamilyMemberRole>;
-
-  export interface FamilyWithMembers extends Family {
-    members: Array<FamilyMember & { user_data: { email: string; full_name: string } }>;
-  }
-  ```
-
-##### Implementation Checklist
-1. Create families migration with RLS policies
-2. Update transactions RLS to include family visibility
-3. Create family types in `utils/constants/family.ts`
-4. Build family API endpoints (8 endpoints)
-5. Create FamilyManagementWidget component
-6. Add widget to `/profile` page
-7. Test family creation, member management, and transaction visibility
+**Key Features:**
+- Family creators automatically promoted to `manager` role
+- Family toggle defaults to ON (shows family transactions)
+- Server-side family member ID resolution for security
+- Date filtering uses `date-fns` with UTC timestamps
+- No user attribution shown (privacy-focused design)
+- Owner-only permissions (simplified from role hierarchy)
 
 ### Phase 3: AI-Powered Smart Input & Settings 🔮
 **Goal:** Enhance UX with AI and user configuration
