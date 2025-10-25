@@ -23,15 +23,19 @@ export default defineNuxtConfig({
       callback: '/confirm',
       exclude: ['/'],
     },
+    types: '~/utils/constants/database.ts',
+    url: process.env.NUXT_PUBLIC_SUPABASE_URL,
+    key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
   },
 
   runtimeConfig: {
     // Private keys that are only available on the server
-    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
+    SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,
 
     // Public keys that are available on both client and server
     public: {
       host: process.env.NUXT_PUBLIC_HOST,
+      SUPABASE_KEY: process.env.NUXT_PUBLIC_SUPABASE_KEY,
     },
   },
 });
