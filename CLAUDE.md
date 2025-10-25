@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a Nuxt 4 application (compatibilityDate: 2025-07-15) built with TypeScript, Supabase, Pinia, and Nuxt UI. It's a financial asset management application with user authentication, role-based access control, and comprehensive asset tracking capabilities.
 
 **Key Technologies:**
+
 - **Framework**: Nuxt 4.1.3 with Vue 3.5.22
 - **Package Manager**: pnpm 10.18.1+
 - **UI Framework**: Nuxt UI 4.0.1 (built on Tailwind CSS 4.1.14)
@@ -15,10 +16,46 @@ This is a Nuxt 4 application (compatibilityDate: 2025-07-15) built with TypeScri
 - **Authentication**: Supabase Auth (@nuxtjs/supabase 2.0.0)
 
 **Language:**
+
 - **Primary Language**: Bahasa Indonesia
 - All user-facing text, UI labels, messages, and content must be in Bahasa Indonesia
 - Code comments and technical documentation can be in English
 - Variable names, function names, and code should remain in English
+
+## 🔒 Security & Privacy
+
+**⚠️ CRITICAL: NEVER READ SENSITIVE FILES**
+
+Do NOT read or access the following files under any circumstances:
+
+- `.env`, `.env.*` - Environment variables with API keys and secrets
+- `*.key`, `*.pem`, `*.crt`, `*.p12` - Certificates and private keys
+- `credentials.json`, `service-account.json` - Service account credentials
+- `secrets/` - Any directory containing secrets
+- `*.sql.dump`, `*.db` - Database dumps with user data
+  NEVER read or process .env files
+  STOP immediately if you encounter API keys or passwords
+  Do not access any file containing credentials
+  Respect all .claudeignore entries without exception
+
+**These files are blocked via `.claudeignore` and `.claude/settings.json`**
+
+Protection layers:
+
+1. **`.claudeignore`** - File patterns Claude Code should skip
+2. **`.claude/settings.json`** - Permission-based read denial (enforced by Claude Code)
+
+If configuration help is needed:
+
+1. Ask the user to provide only the specific setting name (not the value)
+2. Reference `.env.example` instead of `.env`
+3. Never request to read actual secrets
+
+**Privacy:**
+
+- All file contents read by Claude Code are transmitted to Anthropic's servers
+- See: https://claude.ai/settings/data-privacy-controls
+- Data is NOT used for training but retained for 30 days for safety monitoring
 
 ## Development Commands
 
@@ -42,6 +79,7 @@ pnpm firestore:fetch
 ## Architecture
 
 ### Authentication & Authorization
+
 - **Supabase Auth**: Primary authentication provider (`@nuxtjs/supabase`)
 - **Auth Store**: Centralized auth state management in `stores/auth-store.ts`
   - Manages user roles (superadmin, manager, user) via `user_data` table
@@ -55,6 +93,7 @@ pnpm firestore:fetch
   - Public route: `/` only
 
 ### Database & Backend
+
 - **Supabase**: PostgreSQL database with Row Level Security (RLS) policies
 - **Migrations**: Located in `supabase/migrations/`, includes:
   - User data table (`user_data`) with auto-sync to auth.users, includes full_name, role, is_blocked
@@ -75,6 +114,7 @@ pnpm firestore:fetch
   - Implements soft delete pattern (checking `deleted_at IS NULL`)
 
 ### Frontend Structure
+
 - **Pages**: Auto-routed from `pages/` directory
   - `/` (index) - Login page (public)
   - `/dashboard` - Main dashboard (protected, user home)
@@ -94,6 +134,7 @@ pnpm firestore:fetch
 **⚠️ CRITICAL: Always use `utils/constants/` for type references**
 
 - **Database Types**: Auto-generated from Supabase in `utils/constants/database.ts`
+
   - **Source of Truth**: This file is auto-generated via `supabase gen types typescript`
   - Contains all table schemas (Row, Insert, Update types)
   - Contains all enum types (user_role, asset_type, etc.)
@@ -101,6 +142,7 @@ pnpm firestore:fetch
   - **Never manually edit this file** - regenerate after schema changes
 
 - **User Types** (`utils/constants/user.ts`):
+
   - `UserData` - Complete user record from database
   - `UserDataInsert` - Type for inserting new users
   - `UserDataUpdate` - Type for updating users
@@ -109,6 +151,7 @@ pnpm firestore:fetch
   - All types derived from `database.ts`
 
 - **Transaction Types** (`utils/constants/transaction.ts`):
+
   - `Transaction` - Complete transaction record from database
   - `TransactionInsert` - Type for inserting new transactions
   - `TransactionUpdate` - Type for updating transactions
@@ -122,6 +165,7 @@ pnpm firestore:fetch
   - All types derived from `database.ts`
 
 - **Type Pattern**:
+
   - Use interfaces over types for extendability
   - No enums - use const objects with `satisfies` keyword
   - Always import types from `utils/constants/` instead of defining inline
@@ -132,6 +176,7 @@ pnpm firestore:fetch
 - **Risk Levels**: `low`, `medium`, `high` for investment assets
 
 **Type Reference Examples**:
+
 ```typescript
 // ✅ CORRECT - Import from utils/constants
 import type { UserData } from '~/utils/constants/user';
@@ -139,10 +184,7 @@ import type { Transaction, TransactionWithCategory } from '~/utils/constants/tra
 import type { Database } from '~/utils/constants/database';
 
 // ✅ CORRECT - Use pre-defined types for transactions
-import type {
-  TransactionInput,
-  TransactionListResponse
-} from '~/utils/constants/transaction';
+import type { TransactionInput, TransactionListResponse } from '~/utils/constants/transaction';
 
 // ❌ WRONG - Don't define inline types that exist in database or utils/constants
 interface Transaction {
@@ -158,6 +200,7 @@ type Transaction = Database['public']['Tables']['transactions']['Row']; // Use i
 ## Code Style Rules
 
 ### File Size Limits
+
 - **Maximum lines per file: 300 lines**
 - Files exceeding 300 lines should be refactored into smaller components or composables
 - Use Vue 3 composables pattern for reusable logic
@@ -167,6 +210,7 @@ type Transaction = Database['public']['Tables']['transactions']['Row']; // Use i
   - `server/api/assets/index.get.ts` (116 lines) ✓
 
 ### TypeScript
+
 - **⚠️ CRITICAL: AVOID USING `any` TYPE AT ALL COSTS**
   - Always use proper types from `utils/constants/`
   - Use type narrowing with type guards instead of `any`
@@ -180,6 +224,7 @@ type Transaction = Database['public']['Tables']['transactions']['Row']; // Use i
 - When working with database tables, reference `utils/constants/database.ts` for type definitions
 
 ### Nuxt 3 Patterns
+
 - **Data Fetching**:
   - `useFetch` for SSR-compatible component data fetching
   - `$fetch` for client-side requests in event handlers
@@ -198,9 +243,10 @@ type Transaction = Database['public']['Tables']['transactions']['Row']; // Use i
 **⚠️ CRITICAL: ALWAYS use `useFinancial()` composable for money calculations**
 
 JavaScript's native arithmetic has floating-point precision errors that make it unsuitable for financial calculations:
+
 ```typescript
 // ❌ WRONG - Floating-point errors
-0.1 + 0.2 === 0.3 // false! (returns 0.30000000000000004)
+0.1 + 0.2 === 0.3; // false! (returns 0.30000000000000004)
 ```
 
 **Solution: Use the `useFinancial()` composable**
@@ -208,11 +254,12 @@ JavaScript's native arithmetic has floating-point precision errors that make it 
 Located at `composables/useFinancial.ts`, this composable provides:
 
 **Basic Operations:**
+
 ```typescript
 const { add, subtract, multiply, divide, sum, average } = useFinancial();
 
 // Addition
-const total = add(100.10, 200.20); // 300.30 (accurate)
+const total = add(100.1, 200.2); // 300.30 (accurate)
 
 // Subtraction
 const change = subtract(500, 123.45); // 376.55
@@ -224,13 +271,14 @@ const tax = multiply(1000, 0.11); // 110.00
 const split = divide(100, 3); // 33.33
 
 // Sum array
-const monthlyTotal = sum([100, 200.50, 300.75]); // 601.25
+const monthlyTotal = sum([100, 200.5, 300.75]); // 601.25
 
 // Average
 const avg = average([100, 200, 300]); // 200.00
 ```
 
 **Formatting & Parsing:**
+
 ```typescript
 const { formatCurrency, parseAmount } = useFinancial();
 
@@ -240,17 +288,18 @@ formatCurrency(1234567.89, { showDecimals: true }); // "Rp 1.234.567,89"
 formatCurrency(1234567.89, { showSymbol: false }); // "1.234.568"
 
 // Parse user input
-parseAmount("Rp 1.234.567,89"); // 1234567.89
-parseAmount("1,234,567.89"); // 1234567.89
+parseAmount('Rp 1.234.567,89'); // 1234567.89
+parseAmount('1,234,567.89'); // 1234567.89
 ```
 
 **Validation & Comparison:**
+
 ```typescript
 const { isValidAmount, compare, isPositive, isZero } = useFinancial();
 
 // Validate
-isValidAmount(100.50); // true
-isValidAmount("abc"); // false
+isValidAmount(100.5); // true
+isValidAmount('abc'); // false
 isValidAmount(-50); // false (negative amounts invalid)
 
 // Compare
@@ -264,6 +313,7 @@ isZero(0); // true
 ```
 
 **Usage Rules:**
+
 1. ✅ **Always import** `useFinancial()` in components/composables dealing with money
 2. ✅ **Use for all calculations**: totals, averages, percentages, tax calculations
 3. ✅ **Use for comparisons**: Always use `compare()` function for sorting/comparing amounts
@@ -272,6 +322,7 @@ isZero(0); // true
 6. ✅ **Database storage**: Already configured as `DECIMAL(15,2)` in migrations
 
 **Examples:**
+
 ```typescript
 // ✅ CORRECT - Using compare() for sorting
 const { compare } = useFinancial();
@@ -282,6 +333,7 @@ summaries.sort((a, b) => b.total - a.total); // Floating-point errors!
 ```
 
 ### UI & Styling
+
 - **Framework**: Nuxt UI (built on Tailwind CSS)
 - **Approach**: Mobile-first responsive design
 - **Target Device**: Primarily mobile screens - optimize all UI/UX for mobile usage
@@ -308,6 +360,7 @@ summaries.sort((a, b) => b.total - a.total); // Floating-point errors!
 - Soft Deletes: Filter out soft-deleted records with `.is('deleted_at', null)`
 - **Category Joins**: When fetching transactions, always use `.select('*, categories(id, name, icon, color, type)')` to return joined category data
 - Example endpoint structure (note `/v1/` prefix in file path):
+
   ```typescript
   // File: server/api/v1/resource/index.get.ts
   // URL: /api/v1/resource
@@ -335,6 +388,7 @@ summaries.sort((a, b) => b.total - a.total); // Floating-point errors!
 ## Environment Setup
 
 Required environment variables (see `.env.example`):
+
 - `NUXT_PUBLIC_HOST` - Application host URL
 - `SUPABASE_URL`, `SUPABASE_KEY` - Public Supabase credentials
 - `SUPABASE_SERVICE_KEY` - Server-side service key
@@ -343,6 +397,7 @@ Required environment variables (see `.env.example`):
 ## Database Context
 
 The application uses a multi-table architecture:
+
 1. **user_data**: Maps auth.users to application roles with full_name, role, is_blocked, soft delete
    - Auto-syncs with auth.users via triggers (handle_new_user, handle_user_updated)
    - Includes SECURITY DEFINER functions to avoid RLS infinite recursion
@@ -352,6 +407,7 @@ The application uses a multi-table architecture:
 5. **transactions**: Financial transactions linked to categories
 
 All tables implement:
+
 - RLS policies scoped to `(SELECT auth.uid())` - optimized to prevent per-row re-evaluation
 - Soft delete pattern (`deleted_at` timestamp)
 - Audit fields (`created_at`, `updated_at`, `created_by`)
@@ -369,6 +425,7 @@ All tables implement:
 ### Supabase Local Development
 
 If using Supabase CLI locally:
+
 ```bash
 # Start local Supabase
 supabase start
@@ -383,16 +440,20 @@ supabase gen types typescript --local > utils/constants/database.ts
 ## Current Implementation Plan
 
 ### Completed in Current Session ✅
+
 1. **Route Restructuring** ✅
+
    - Moved login page to `/` (root)
    - Created `/dashboard` page for authenticated users
    - Updated Supabase config and all redirects
 
 2. **API Versioning** ✅
+
    - All API endpoints moved to `/api/v1/*` structure
    - Frontend calls updated to use v1 prefix
 
 3. **Layout & Navigation** ✅
+
    - Clean, mobile-first login page design at `/`
    - Header navigation hidden for unauthenticated users
    - Removed "Sign In" button from header (not needed on login page)
@@ -401,6 +462,7 @@ supabase gen types typescript --local > utils/constants/database.ts
    - All UI text in Bahasa Indonesia
 
 4. **Mobile UI Optimization** ✅
+
    - Login page optimized with 48px+ touch targets
    - Dashboard redesigned for mobile-first experience
    - Added CSS safe area padding and mobile optimizations
@@ -416,6 +478,7 @@ supabase gen types typescript --local > utils/constants/database.ts
    - Removed race condition with `useSupabaseUser()` reactive watching
 
 ### Next Tasks
+
 6. **Testing & Verification** (In Progress)
    - ✅ Test login flow: `/` → Google OAuth → `/confirm` → `/dashboard`
    - Test logout flow: `/dashboard` → logout → `/`
@@ -425,6 +488,7 @@ supabase gen types typescript --local > utils/constants/database.ts
 ## Development Phases
 
 ### Phase 1: Foundation & Authentication ✅
+
 - [x] User authentication with Supabase Google OAuth
   - [x] Login page at `/` (root) with Google OAuth button
   - [x] OAuth callback handler at `/confirm`
@@ -457,6 +521,7 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Assets table (12 asset types)
   - [x] RLS performance optimization (auth_rls_initplan & multiple_permissive_policies)
 - [x] **[P0] Enhanced Data Migration System** ✅ (Phase 1.5 - Completed Oct 10, 2025)
+
   - [x] **Data Organization**
     - [x] Created `supabase/data/oldies/` directory structure
     - [x] Moved `spendings_18bulan.sql` → `supabase/data/oldies/`
@@ -486,6 +551,7 @@ supabase gen types typescript --local > utils/constants/database.ts
     4. ⏭️ Import via UI: Superadmin uploads `combined-expense.json` at `/dashboard/import`
     5. ⏭️ Existing import endpoint handles the rest (batch insert, user mapping, etc.)
   - [x] **Final Migration Statistics**
+
     - Total records: 2,652 expense records
     - Date range: Aug 9, 2014 → Oct 10, 2025 (11+ years)
     - Total value: Rp 291,770,331
@@ -505,6 +571,7 @@ supabase gen types typescript --local > utils/constants/database.ts
       - [x] Batch insert (100 records per batch)
       - [x] Shows import summary (total, inserted, failed, skipped)
       - [x] API endpoint: POST `/api/v1/transactions/import`
+
 - [x] Auth store with role-based access control
   - [x] Pinia store at `stores/auth-store.ts`
   - [x] Role checking utilities (superadmin, manager, user)
@@ -518,9 +585,11 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Transaction import: POST `/api/v1/transactions/import` (superadmin only)
 
 ### Phase 2: Transaction Management Dashboard 🔄
+
 **Goal:** Create a functional expense tracking dashboard with CRUD operations
 
 #### Decimal.js for Financial Calculations
+
 - [x] **Install and Configure decimal.js** ✅ (Oct 10, 2025)
   - [x] Install: `pnpm add decimal.js`
   - [x] Types are built-in, no separate package needed
@@ -537,6 +606,7 @@ supabase gen types typescript --local > utils/constants/database.ts
   - Always round to 2 decimal places for display
 
 #### Restructure Pages
+
 - [x] Move current `/dashboard` content to `/profile` page ✅ (Oct 10, 2025)
   - [x] Created `/profile` page with user info card
   - [x] Moved debug info section
@@ -550,7 +620,9 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [x] Mobile-optimized layout ready for widgets
 
 #### Dashboard Widgets (all in `/dashboard`)
+
 - [x] **Expense Summary Card** ✅ (Oct 10, 2025 - UI Only)
+
   - [x] Display total sum of today's expenses
   - [x] Display total sum of current month's expenses
   - [x] Show comparison percentage with last month
@@ -560,6 +632,7 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [ ] **Realtime pending**: Subscribe to transactions channel
 
 - [x] **Quick Add Expense Widget** ✅ (Oct 10, 2025 - UI Only)
+
   - [x] **Design**: Floating action button (bottom-right) with fullscreen dialog
   - [x] **Smart Parser**: Single textarea with natural language parsing
     - [x] Supports formats: "Makan 35000", "Bensin 50rb", "Parkir 5k"
@@ -579,6 +652,7 @@ supabase gen types typescript --local > utils/constants/database.ts
   - [ ] **Data integration pending**: POST to `/api/v1/transactions`
 
 - [x] **Today's Expenses Widget** ✅ (Oct 10, 2025 - UI Only)
+
   - [x] List today's expenses sorted by `created_at DESC`
   - [x] Show: description, amount, time, category
   - [x] Empty state when no expenses
@@ -603,12 +677,14 @@ supabase gen types typescript --local > utils/constants/database.ts
 All transaction data will be managed through a centralized Pinia store (`stores/transaction-store.ts`) to minimize API calls and provide reactive state management across all widgets.
 
 **Key Principles:**
+
 1. **Single Source of Truth**: One Pinia store manages all transaction data
 2. **Fetch Once**: Load current month's transactions on dashboard mount
 3. **Realtime Updates**: Supabase channel subscription in Pinia store
 4. **Reactive Widgets**: Widgets consume store data via `storeToRefs()`
 
 **Transaction Store Structure:**
+
 ```typescript
 // stores/transaction-store.ts
 
@@ -655,6 +731,7 @@ actions: {
 ```
 
 **Realtime Subscription in Pinia Store:**
+
 ```typescript
 // Inside transaction store
 const supabase = useSupabaseClient();
@@ -665,7 +742,8 @@ const initRealtimeSubscription = () => {
 
   channel = supabase
     .channel('transactions-channel')
-    .on('postgres_changes',
+    .on(
+      'postgres_changes',
       { event: '*', schema: 'public', table: 'transactions' },
       handleRealtimeEvent
     )
@@ -674,7 +752,7 @@ const initRealtimeSubscription = () => {
   isSubscribed.value = true;
 };
 
-const handleRealtimeEvent = (payload) => {
+const handleRealtimeEvent = payload => {
   // Only process events for current month
   const transactionMonth = getMonthFromDate(payload.new?.created_at);
   if (transactionMonth !== currentMonth.value) return;
@@ -699,6 +777,7 @@ const cleanupRealtimeSubscription = () => {
 ```
 
 **Dashboard Page Lifecycle:**
+
 ```typescript
 // pages/dashboard.vue
 const transactionStore = useTransactionStore();
@@ -718,6 +797,7 @@ onUnmounted(() => {
 ```
 
 **Widget Integration (Pure Consumers):**
+
 ```typescript
 // Widgets only consume data from store - no direct API calls
 
@@ -737,6 +817,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
 ```
 
 **Benefits:**
+
 - ✅ Single API call for current month's data
 - ✅ Reactive updates across all widgets
 - ✅ Centralized data management
@@ -745,7 +826,9 @@ await transactionStore.addTransaction(transactions); // POST via store action
 - ✅ Type-safe with transaction types from `utils/constants/transaction.ts`
 
 #### Transaction CRUD API Endpoints
+
 - [x] **GET `/api/v1/transactions`** ✅ (Oct 11, 2025) - List user's transactions
+
   - Query params: `date` (YYYY-MM-DD), `month` (YYYY-MM), `limit`, `offset`
   - Filter by current user (from auth via `getAuthenticatedUserId()`)
   - Returns transactions with joined category data using `.select('*, categories(...)')`
@@ -754,6 +837,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - File: `server/api/v1/transactions/index.get.ts`
 
 - [x] **POST `/api/v1/transactions`** ✅ (Oct 11, 2025) - Create new transactions (bulk)
+
   - Body: `{ transactions: [{ description, amount, transaction_type, category? }] }`
   - Supports bulk insert (array of transactions)
   - Validates each transaction (description, amount > 0, transaction_type)
@@ -762,6 +846,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - File: `server/api/v1/transactions/index.post.ts`
 
 - [x] **PUT `/api/v1/transactions/:id`** ✅ (Oct 11, 2025) - Update transaction
+
   - Body: `{ description?, amount?, transaction_type?, category? }`
   - Permission checks: Owner OR manager/superadmin
   - Uses `getAuthenticatedUserId()` for auth
@@ -777,6 +862,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - File: `server/api/v1/transactions/[id].delete.ts`
 
 **Architecture Refactoring (Oct 11, 2025):**
+
 - ✅ All endpoints refactored to use `getAuthenticatedUserId()` helper from `server/utils/auth.ts`
 - ✅ Removed direct `serverSupabaseUser()` calls for better centralization
 - ✅ Fixed GET endpoint to return joined category data (was returning only category UUID)
@@ -785,6 +871,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
 - ✅ All CRUD operations now use API endpoints instead of direct Supabase client queries
 
 #### Permission System
+
 - [x] **Implement RLS policy checks in API endpoints** ✅ (Oct 10, 2025)
   - ✅ Users can only CRUD their own transactions (checked via `created_by`)
   - ✅ Managers can view/edit all non-deleted transactions (role-based checks)
@@ -799,6 +886,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - ✅ Uses `isAdmin` computed from auth store for role checking
 
 #### Implementation Plan
+
 1. **Install decimal.js** - Add dependency for accurate financial calculations
 2. **Create `/profile` page** - Move existing dashboard content
 3. **Build API endpoints** - Start with GET and POST for transactions (use Decimal.js)
@@ -810,12 +898,15 @@ await transactionStore.addTransaction(transactions); // POST via store action
 9. **Test calculations** - Verify all financial calculations are accurate
 
 #### Family Sharing Feature 👨‍👩‍👧‍👦 ✅
+
 **Goal:** Allow users to create families and share expense tracking with family members
 
 **Completed:** Oct 13, 2025
 
 ##### Database Schema
+
 - [x] **Create migration for families table** ✅
+
   ```sql
   -- Migration: supabase/migrations/[timestamp]_create_families.sql
 
@@ -934,12 +1025,14 @@ await transactionStore.addTransaction(transactions); // POST via store action
   ```
 
 ##### Transaction Visibility Updates
+
 - [x] **Update transactions RLS policies to include family members** ✅
   - RLS policy created with SECURITY DEFINER function `is_family_transaction()`
   - Users can view their own transactions + family members' transactions
   - Implemented in migration: `supabase/migrations/20241012000007_add_family_visibility_to_transactions.sql`
 
 ##### API Endpoints
+
 - [x] **Family Management Endpoints** ✅ (All 8 endpoints completed)
   - `GET /api/v1/families` - List user's families with members
   - `POST /api/v1/families` - Create new family (auto-adds creator as owner)
@@ -952,6 +1045,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - All endpoints manually join user_data due to PostgREST foreign key limitations
 
 ##### Transaction Store Updates
+
 - [x] **Family Transaction Filtering** ✅ (Oct 13, 2025)
   - Added `date-fns` package for proper date/timezone handling
   - Added `familyMemberIds: string[]` state to cache family member IDs
@@ -962,6 +1056,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - Sends `start`, `end`, `include_family` query params to API
 
 ##### Transaction API Updates
+
 - [x] **GET `/api/v1/transactions` Enhanced** ✅ (Oct 13, 2025)
   - Replaced `date`/`month` params with `start`/`end` ISO datetime params
   - Added `include_family` boolean query param
@@ -970,6 +1065,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - Uses UTC timestamps (PostgreSQL `timestamptz`)
 
 ##### Dashboard UI
+
 - [x] **Family Toggle Component** ✅ (Oct 13, 2025)
   - Created `components/dashboard/FamilyToggle.vue` (client-only component)
   - Custom toggle switch using Tailwind CSS (UToggle had SSR issues)
@@ -981,6 +1077,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - Clicking toggle refetches transactions with new filter
 
 ##### Profile Page Widget
+
 - [x] **Family Management Widget** ✅ (`components/profile/FamilyManagementWidget.vue`)
   - Complete family CRUD interface
   - 4 dialogs: Create Family, Edit Family, Add Member, Remove Member confirmation
@@ -998,6 +1095,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - No TypeScript `any` usage - all properly typed
 
 ##### Family Types
+
 - [x] **Create family types** ✅ in `utils/constants/family.ts`
   - All types derived from `Database` types
   - Includes: `Family`, `FamilyInsert`, `FamilyUpdate`
@@ -1008,6 +1106,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - Input types: `FamilyInput`, `AddFamilyMemberInput`
 
 ##### Implementation Summary
+
 - [x] ✅ Create families migration with RLS policies (Oct 12, 2025)
 - [x] ✅ Update transactions RLS to include family visibility (Oct 12, 2025)
 - [x] ✅ Create family types in `utils/constants/family.ts` (Oct 12, 2025)
@@ -1019,6 +1118,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
 - [x] ✅ Test family creation, member management, and transaction visibility (Oct 13, 2025)
 
 **Key Features:**
+
 - Family creators automatically promoted to `manager` role
 - Family toggle defaults to ON (shows family transactions)
 - Server-side family member ID resolution for security
@@ -1027,9 +1127,11 @@ await transactionStore.addTransaction(transactions); // POST via store action
 - Owner-only permissions (simplified from role hierarchy)
 
 ### Phase 3: AI-Powered Smart Input & Settings 🔮
+
 **Goal:** Enhance UX with AI and user configuration
 
 #### AI Smart Input (OpenAI Integration)
+
 - [ ] **Smart Expense Parser**
   - API endpoint: POST `/api/v1/ai/parse-expense`
   - Accept natural language input: "belanja 50000", "makan siang 35rb"
@@ -1045,6 +1147,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - Allow manual editing before saving
 
 #### Settings Page (`/settings`)
+
 - [ ] **Category Management Widget**
   - List user's custom categories
   - Add new category (name, type: income/expense, color?, icon?)
@@ -1062,6 +1165,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
   - Export/import data options
 
 #### Implementation Plan
+
 1. **Add OpenAI integration** - Setup API key and client
 2. **Create parse endpoint** - Build AI expense parser
 3. **Update Quick Add Widget** - Add smart input mode
@@ -1071,6 +1175,7 @@ await transactionStore.addTransaction(transactions); // POST via store action
 7. **Integrate warnings** - Show budget alerts on dashboard
 
 ### Phase 4: Advanced Features (Future) 🚀
+
 - [ ] Multi-currency support with real-time exchange rates
 - [ ] Recurring transactions (daily, weekly, monthly)
 - [ ] Export functionality (CSV, PDF reports)
