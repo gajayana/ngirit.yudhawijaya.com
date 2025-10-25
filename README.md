@@ -1,75 +1,134 @@
-# Nuxt Minimal Starter
+# Ngirit 💰
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+**Biar dompet gak nangis di akhir bulan** 💸
 
-## Setup
+A modern financial expense tracking application built with Nuxt 4, TypeScript, Supabase, and Pinia. Features family sharing, real-time updates, and smart expense parsing.
 
-Make sure to install dependencies:
+## 🚀 Quick Start
+
+This project uses **pnpm** as the package manager.
 
 ```bash
-# npm
-npm install
-
-# pnpm
+# Install dependencies
 pnpm install
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
+# Start development server (http://localhost:3000)
 pnpm dev
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
+# Build for production
 pnpm build
 
-# yarn
-yarn build
-
-# bun
-bun run build
+# Preview production build
+pnpm preview
 ```
 
-Locally preview production build:
+## 📚 Documentation
+
+- **[CLAUDE.md](./CLAUDE.md)** - Coding guidelines, architecture, and patterns
+- **[ROADMAP.md](./ROADMAP.md)** - Development phases and planned features
+- **[CHANGELOG.md](./CHANGELOG.md)** - Completed features and implementation history
+
+## ✨ Features
+
+### Phase 1: Foundation ✅
+- Google OAuth authentication with Supabase
+- Role-based access control (superadmin, manager, user)
+- Mobile-first responsive design
+- API versioning (`/api/v1/*`)
+
+### Phase 2: Transaction Management ✅
+- Real-time expense tracking dashboard
+- Smart natural language expense parser ("Makan 35000" → parsed automatically)
+- Today's expenses & monthly summaries
+- Family sharing with toggle filter
+- Permission system (owner/manager/user)
+- Decimal.js for accurate financial calculations
+
+### Phase 3: AI & Settings 🚧 (In Progress)
+- OpenAI-powered expense parser
+- Category management
+- Daily budget tracking
+- User preferences
+
+## 🛠️ Tech Stack
+
+- **Framework:** Nuxt 4.1.3 (Vue 3.5.22)
+- **Package Manager:** pnpm 10.18.1+
+- **UI:** Nuxt UI 4.0.1 (Tailwind CSS 4.1.14)
+- **Database:** Supabase (PostgreSQL + RLS)
+- **State:** Pinia 3.0.3
+- **Auth:** Supabase Auth (@nuxtjs/supabase 2.0.0)
+- **Financial Calculations:** Decimal.js
+
+## 📦 Scripts
 
 ```bash
-# npm
-npm run preview
+# Development
+pnpm dev                # Start dev server
+pnpm build              # Build for production
+pnpm preview            # Preview production build
 
-# pnpm
-pnpm preview
+# Data Migration (Superadmin)
+pnpm firestore:fetch    # Fetch from Firebase Firestore
+pnpm mysql:fetch        # Parse MySQL dump
+pnpm data:merge         # Merge datasets
 
-# yarn
-yarn preview
-
-# bun
-bun run preview
+# Database
+supabase gen types typescript --local > utils/constants/database.ts
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 🗂️ Project Structure
+
+```
+ngirit/
+├── components/         # Vue components (kebab-case)
+│   ├── auth/          # Authentication components
+│   ├── dashboard/     # Dashboard widgets
+│   └── profile/       # Profile page widgets
+├── composables/       # Vue composables (useFinancial, etc.)
+├── pages/             # Auto-routed pages
+│   ├── index.vue      # Login page (/)
+│   ├── dashboard.vue  # Main dashboard
+│   └── profile.vue    # User profile
+├── server/api/v1/     # API endpoints (versioned)
+├── stores/            # Pinia stores (auth, transaction)
+├── supabase/
+│   ├── migrations/    # 7 database migrations
+│   └── data/          # Migration data
+└── utils/constants/   # Type definitions (database, user, transaction, family)
+```
+
+## 🔒 Security & Privacy
+
+- All sensitive files blocked via `.claudeignore`
+- Environment variables in `.env` (never committed)
+- RLS policies on all database tables
+- SECURITY DEFINER functions to avoid infinite recursion
+- Soft delete pattern (no hard deletes)
+
+## 🌐 Environment Variables
+
+See `.env.example` for required variables:
+
+- `NUXT_PUBLIC_HOST` - Application host URL
+- `SUPABASE_URL`, `SUPABASE_KEY` - Public Supabase credentials
+- `SUPABASE_SERVICE_KEY` - Server-side service key
+- Optional: Google Auth, Firebase credentials
+
+## 📱 Language
+
+- **User-facing text:** Bahasa Indonesia
+- **Code & documentation:** English
+- **Variable/function names:** English
+
+## 🤝 Contributing
+
+This is a personal project. For coding guidelines, please refer to [CLAUDE.md](./CLAUDE.md).
+
+## 📄 License
+
+MIT
+
+---
+
+Built with ❤️ using [Nuxt](https://nuxt.com) and [Supabase](https://supabase.com)
