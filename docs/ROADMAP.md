@@ -2,6 +2,8 @@
 
 This document outlines the development phases and planned features for the Ngirit application.
 
+**Current Version:** 4.0.0 (Phase 2 Complete)
+
 ## Phase 1: Foundation & Authentication ✅ COMPLETED
 
 **Status:** ✅ Complete (Oct 10, 2025)
@@ -23,17 +25,17 @@ This document outlines the development phases and planned features for the Ngiri
 - [x] Auth store with role-based access control
 - [x] Server API endpoints (all with `/v1/` prefix)
 
-See `CHANGELOG.md` for detailed implementation history.
+See `docs/CHANGELOG.md` for detailed implementation history.
 
 ---
 
-## Phase 2: Transaction Management Dashboard ✅ COMPLETED (with known issues)
+## Phase 2: Transaction Management Dashboard ✅ COMPLETED
 
-**Status:** ✅ Feature-complete (Oct 13, 2025) | ⏳ Investigating realtime in local dev
+**Status:** ✅ Complete (Oct 26, 2025)
 
-**Goal:** Create a functional expense tracking dashboard with CRUD operations
+**Goal:** Create a functional expense tracking dashboard with CRUD operations, family sharing, and real-time updates
 
-### Completed Features
+### Core Features
 
 - [x] Decimal.js integration for financial calculations
 - [x] Transaction CRUD API endpoints (GET, POST, PUT, DELETE)
@@ -44,24 +46,85 @@ See `CHANGELOG.md` for detailed implementation history.
   - [x] Today's Expenses Widget (list view with edit/delete)
   - [x] Monthly Summary Widget (grouped by description)
 - [x] Permission system (RLS + UI checks)
-- [x] Family Sharing Feature
-  - [x] Database schema (families, family_members tables)
-  - [x] 8 Family API endpoints (CRUD operations)
-  - [x] Family Management Widget in `/profile`
-  - [x] Family transaction filtering in dashboard
-  - [x] Family toggle UI component
 
-### Known Issues & Workarounds
+### Family Sharing
 
-- **Realtime Subscriptions in Local Development**
-  - **Issue**: Supabase CLI uses non-JWT keys that are incompatible with Realtime service
-  - **Workaround**: Realtime is automatically disabled in local dev (127.0.0.1/localhost)
-  - **Status**: ✅ Works in production, disabled in local dev
-  - **Impact**: In local development, changes won't update in real-time (requires manual refresh)
-  - **Code**: See `stores/transaction-store.ts:438-449`
-  - **Note**: This is a known Supabase CLI limitation, not a bug in our code
+- [x] Database schema (families, family_members tables)
+- [x] 8 Family API endpoints (CRUD operations)
+- [x] Family Management Widget in `/profile`
+- [x] Family transaction filtering in dashboard
+- [x] Family toggle UI component
+- [x] Realtime updates for family member changes
 
-See `CHANGELOG.md` for detailed implementation history.
+### Realtime Subscriptions (Oct 26, 2025)
+
+- [x] **Core Realtime Composable** (`composables/useRealtime.ts`)
+  - Type-safe subscription management
+  - Automatic cleanup on unmount
+  - Status tracking per channel
+  - Debug logging support
+- [x] **Transaction Realtime** (store integration)
+  - Live INSERT/UPDATE/DELETE events
+  - Smart filtering by month and family
+  - Automatic category data fetching
+  - Duplicate detection
+- [x] **Family Member Realtime**
+  - Auto-refresh when members join/leave
+  - Keeps transaction lists in sync with family membership
+- [x] **User Data Realtime** (auth store)
+  - Live role changes
+  - Live blocked status updates
+  - Console warnings for important changes
+- [x] **Documentation**
+  - Comprehensive testing guide (`docs/REALTIME_TESTING.md`)
+  - Technical implementation docs (`docs/REALTIME_IMPLEMENTATION.md`)
+  - Quick reference summary (`docs/REALTIME_SUMMARY.md`)
+
+**Note:** Realtime now works with Supabase CLI v2.53.6+
+
+### Copywriting & UX (Oct 26, 2025)
+
+- [x] **Bahasa Indonesia Audit**
+  - Eliminated all code-switching (English → Bahasa)
+  - Fixed spelling errors ("tau" → "tahu")
+  - Improved formality (more conversational tone)
+  - 6 code-switching fixes
+  - 3 formality improvements
+- [x] **Empty States Enhancement**
+  - Added personality with emojis and humor
+  - More engaging messaging
+  - 2 empty state improvements
+- [x] **Error Messages**
+  - Made error messages helpful with actionable guidance
+  - 6 error message improvements
+- [x] **UI Polish**
+  - Shortened verbose text for mobile
+  - Improved placeholder examples
+  - Better success messages
+  - 3 consistency improvements
+
+### SEO Implementation (Oct 26, 2025)
+
+- [x] **Global SEO Setup** (`app.vue`)
+  - HTML lang="id" for Bahasa Indonesia
+  - Title templates for consistency
+  - Global structured data (Organization, WebApplication)
+  - Default Open Graph and Twitter Card tags
+- [x] **Page-Specific SEO**
+  - Homepage with full Open Graph/Twitter cards
+  - Dashboard (noindex for privacy)
+  - Profile (noindex for privacy)
+  - Canonical URLs on all pages
+- [x] **Technical SEO**
+  - Enhanced robots.txt with proper rules
+  - XML sitemap for search engines
+  - SEO constants (`utils/constants/seo.ts`)
+  - Helper functions for OG/Twitter tags
+- [x] **Documentation**
+  - Complete SEO guide (`docs/SEO_GUIDE.md`)
+  - Nuxt 4.x vs Nuxt SEO analysis (`docs/SEO_ANALYSIS.md`)
+
+See `docs/CHANGELOG.md` for detailed implementation history.
 
 ---
 

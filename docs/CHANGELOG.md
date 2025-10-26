@@ -4,6 +4,38 @@ All notable completed features and changes to this project are documented here.
 
 ---
 
+## Version 4.0.0 (Oct 26, 2025)
+
+### Phase 2 Completion
+
+**Major Release**: Complete rewrite from asset tracking to expense tracking application with family sharing capabilities.
+
+**Features:**
+- ✅ Transaction management dashboard with CRUD operations
+- ✅ Family sharing with real-time collaboration
+- ✅ Realtime subscriptions for transactions, family members, and user data
+- ✅ Smart natural language expense parser ("Makan 35000" → auto-parsed)
+- ✅ Mobile-first responsive design with touch-friendly UI
+- ✅ Decimal.js for accurate financial calculations
+- ✅ Comprehensive SEO implementation (Open Graph, Twitter Cards, structured data)
+- ✅ Polished Bahasa Indonesia copywriting with personality
+- ✅ Logo optimization (PNG, WebP, favicon, apple-touch-icon)
+
+**Documentation:**
+- ✅ Complete SEO guide and analysis
+- ✅ Realtime testing and implementation guides
+- ✅ Updated roadmap with Phase 2 marked complete
+- ✅ Reorganized documentation into `docs/` folder
+
+**Technical Highlights:**
+- 7 database migrations with Row Level Security
+- Type-safe composables and stores
+- Nuxt 4.1.3 with Vue 3.5.22
+- Supabase Auth and Realtime
+- Pinia state management
+
+---
+
 ## Recent Updates
 
 ### Realtime Subscriptions (Oct 25, 2025)

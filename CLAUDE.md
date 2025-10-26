@@ -383,13 +383,13 @@ All tables implement:
 - Audit fields (`created_at`, `updated_at`, `created_by`)
 - Consolidated policies to avoid multiple permissive policies per action
 
-**For detailed migration history and database evolution, see `CHANGELOG.md`**
+**For detailed migration history and database evolution, see `docs/CHANGELOG.md`**
 
 ## Current State & Next Steps
 
 For detailed information about:
 
-- **Development phases and roadmap**: See `ROADMAP.md`
-- **Completed features and migration history**: See `CHANGELOG.md`
+- **Development phases and roadmap**: See `docs/ROADMAP.md`
+- **Completed features and migration history**: See `docs/CHANGELOG.md`
 
-**Current Focus:** Phase 2 complete (Transaction Management Dashboard with Family Sharing). Next up: Phase 3 (AI-Powered Smart Input & Settings).
+**Current Focus:** ✅ Phase 2 complete (Oct 26, 2025) - Transaction Management Dashboard with Family Sharing, Realtime Updates, SEO, and Polished Copywriting. Next up: Phase 3 (AI-Powered Smart Input & Settings).

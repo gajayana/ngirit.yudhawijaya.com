@@ -2,6 +2,8 @@
 
 **Biar dompet gak nangis di akhir bulan** 💸
 
+**Version 4.0.0** - Phase 2 Complete
+
 A modern financial expense tracking application built with Nuxt 4, TypeScript, Supabase, and Pinia. Features family sharing, real-time updates, and smart expense parsing.
 
 ## 🚀 Quick Start
@@ -25,8 +27,11 @@ pnpm preview
 ## 📚 Documentation
 
 - **[CLAUDE.md](./CLAUDE.md)** - Coding guidelines, architecture, and patterns
-- **[ROADMAP.md](./ROADMAP.md)** - Development phases and planned features
-- **[CHANGELOG.md](./CHANGELOG.md)** - Completed features and implementation history
+- **[ROADMAP.md](./docs/ROADMAP.md)** - Development phases and planned features
+- **[CHANGELOG.md](./docs/CHANGELOG.md)** - Completed features and implementation history
+- **[SEO Guide](./docs/SEO_GUIDE.md)** - SEO implementation and best practices
+- **[SEO Analysis](./docs/SEO_ANALYSIS.md)** - Nuxt 4.x vs Nuxt SEO module comparison
+- **[Realtime Guide](./docs/REALTIME_TESTING.md)** - Realtime subscriptions testing guide
 
 ## ✨ Features
 
@@ -36,15 +41,17 @@ pnpm preview
 - Mobile-first responsive design
 - API versioning (`/api/v1/*`)
 
-### Phase 2: Transaction Management ✅
-- Real-time expense tracking dashboard
+### Phase 2: Transaction Management ✅ (Completed Oct 26, 2025)
+- Real-time expense tracking dashboard with live updates
 - Smart natural language expense parser ("Makan 35000" → parsed automatically)
 - Today's expenses & monthly summaries
-- Family sharing with toggle filter
+- Family sharing with realtime member sync
 - Permission system (owner/manager/user)
 - Decimal.js for accurate financial calculations
+- Comprehensive SEO implementation (Open Graph, Twitter Cards, structured data)
+- Polished Bahasa Indonesia copywriting
 
-### Phase 3: AI & Settings 🚧 (In Progress)
+### Phase 3: AI & Settings 🚀 (Next Up)
 - OpenAI-powered expense parser
 - Category management
 - Daily budget tracking
