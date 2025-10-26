@@ -5,7 +5,7 @@
 
 -- Create currencies table
 CREATE TABLE IF NOT EXISTS currencies (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT extensions.uuid_generate_v4(),
   name VARCHAR(100) NOT NULL,
   code VARCHAR(10) NOT NULL UNIQUE, -- Currency code like USD, EUR, IDR
   symbol VARCHAR(10), -- Currency symbol like $, €, Rp

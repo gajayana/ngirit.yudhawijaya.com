@@ -6,7 +6,7 @@ CREATE TYPE user_role AS ENUM ('superadmin', 'manager', 'user');
 
 -- Create user_data table to store user profile and role information
 CREATE TABLE IF NOT EXISTS user_data (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT extensions.uuid_generate_v4(),
   user_id UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL UNIQUE,
   full_name TEXT,

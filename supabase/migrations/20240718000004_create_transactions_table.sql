@@ -3,7 +3,7 @@
 
 -- Create transactions table with soft delete for both income and expenses
 CREATE TABLE IF NOT EXISTS transactions (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT extensions.uuid_generate_v4(),
   description VARCHAR(255) NOT NULL,
   amount DECIMAL(15, 2) NOT NULL CHECK (amount > 0),
   transaction_type VARCHAR(20) NOT NULL CHECK (transaction_type IN ('income', 'expense')),

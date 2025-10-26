@@ -25,7 +25,7 @@ END $$;
 
 -- Create assets table
 CREATE TABLE IF NOT EXISTS assets (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT extensions.uuid_generate_v4(),
   name VARCHAR(255) NOT NULL, -- Name of the asset/account
   type asset_type NOT NULL, -- Type of asset
   currency_id UUID NOT NULL REFERENCES currencies(id) ON DELETE RESTRICT,
