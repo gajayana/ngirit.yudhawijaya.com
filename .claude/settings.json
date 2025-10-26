@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "read": {
+      "deny": [
+        "**/.env*",
+        "**/*.pem",
+        "**/*.key",
+        "**/secrets/**",
+        "**/credentials/**",
+        "**/.aws/**",
+        "**/.ssh/**",
+        "**/docker-compose*.yml",
+        "**/config/database.yml"
+      ]
+    }
+  }
+}

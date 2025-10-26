@@ -1,0 +1,19 @@
+# Claude Code ignore patterns
+# Prevent Claude from reading sensitive files
+
+# Environment files
+.env
+.env.*
+
+# Credentials and secrets
+*.key
+*.pem
+*.crt
+*.p12
+credentials.json
+service-account.json
+secrets/
+
+# Private data
+*.sql.dump
+*.db

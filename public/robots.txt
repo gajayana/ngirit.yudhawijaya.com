@@ -1,0 +1,17 @@
+# Ngirit - Aplikasi Pencatat Keuangan Pribadi
+# Robots.txt for SEO optimization
+
+# Allow all crawlers to access public pages
+User-Agent: *
+Allow: /
+
+# Disallow private user pages
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /confirm
+
+# Disallow API endpoints
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://ngirit.app/sitemap.xml

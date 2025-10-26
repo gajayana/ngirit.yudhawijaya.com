@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "vue.volar",
+    "vue.vscode-typescript-vue-plugin",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "mikestead.dotenv",
+    "steoates.autoimport",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "wix.vscode-import-cost",
+    "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}
