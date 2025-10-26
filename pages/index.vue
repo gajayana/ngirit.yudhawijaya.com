@@ -1,8 +1,37 @@
 <script setup lang="ts">
+  import { PAGE_SEO, getCanonicalUrl, getOpenGraphTags, getTwitterCardTags } from '~/utils/constants/seo';
+
   const config = useRuntimeConfig();
   const supabase = useSupabaseClient();
   const user = useSupabaseUser();
   const router = useRouter();
+
+  // SEO Configuration
+  useHead({
+    title: PAGE_SEO.home.title,
+    link: [
+      { rel: 'canonical', href: getCanonicalUrl('/') },
+    ],
+  });
+
+  useSeoMeta({
+    title: PAGE_SEO.home.title,
+    description: PAGE_SEO.home.description,
+    keywords: PAGE_SEO.home.keywords,
+
+    // Open Graph
+    ...getOpenGraphTags({
+      title: PAGE_SEO.home.title,
+      description: PAGE_SEO.home.description,
+      url: getCanonicalUrl('/'),
+    }),
+
+    // Twitter Card
+    ...getTwitterCardTags({
+      title: PAGE_SEO.home.title,
+      description: PAGE_SEO.home.description,
+    }),
+  });
 
   // If user is already logged in, redirect to dashboard
   watchEffect(() => {

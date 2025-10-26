@@ -47,9 +47,27 @@
 </template>
 
 <script setup lang="ts">
+  import { PAGE_SEO, getCanonicalUrl } from '~/utils/constants/seo';
+
   const user = useSupabaseUser();
   const router = useRouter();
   const transactionStore = useTransactionStore();
+
+  // SEO Configuration (for logged-in users only, noindex for privacy)
+  useHead({
+    title: PAGE_SEO.dashboard.title,
+    link: [
+      { rel: 'canonical', href: getCanonicalUrl('/dashboard') },
+    ],
+    meta: [
+      { name: 'robots', content: 'noindex, nofollow' }, // Dashboard is private, don't index
+    ],
+  });
+
+  useSeoMeta({
+    title: PAGE_SEO.dashboard.title,
+    description: PAGE_SEO.dashboard.description,
+  });
 
   // Redirect to login if not authenticated
   watchEffect(() => {

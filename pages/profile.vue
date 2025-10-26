@@ -93,9 +93,27 @@
 </template>
 
 <script setup lang="ts">
+  import { PAGE_SEO, getCanonicalUrl } from '~/utils/constants/seo';
+
   const user = useSupabaseUser();
   const router = useRouter();
   const authStore = useAuthStore();
+
+  // SEO Configuration (for logged-in users only, noindex for privacy)
+  useHead({
+    title: PAGE_SEO.profile.title,
+    link: [
+      { rel: 'canonical', href: getCanonicalUrl('/profile') },
+    ],
+    meta: [
+      { name: 'robots', content: 'noindex, nofollow' }, // Profile is private, don't index
+    ],
+  });
+
+  useSeoMeta({
+    title: PAGE_SEO.profile.title,
+    description: PAGE_SEO.profile.description,
+  });
 
   // Redirect to login if not authenticated
   watchEffect(() => {
