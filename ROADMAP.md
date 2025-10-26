@@ -27,9 +27,9 @@ See `CHANGELOG.md` for detailed implementation history.
 
 ---
 
-## Phase 2: Transaction Management Dashboard ✅ COMPLETED
+## Phase 2: Transaction Management Dashboard ✅ COMPLETED (with known issues)
 
-**Status:** ✅ Complete (Oct 13, 2025)
+**Status:** ✅ Feature-complete (Oct 13, 2025) | ⏳ Investigating realtime in local dev
 
 **Goal:** Create a functional expense tracking dashboard with CRUD operations
 
@@ -50,6 +50,16 @@ See `CHANGELOG.md` for detailed implementation history.
   - [x] Family Management Widget in `/profile`
   - [x] Family transaction filtering in dashboard
   - [x] Family toggle UI component
+
+### Known Issues & Workarounds
+
+- **Realtime Subscriptions in Local Development**
+  - **Issue**: Supabase CLI uses non-JWT keys that are incompatible with Realtime service
+  - **Workaround**: Realtime is automatically disabled in local dev (127.0.0.1/localhost)
+  - **Status**: ✅ Works in production, disabled in local dev
+  - **Impact**: In local development, changes won't update in real-time (requires manual refresh)
+  - **Code**: See `stores/transaction-store.ts:438-449`
+  - **Note**: This is a known Supabase CLI limitation, not a bug in our code
 
 See `CHANGELOG.md` for detailed implementation history.
 

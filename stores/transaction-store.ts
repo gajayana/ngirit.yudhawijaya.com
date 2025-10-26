@@ -24,9 +24,10 @@ export const useTransactionStore = defineStore('transaction', () => {
   const familyMemberIds = ref<string[]>([]); // IDs of family members (including self)
   const includeFamily = ref(true); // Toggle for showing family transactions (default: true)
 
-  // Realtime channel
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let realtimeChannel: any;
+  // Realtime subscriptions
+  const { subscribe, unsubscribe, isSubscribed: checkSubscribed } = useRealtime();
+  let transactionChannelId = '';
+  let familyMemberChannelId = '';
 
   // ============================================================================
   // Helper Functions
@@ -398,97 +399,189 @@ export const useTransactionStore = defineStore('transaction', () => {
   }
 
   /**
-   * Handle realtime event from Supabase
+   * Handle transaction insert event
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function handleRealtimeEvent(payload: any) {
-    // Only process events for current month
-    const transactionDate = payload.new?.created_at || payload.old?.created_at;
-    if (!transactionDate) return;
+  async function handleTransactionInsert(
+    payload: { new: TransactionWithCategory }
+  ) {
+    const transaction = payload.new;
+    console.log('🔵 Realtime INSERT:', transaction.id);
 
-    const transactionMonth = getMonthFromDate(transactionDate);
+    // Only add if it belongs to current month
+    const transactionMonth = getMonthFromDate(transaction.created_at);
     if (transactionMonth !== currentMonth.value) {
-      console.log('Ignoring realtime event from different month:', transactionMonth);
+      console.log('  ⏭️  Skipping - different month:', transactionMonth);
       return;
     }
 
-    console.log('Processing realtime event:', payload.eventType, payload);
+    // Check if transaction is from a family member or self (when includeFamily is on)
+    const isFromFamily = familyMemberIds.value.includes(transaction.created_by);
+    if (includeFamily.value && !isFromFamily) {
+      console.log('  ⏭️  Skipping - not from family member');
+      return;
+    }
 
-    if (payload.eventType === 'INSERT' && payload.new) {
-      // Add new transaction to the beginning
-      transactions.value.unshift(payload.new as TransactionWithCategory);
-    } else if (payload.eventType === 'UPDATE' && payload.new) {
-      // Update existing transaction
-      const index = transactions.value.findIndex(t => t.id === payload.new?.id);
-      if (index !== -1) {
-        transactions.value[index] = payload.new as TransactionWithCategory;
+    // Avoid duplicates
+    const exists = transactions.value.some(t => t.id === transaction.id);
+    if (exists) {
+      console.log('  ⏭️  Skipping - already exists');
+      return;
+    }
+
+    // Fetch full transaction with category join
+    try {
+      const { data } = await supabase
+        .from('transactions')
+        .select('*, categories(id, name, icon, color, type)')
+        .eq('id', transaction.id)
+        .single();
+
+      if (data) {
+        // Add to beginning of array
+        transactions.value.unshift(data as TransactionWithCategory);
+        console.log('  ✅ Added to store');
       }
-    } else if (payload.eventType === 'DELETE' && payload.old) {
-      // Remove transaction
-      transactions.value = transactions.value.filter(t => t.id !== payload.old?.id);
+    } catch (err) {
+      console.error('  ❌ Error fetching full transaction:', err);
+      // Fallback: add the transaction without full category data
+      transactions.value.unshift(transaction);
     }
   }
 
   /**
-   * Initialize realtime subscription
+   * Handle transaction update event
+   */
+  async function handleTransactionUpdate(
+    payload: { new: TransactionWithCategory }
+  ) {
+    const transaction = payload.new;
+    console.log('🟡 Realtime UPDATE:', transaction.id);
+
+    const index = transactions.value.findIndex(t => t.id === transaction.id);
+
+    if (index === -1) {
+      console.log('  ⏭️  Skipping - not in current list');
+      return;
+    }
+
+    // Fetch full transaction with category join
+    try {
+      const { data } = await supabase
+        .from('transactions')
+        .select('*, categories(id, name, icon, color, type)')
+        .eq('id', transaction.id)
+        .single();
+
+      if (data) {
+        transactions.value[index] = data as TransactionWithCategory;
+        console.log('  ✅ Updated in store');
+      }
+    } catch (err) {
+      console.error('  ❌ Error fetching full transaction:', err);
+      // Fallback: update with payload data
+      transactions.value[index] = transaction;
+    }
+  }
+
+  /**
+   * Handle transaction delete event
+   */
+  function handleTransactionDelete(
+    payload: { old: { id: string } }
+  ) {
+    const transactionId = payload.old.id;
+    console.log('🔴 Realtime DELETE:', transactionId);
+
+    const index = transactions.value.findIndex(t => t.id === transactionId);
+    if (index !== -1) {
+      transactions.value.splice(index, 1);
+      console.log('  ✅ Removed from store');
+    } else {
+      console.log('  ⏭️  Skipping - not in current list');
+    }
+  }
+
+  /**
+   * Handle family member changes
+   */
+  async function handleFamilyMemberChange() {
+    console.log('👨‍👩‍👧‍👦 Family members changed - refreshing...');
+
+    // Refetch family members
+    await fetchFamilyMembers();
+
+    // Refetch transactions with updated family filter
+    await fetchCurrentMonth();
+
+    console.log('  ✅ Refreshed family data');
+  }
+
+  /**
+   * Initialize realtime subscriptions
+   * Subscribes to both transactions and family_members tables
    */
   function initRealtimeSubscription() {
     if (isSubscribed.value || !import.meta.client) return;
 
-    // Skip realtime in local development
-    // Supabase CLI now uses non-JWT keys which don't work with Realtime service
-    const config = useRuntimeConfig();
-    const isLocalDev = config.public.supabase.url.includes('127.0.0.1') ||
-                       config.public.supabase.url.includes('localhost');
+    console.log('🔄 Initializing realtime subscriptions...');
 
-    if (isLocalDev) {
-      console.log('⚠️ Realtime disabled in local development');
-      console.log('💡 Reason: Supabase CLI uses non-JWT keys that are incompatible with Realtime service');
-      console.log('✅ Realtime will work automatically in production');
-      return;
-    }
-
-    console.log('Initializing realtime subscription for transactions');
-
-    realtimeChannel = supabase.channel('public:transactions').on(
-      'postgres_changes',
-      {
-        event: '*',
-        schema: 'public',
-        table: 'transactions',
+    // Subscribe to transactions table
+    transactionChannelId = subscribe({
+      table: 'transactions',
+      event: '*',
+      onInsert: (payload) => handleTransactionInsert(payload as { new: TransactionWithCategory }),
+      onUpdate: (payload) => handleTransactionUpdate(payload as { new: TransactionWithCategory }),
+      onDelete: (payload) => handleTransactionDelete(payload as { old: { id: string } }),
+      onStatusChange: (status) => {
+        if (status === 'SUBSCRIBED') {
+          isSubscribed.value = true;
+          console.log('✅ Subscribed to transactions');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.warn('⚠️  Transactions realtime failed');
+          console.warn('Enable in: Supabase Dashboard → Database → Replication');
+        }
       },
-      payload => {
-        console.log('Change received!', payload);
-        handleRealtimeEvent(payload);
-      }
-    );
-
-    realtimeChannel.subscribe((status: string) => {
-      console.log('Realtime subscription status:', status);
-      if (status === 'SUBSCRIBED') {
-        isSubscribed.value = true;
-        console.log('✅ Realtime subscription active for transactions');
-      } else if (status === 'CHANNEL_ERROR') {
-        console.warn(
-          '⚠️ Realtime subscription failed. This is expected if Realtime is not enabled in Supabase.'
-        );
-        console.warn("The app will work normally, but changes won't update in real-time.");
-        console.warn(
-          'To enable: Go to Supabase Dashboard → Database → Replication → Enable for transactions table'
-        );
-      }
+      debug: true,
     });
+
+    // Subscribe to family_members table for membership changes
+    familyMemberChannelId = subscribe({
+      table: 'family_members',
+      event: '*',
+      onInsert: () => handleFamilyMemberChange(),
+      onUpdate: () => handleFamilyMemberChange(),
+      onDelete: () => handleFamilyMemberChange(),
+      onStatusChange: (status) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Subscribed to family_members');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.warn('⚠️  Family members realtime failed');
+        }
+      },
+      debug: true,
+    });
+
+    console.log('🎯 Realtime subscriptions initialized');
   }
 
   /**
-   * Clean up realtime subscription
+   * Clean up realtime subscriptions
    */
   function cleanupRealtimeSubscription() {
-    if (realtimeChannel) {
-      console.log('Cleaning up realtime subscription');
-      supabase.removeChannel(realtimeChannel);
-      isSubscribed.value = false;
+    console.log('🧹 Cleaning up realtime subscriptions...');
+
+    if (transactionChannelId) {
+      unsubscribe(transactionChannelId, true);
+      transactionChannelId = '';
     }
+
+    if (familyMemberChannelId) {
+      unsubscribe(familyMemberChannelId, true);
+      familyMemberChannelId = '';
+    }
+
+    isSubscribed.value = false;
+    console.log('✅ Cleanup complete');
   }
 
   /**

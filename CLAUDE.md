@@ -346,12 +346,23 @@ summaries.sort((a, b) => b.total - a.total); // Floating-point errors!
 
 ## Environment Setup
 
-Required environment variables (see `.env.example`):
+**⚠️ Note:** Refer to `nuxt.config.ts` `runtimeConfig` section for the canonical list of environment variables, not `.env.example`.
+
+Required environment variables:
 
 - `NUXT_PUBLIC_HOST` - Application host URL
-- `SUPABASE_URL`, `SUPABASE_KEY` - Public Supabase credentials
-- `SUPABASE_SERVICE_KEY` - Server-side service key
+- `SUPABASE_URL`, `SUPABASE_KEY` - Public Supabase credentials (from @nuxtjs/supabase)
+- `SUPABASE_SECRET_KEY` - Server-side service key (custom runtime config)
+- `NUXT_PUBLIC_SUPABASE_KEY` - Public key exposed to client (custom runtime config)
 - Optional: Google Auth, Firebase credentials
+
+**Runtime Config Access:**
+```typescript
+const config = useRuntimeConfig();
+config.SUPABASE_SECRET_KEY          // Server-side only
+config.public.host                   // Client & Server
+config.public.SUPABASE_KEY           // Client & Server
+```
 
 ## Database Schema Overview
 

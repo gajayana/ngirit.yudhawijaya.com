@@ -176,7 +176,7 @@ export const useFinancial = () => {
    * @returns -1 if a < b, 0 if a === b, 1 if a > b
    */
   const compare = (a: number | string, b: number | string): -1 | 0 | 1 => {
-    return new Decimal(a).comparedTo(new Decimal(b));
+    return new Decimal(a).comparedTo(new Decimal(b)) as -1 | 0 | 1;
   };
 
   /**

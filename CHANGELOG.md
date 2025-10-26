@@ -4,6 +4,37 @@ All notable completed features and changes to this project are documented here.
 
 ---
 
+## Recent Updates
+
+### Realtime Subscriptions (Oct 25, 2025)
+
+- ✅ Created reusable `useRealtime()` composable for managing Supabase Realtime subscriptions
+- ✅ Enhanced transaction store with improved realtime handling:
+  - Live updates for INSERT, UPDATE, DELETE events
+  - Smart filtering by current month and family members
+  - Automatic category data fetching for new transactions
+  - Duplicate detection and proper error handling
+- ✅ Added realtime subscriptions for family members:
+  - Auto-refresh when members join or leave families
+  - Ensures transaction lists stay in sync with family membership
+- ✅ Added realtime subscriptions for user data changes:
+  - Live updates when user role changes
+  - Live updates when account is blocked/unblocked
+  - Console warnings for significant status changes
+- ✅ Created comprehensive testing documentation (`docs/REALTIME_TESTING.md`)
+- ✅ Type-safe event handlers with TypeScript
+- ✅ Automatic cleanup on unmount and logout
+- ✅ Debug logging for easier troubleshooting
+- ✅ Works with Supabase CLI v2.53.6+
+
+**Benefits:**
+- Instant synchronization across multiple browser tabs/windows
+- No manual refresh needed for transaction updates
+- Family collaboration with real-time visibility
+- Immediate feedback for admin actions on user accounts
+
+---
+
 ## Phase 1: Foundation & Authentication (Completed Oct 10, 2025)
 
 ### Authentication & Routes
@@ -384,6 +415,19 @@ All notable completed features and changes to this project are documented here.
 - Date filtering uses `date-fns` with UTC timestamps
 - No user attribution shown (privacy-focused design)
 - Owner-only permissions (simplified from role hierarchy)
+
+### Known Issues & Investigations
+
+#### Realtime Subscriptions in Local Development (Oct 13, 2025)
+
+- **Issue**: Supabase CLI uses non-JWT keys incompatible with Realtime service
+- **Workaround**: Auto-detect local dev and disable realtime (see `stores/transaction-store.ts:438-449`)
+- **Status**: ⏳ Under investigation
+- **Changes Made**:
+  - Added custom `runtimeConfig` in `nuxt.config.ts` for potential service key usage
+  - May use service key for realtime in local dev in future
+- **Impact**: Manual refresh needed in local dev; works seamlessly in production
+- **Note**: Refer to `nuxt.config.ts` for canonical runtime config (not `.env.example`)
 
 ---
 

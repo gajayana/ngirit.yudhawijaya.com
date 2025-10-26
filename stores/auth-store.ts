@@ -17,6 +17,10 @@ export const useAuthStore = defineStore('auth', () => {
   const error = ref<Error | null>(null);
   const isFetched = ref(false);
 
+  // Realtime subscriptions
+  const { subscribe, unsubscribe } = useRealtime();
+  let userDataChannelId = '';
+
   /**
    * Fetch the current user's role from server API
    */
@@ -61,6 +65,82 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = false;
     isFetched.value = false;
     error.value = null;
+    cleanupRealtimeSubscription();
+  }
+
+  /**
+   * Handle user data update from realtime
+   */
+  function handleUserDataUpdate(payload: { new: { user_id: string; role: UserRole; is_blocked: boolean } }) {
+    const userData = payload.new;
+
+    // Only process if it's the current user
+    if (userData.user_id !== user.value?.sub) {
+      return;
+    }
+
+    console.log('👤 User data changed in realtime:', userData);
+
+    const oldRole = userRole.value;
+    const wasBlocked = isBlocked.value;
+
+    // Update local state
+    userRole.value = userData.role;
+    isBlocked.value = userData.is_blocked;
+
+    // Log significant changes
+    if (oldRole !== userData.role) {
+      console.log(`  🔄 Role changed: ${oldRole} → ${userData.role}`);
+    }
+
+    if (wasBlocked !== userData.is_blocked) {
+      console.log(`  🔄 Block status changed: ${wasBlocked} → ${userData.is_blocked}`);
+
+      if (userData.is_blocked) {
+        console.warn('  ⚠️  Your account has been blocked');
+        // Optionally: Show notification or redirect
+      } else {
+        console.log('  ✅ Your account has been unblocked');
+      }
+    }
+  }
+
+  /**
+   * Initialize realtime subscription for user data changes
+   */
+  function initRealtimeSubscription() {
+    if (!user.value || userDataChannelId || !import.meta.client) {
+      return;
+    }
+
+    console.log('🔄 Subscribing to user_data changes...');
+
+    // Subscribe to user_data table with filter for current user
+    userDataChannelId = subscribe({
+      table: 'user_data',
+      event: 'UPDATE',
+      filter: `user_id=eq.${user.value.sub}`,
+      onUpdate: (payload) => handleUserDataUpdate(payload as { new: { user_id: string; role: UserRole; is_blocked: boolean } }),
+      onStatusChange: (status) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ Subscribed to user_data changes');
+        } else if (status === 'CHANNEL_ERROR') {
+          console.warn('⚠️  User data realtime failed');
+        }
+      },
+      debug: true,
+    });
+  }
+
+  /**
+   * Clean up realtime subscription
+   */
+  function cleanupRealtimeSubscription() {
+    if (userDataChannelId) {
+      console.log('🧹 Cleaning up user_data subscription...');
+      unsubscribe(userDataChannelId, true);
+      userDataChannelId = '';
+    }
   }
 
   /**
@@ -106,10 +186,12 @@ export const useAuthStore = defineStore('auth', () => {
   if (import.meta.client) {
     watch(
       () => user.value?.sub,
-      (newId, oldId) => {
+      async (newId, oldId) => {
         if (newId && newId !== oldId) {
           isFetched.value = false;
-          fetchUserRole();
+          await fetchUserRole();
+          // Initialize realtime subscription after fetching user role
+          initRealtimeSubscription();
         } else if (!newId) {
           resetState();
         }
@@ -131,6 +213,8 @@ export const useAuthStore = defineStore('auth', () => {
     hasRole,
     signOut,
     canAccess,
+    initRealtimeSubscription,
+    cleanupRealtimeSubscription,
 
     // Computed
     userId,
