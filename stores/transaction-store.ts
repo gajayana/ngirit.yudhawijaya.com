@@ -14,6 +14,7 @@ import type { Database } from '~/utils/constants/database';
 export const useTransactionStore = defineStore('transaction', () => {
   const { sum, add, compare } = useFinancial();
   const supabase = useSupabaseClient<Database>();
+  const user = useSupabaseUser();
 
   // State
   const transactions = ref<TransactionWithCategory[]>([]);
@@ -414,11 +415,21 @@ export const useTransactionStore = defineStore('transaction', () => {
       return;
     }
 
-    // Check if transaction is from a family member or self (when includeFamily is on)
-    const isFromFamily = familyMemberIds.value.includes(transaction.created_by);
-    if (includeFamily.value && !isFromFamily) {
-      console.log('  ⏭️  Skipping - not from family member');
-      return;
+    // Filter based on includeFamily setting
+    if (includeFamily.value) {
+      // Family mode ON: Only show transactions from family members
+      const isFromFamily = familyMemberIds.value.includes(transaction.created_by);
+      if (!isFromFamily) {
+        console.log('  ⏭️  Skipping - not from family member');
+        return;
+      }
+    } else {
+      // Family mode OFF: Only show current user's transactions
+      const isOwnTransaction = transaction.created_by === user.value?.sub;
+      if (!isOwnTransaction) {
+        console.log('  ⏭️  Skipping - family mode OFF, not own transaction');
+        return;
+      }
     }
 
     // Avoid duplicates
