@@ -16,7 +16,7 @@
         <!-- Only show navigation when user is logged in -->
         <nav v-if="user" class="hidden md:flex items-center space-x-6">
           <NuxtLink to="/dashboard" class="text-sm font-medium hover:text-primary-500 transition">
-            Dashboard
+            Dasbor
           </NuxtLink>
         </nav>
 

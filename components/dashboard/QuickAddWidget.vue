@@ -73,7 +73,7 @@
                     autofocus
                   />
                   <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    Tulis deskripsi dan jumlah (dipisah spasi atau baris baru)
+                    Pisahkan dengan spasi atau baris baru
                   </p>
                 </div>
 
@@ -91,7 +91,7 @@
                       :key="index"
                       class="flex items-center justify-between"
                     >
-                      <span class="text-sm">{{ expense.description || 'Deskripsi belum diisi' }}</span>
+                      <span class="text-sm">{{ expense.description || 'Tanpa deskripsi' }}</span>
                       <span class="text-base font-semibold text-primary-600 dark:text-primary-400">
                         {{ expense.amount > 0 ? formatCurrency(expense.amount) : '-' }}
                       </span>
@@ -171,7 +171,7 @@
                   <div class="flex items-center gap-2">
                     <UIcon name="i-heroicons-check-circle" class="h-5 w-5" />
                     <span class="font-medium">
-                      {{ parsedExpenses.length > 1 ? `${parsedExpenses.length} pengeluaran` : 'Pengeluaran' }} berhasil ditambahkan!
+                      {{ parsedExpenses.length > 1 ? `${parsedExpenses.length} pengeluaran` : 'Pengeluaran' }} berhasil disimpan! ✅
                     </span>
                   </div>
                 </div>

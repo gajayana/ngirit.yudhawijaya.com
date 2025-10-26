@@ -16,9 +16,9 @@
     <!-- Empty State -->
     <div v-if="expenses.length === 0" class="py-8 text-center">
       <UIcon name="i-heroicons-inbox" class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700" />
-      <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Belum ada pengeluaran hari ini</p>
+      <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Belum ada pengeluaran hari ini 🎉</p>
       <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">
-        Gunakan tombol "Tambah Pengeluaran" untuk mencatat
+        Hari yang hemat! Atau belum sempat dicatat?
       </p>
     </div>
 

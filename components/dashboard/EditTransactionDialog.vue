@@ -208,7 +208,7 @@
       const tx = transactionStore.transactions.find(t => t.id === id);
 
       if (!tx) {
-        error.value = 'Transaksi tidak ditemukan';
+        error.value = 'Transaksi tidak ditemukan. Mungkin sudah dihapus?';
         return;
       }
 
@@ -222,7 +222,7 @@
       };
     } catch (err) {
       console.error('Error loading transaction:', err);
-      error.value = 'Gagal memuat data transaksi';
+      error.value = 'Gagal memuat data. Coba tutup dan buka lagi';
     } finally {
       isLoading.value = false;
     }

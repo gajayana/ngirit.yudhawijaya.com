@@ -46,7 +46,7 @@
           <div class="space-y-1.5 text-center sm:space-y-2">
             <h2 class="text-xl font-semibold sm:text-2xl">Selamat Datang</h2>
             <p class="text-sm text-gray-600 dark:text-gray-400">
-              Masuk untuk melanjutkan ke akun Anda
+              Masuk untuk mulai kelola keuangan Anda
             </p>
           </div>
 
@@ -64,7 +64,7 @@
 
           <!-- Privacy Notice -->
           <p class="text-center text-xs leading-relaxed text-gray-500 dark:text-gray-500 sm:text-xs">
-            Dengan melanjutkan, Anda menyetujui Syarat Layanan dan Kebijakan Privasi kami
+            Dengan masuk, berarti Anda setuju dengan Syarat Layanan & Kebijakan Privasi kami
           </p>
         </div>
       </UCard>
@@ -77,7 +77,7 @@
           </div>
           <h3 class="mt-3 text-sm font-semibold sm:font-medium">Lacak Pengeluaran</h3>
           <p class="mt-1.5 text-xs leading-relaxed text-gray-600 dark:text-gray-400 sm:mt-1">
-            Catat setiap pengeluaran, tau kemana aja uang lari
+            Catat setiap pengeluaran, tahu kemana uang Anda pergi
           </p>
         </div>
 

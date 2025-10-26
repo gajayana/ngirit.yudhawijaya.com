@@ -57,7 +57,7 @@
             comparisonPercentage > 0 ? 'text-red-700 dark:text-red-300' : 'text-green-700 dark:text-green-300',
           ]"
         >
-          {{ Math.abs(comparisonPercentage) }}% vs bulan lalu
+          {{ Math.abs(comparisonPercentage) }}% dari bulan lalu
         </span>
       </div>
     </div>

@@ -20,7 +20,7 @@
         class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700"
       />
       <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
-        Belum ada pengeluaran bulan ini
+        Belum ada pengeluaran bulan ini 🌟
       </p>
     </div>
 

@@ -31,7 +31,7 @@
         Anda belum memiliki keluarga
       </p>
       <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">
-        Buat keluarga untuk berbagi tracking pengeluaran
+        Buat keluarga untuk berbagi pencatatan pengeluaran
       </p>
     </div>
 
@@ -154,7 +154,7 @@
                     id="family-name"
                     v-model="familyForm.name"
                     type="text"
-                    placeholder="Contoh: Keluarga Budi"
+                    placeholder="Contoh: Keluarga Bahagia"
                     class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                     :disabled="isSaving"
                     required
@@ -490,7 +490,7 @@
       console.error('Error fetching families:', error);
       toast.add({
         title: 'Error',
-        description: 'Gagal memuat data keluarga',
+        description: 'Gagal memuat data. Periksa koneksi internet Anda',
         color: 'error',
       });
     } finally {

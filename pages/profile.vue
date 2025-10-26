@@ -6,10 +6,10 @@
         class="rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-900 sm:p-6"
       >
         <h1 class="text-lg font-bold sm:text-xl">
-          Profil Saya 👤
+          Profil Saya 😊
         </h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          Kelola informasi akun dan pengaturan Anda
+          Kelola info akun dan pengaturan di sini
         </p>
       </div>
 
@@ -57,7 +57,7 @@
         class="group rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
       >
         <summary class="cursor-pointer p-5 font-semibold text-gray-700 dark:text-gray-300 sm:p-6">
-          <span class="text-sm sm:text-base">Debug Info (Tap untuk expand)</span>
+          <span class="text-sm sm:text-base">Info Debug (Ketuk untuk buka)</span>
         </summary>
         <div class="border-t border-gray-200 p-5 dark:border-gray-800 sm:p-6">
           <pre class="overflow-x-auto rounded bg-gray-100 p-4 text-xs dark:bg-gray-950">{{
@@ -76,7 +76,7 @@
         @click="logout"
       >
         <UIcon name="i-heroicons-arrow-left-on-rectangle" class="h-5 w-5" />
-        <span class="ml-2">Keluar dari Akun</span>
+        <span class="ml-2">Keluar</span>
       </UButton>
     </div>
 

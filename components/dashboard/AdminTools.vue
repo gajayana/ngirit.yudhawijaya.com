@@ -150,7 +150,7 @@
 
           importResult.value = {
             success: true,
-            message: `Berhasil mengimport ${response.summary.inserted} dari ${response.summary.total} transaksi`,
+            message: `Berhasil mengimpor ${response.summary.inserted} dari ${response.summary.total} transaksi`,
             summary: response.summary,
           };
 
@@ -166,7 +166,7 @@
           const apiError = error as { data?: { message?: string } };
           importResult.value = {
             success: false,
-            message: apiError.data?.message || 'Terjadi kesalahan saat mengimport transaksi',
+            message: apiError.data?.message || 'Terjadi kesalahan saat mengimpor transaksi',
           };
         } finally {
           isImporting.value = false;
