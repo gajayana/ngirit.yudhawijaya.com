@@ -1,0 +1,10 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+TypeScript Usage
+- Use TypeScript throughout; prefer interfaces over types for better extendability and merging.
+- Avoid enums, opting for maps for improved type safety and flexibility.
+- Use functional components with TypeScript interfaces.
+- Use context7.
