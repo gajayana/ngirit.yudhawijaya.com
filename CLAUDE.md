@@ -75,6 +75,18 @@ pnpm firestore:fetch
 supabase gen types typescript --local > utils/constants/database.ts
 ```
 
+## Troubleshooting
+
+**When encountering development issues, always check `docs/TROUBLESHOOTING.md` first.**
+
+Common issues and quick fixes:
+
+- **Realtime WebSocket Errors:** Update Supabase CLI via `brew update && brew upgrade`
+- **Type Errors:** Regenerate types with `supabase gen types typescript --local > utils/constants/database.ts`
+- **Migration Issues:** Check `docs/CHANGELOG.md` for migration history
+
+For detailed troubleshooting steps, architecture decisions, and issue history, see `docs/TROUBLESHOOTING.md`.
+
 ## Architecture
 
 ### Authentication & Authorization
@@ -391,5 +403,6 @@ For detailed information about:
 
 - **Development phases and roadmap**: See `docs/ROADMAP.md`
 - **Completed features and migration history**: See `docs/CHANGELOG.md`
+- **Troubleshooting issues and architecture decisions**: See `docs/TROUBLESHOOTING.md`
 
 **Current Focus:** ✅ Phase 2 complete (Oct 26, 2025) - Transaction Management Dashboard with Family Sharing, Realtime Updates, SEO, and Polished Copywriting. Next up: Phase 3 (AI-Powered Smart Input & Settings).

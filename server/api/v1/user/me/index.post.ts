@@ -45,7 +45,7 @@ export default defineEventHandler(async event => {
     const apiError = error as ApiError;
 
     // Log error for debugging
-    console.error('User API Error:', {
+    logger.error('User API Error:', {
       statusCode: apiError.statusCode,
       message: apiError.message,
       error,

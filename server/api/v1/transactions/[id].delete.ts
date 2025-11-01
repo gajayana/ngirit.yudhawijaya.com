@@ -57,7 +57,7 @@ export default defineEventHandler(async event => {
     .eq('id', id);
 
   if (error) {
-    console.error('Error deleting transaction:', error);
+    logger.error('Error deleting transaction:', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Failed to delete transaction',

@@ -43,7 +43,7 @@ export default defineEventHandler(async (event): Promise<FamilyCreateResponse> =
       .single();
 
     if (familyError || !family) {
-      console.error('Error creating family:', familyError);
+      logger.error('Error creating family:', familyError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to create family',
@@ -58,7 +58,7 @@ export default defineEventHandler(async (event): Promise<FamilyCreateResponse> =
       .single();
 
     if (familyFetchError || !createdFamily) {
-      console.error('Error fetching created family:', familyFetchError);
+      logger.error('Error fetching created family:', familyFetchError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Family created but failed to fetch details',
@@ -73,7 +73,7 @@ export default defineEventHandler(async (event): Promise<FamilyCreateResponse> =
       .is('deleted_at', null);
 
     if (membersError) {
-      console.error('Error fetching family members:', membersError);
+      logger.error('Error fetching family members:', membersError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Family created but failed to fetch members',
@@ -88,7 +88,7 @@ export default defineEventHandler(async (event): Promise<FamilyCreateResponse> =
       .in('user_id', userIds);
 
     if (usersError) {
-      console.error('Error fetching user data:', usersError);
+      logger.error('Error fetching user data:', usersError);
     }
 
     // Combine members with user data
@@ -105,7 +105,7 @@ export default defineEventHandler(async (event): Promise<FamilyCreateResponse> =
       } as any,
     };
   } catch (error) {
-    console.error('Error in family creation:', error);
+    logger.error('Error in family creation:', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Internal server error',

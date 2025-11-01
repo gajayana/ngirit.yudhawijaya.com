@@ -85,7 +85,7 @@ export default defineEventHandler(async event => {
     for (const spending of spendings) {
       // Skip transactions with invalid amounts (0 or negative)
       if (!spending.value || spending.value <= 0) {
-        console.warn(
+        logger.warn(
           `Skipping transaction with invalid amount: ${spending.label} (${spending.value})`
         );
         skippedCount++;
@@ -129,7 +129,7 @@ export default defineEventHandler(async event => {
       const { error: insertError } = await supabase.from('transactions').insert(batch as any);
 
       if (insertError) {
-        console.error(`❌ Batch ${i / batchSize + 1} failed:`, {
+        logger.error(`❌ Batch ${i / batchSize + 1} failed:`, {
           message: insertError.message,
           code: insertError.code,
           details: insertError.details,
@@ -140,7 +140,7 @@ export default defineEventHandler(async event => {
         errorCount += batch.length;
       } else {
         successCount += batch.length;
-        console.log(`✅ Batch ${i / batchSize + 1} inserted: ${batch.length} records`);
+        logger.log(`✅ Batch ${i / batchSize + 1} inserted: ${batch.length} records`);
       }
     }
 

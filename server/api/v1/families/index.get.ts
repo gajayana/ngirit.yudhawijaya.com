@@ -59,7 +59,7 @@ export default defineEventHandler(async (event): Promise<FamilyListResponse> => 
       .is('deleted_at', null);
 
     if (allMembersError) {
-      console.error('Error fetching members:', allMembersError);
+      logger.error('Error fetching members:', allMembersError);
     }
 
     // Fetch user data for all members
@@ -70,7 +70,7 @@ export default defineEventHandler(async (event): Promise<FamilyListResponse> => 
       .in('user_id', userIds);
 
     if (usersError) {
-      console.error('Error fetching user data:', usersError);
+      logger.error('Error fetching user data:', usersError);
     }
 
     // Combine data
@@ -90,7 +90,7 @@ export default defineEventHandler(async (event): Promise<FamilyListResponse> => 
       count: familiesWithMembers.length,
     };
   } catch (error) {
-    console.error('Error fetching families:', error);
+    logger.error('Error fetching families:', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Internal server error',

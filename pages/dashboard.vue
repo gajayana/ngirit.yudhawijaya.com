@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   import { PAGE_SEO, getCanonicalUrl } from '~/utils/constants/seo';
 
   const user = useSupabaseUser();
@@ -79,7 +80,7 @@
   // Fetch current month's transactions and start realtime subscription
   onMounted(async () => {
     if (user.value) {
-      console.log('Dashboard mounted - user:', user.value.id);
+      logger.log('Dashboard mounted - user:', user.value.id);
 
       // Fetch family members first to determine if toggle should be shown
       await transactionStore.fetchFamilyMembers();
@@ -88,14 +89,14 @@
       await transactionStore.fetchCurrentMonth();
 
       // Re-enable realtime subscription
-      console.log('Initializing realtime subscription...');
+      logger.log('Initializing realtime subscription...');
       transactionStore.initRealtimeSubscription();
     }
   });
 
   // Clean up realtime subscription on unmount
   onUnmounted(() => {
-    console.log('Dashboard unmounted - cleaning up subscription');
+    logger.log('Dashboard unmounted - cleaning up subscription');
     transactionStore.cleanupRealtimeSubscription();
   });
 </script>

@@ -22,13 +22,14 @@
 </template>
 
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
 const transactionStore = useTransactionStore();
 const { includeFamily, hasFamilyMembers } = storeToRefs(transactionStore);
 
 // Handle toggle change
 async function handleToggle() {
   includeFamily.value = !includeFamily.value;
-  console.log('Family toggle changed:', includeFamily.value);
+  logger.log('Family toggle changed:', includeFamily.value);
   await transactionStore.fetchCurrentMonth();
 }
 </script>

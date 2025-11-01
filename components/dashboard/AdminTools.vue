@@ -69,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   const authStore = useAuthStore();
 
   // Import functionality
@@ -117,7 +118,7 @@
           recordCount.value = data.length;
         }
       } catch (err) {
-        console.error('Failed to parse JSON:', err);
+        logger.error('Failed to parse JSON:', err);
         recordCount.value = 0;
       }
     };
@@ -175,7 +176,7 @@
 
       reader.readAsText(selectedFile.value);
     } catch (error) {
-      console.error('Import error:', error);
+      logger.error('Import error:', error);
       importResult.value = {
         success: false,
         message: 'Terjadi kesalahan saat membaca file',

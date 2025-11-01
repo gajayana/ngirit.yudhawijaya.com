@@ -14,10 +14,10 @@ export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
   const userId = await getAuthenticatedUserId(event);
 
-  console.log('POST /api/v1/transactions - User:', userId);
+  logger.log('POST /api/v1/transactions - User:', userId);
 
   if (!userId) {
-    console.error('No user found in session');
+    logger.error('No user found in session');
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
 
@@ -71,7 +71,7 @@ export default defineEventHandler(async event => {
     .select('*, categories(id, name, icon, color, type)');
 
   if (error) {
-    console.error('Error inserting transactions:', error);
+    logger.error('Error inserting transactions:', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Failed to create transactions',

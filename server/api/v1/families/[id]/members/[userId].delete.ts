@@ -83,7 +83,7 @@ export default defineEventHandler(async (event): Promise<RemoveFamilyMemberRespo
         .is('deleted_at', null);
 
       if (ownerCountError) {
-        console.error('Error counting owners:', ownerCountError);
+        logger.error('Error counting owners:', ownerCountError);
         throw createError({
           statusCode: 500,
           statusMessage: 'Failed to verify ownership',
@@ -105,7 +105,7 @@ export default defineEventHandler(async (event): Promise<RemoveFamilyMemberRespo
       .eq('id', targetMember.id);
 
     if (deleteError) {
-      console.error('Error removing member:', deleteError);
+      logger.error('Error removing member:', deleteError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to remove member',
@@ -117,7 +117,7 @@ export default defineEventHandler(async (event): Promise<RemoveFamilyMemberRespo
       message: isSelfRemoval ? 'You have left the family' : 'Member removed successfully',
     };
   } catch (error) {
-    console.error('Error in remove member:', error);
+    logger.error('Error in remove member:', error);
 
     // Re-throw createError instances
     if (error && typeof error === 'object' && 'statusCode' in error) {

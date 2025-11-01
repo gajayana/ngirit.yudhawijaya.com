@@ -116,7 +116,7 @@ export default defineEventHandler(async event => {
       count: data?.length || 0,
     };
   } catch (error: unknown) {
-    console.error('Error fetching assets:', error);
+    logger.error('Error fetching assets:', error);
     const err = error as { statusCode?: number; statusMessage?: string };
     throw createError({
       statusCode: err.statusCode || 500,

@@ -15,9 +15,9 @@
  * subscribe({
  *   table: 'transactions',
  *   event: '*',
- *   onInsert: (payload) => console.log('New:', payload.new),
- *   onUpdate: (payload) => console.log('Updated:', payload.new),
- *   onDelete: (payload) => console.log('Deleted:', payload.old),
+ *   onInsert: (payload) => logger.log('New:', payload.new),
+ *   onUpdate: (payload) => logger.log('Updated:', payload.new),
+ *   onDelete: (payload) => logger.log('Deleted:', payload.old),
  * });
  *
  * // Cleanup
@@ -27,6 +27,7 @@
 
 import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import type { Database } from '~/utils/constants/database';
+import { logger } from '~/utils/logger';
 
 // Type for database table names
 type TableName = keyof Database['public']['Tables'];
@@ -79,7 +80,7 @@ export const useRealtime = () => {
 
     // Only run on client-side
     if (!import.meta.client) {
-      console.warn('[useRealtime] Realtime subscriptions only work on client-side');
+      logger.warn('[useRealtime] Realtime subscriptions only work on client-side');
       return '';
     }
 
@@ -90,13 +91,13 @@ export const useRealtime = () => {
 
     // Check if already subscribed
     if (channels.value.has(channelId)) {
-      if (debug) console.log(`[useRealtime] Already subscribed to ${channelId}`);
+      if (debug) logger.log(`[useRealtime] Already subscribed to ${channelId}`);
       return channelId;
     }
 
     if (debug) {
-      console.log(`[useRealtime] Subscribing to table: ${table}`);
-      console.log(`[useRealtime] Event: ${event}, Filter: ${filter || 'none'}`);
+      logger.log(`[useRealtime] Subscribing to table: ${table}`);
+      logger.log(`[useRealtime] Event: ${event}, Filter: ${filter || 'none'}`);
     }
 
     // Create channel with unique ID
@@ -120,7 +121,7 @@ export const useRealtime = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (payload: any) => {
         if (debug) {
-          console.log(`[useRealtime] ${table} - ${payload.eventType}:`, payload);
+          logger.log(`[useRealtime] ${table} - ${payload.eventType}:`, payload);
         }
 
         // Call appropriate handler based on event type
@@ -139,14 +140,14 @@ export const useRealtime = () => {
       subscriptionStatus.value.set(channelId, status);
 
       if (debug) {
-        console.log(`[useRealtime] ${table} subscription status:`, status);
+        logger.log(`[useRealtime] ${table} subscription status:`, status);
       }
 
       if (status === 'SUBSCRIBED') {
-        if (debug) console.log(`✅ [useRealtime] Subscribed to ${table}`);
+        if (debug) logger.log(`✅ [useRealtime] Subscribed to ${table}`);
       } else if (status === 'CHANNEL_ERROR') {
-        console.error(`❌ [useRealtime] Subscription failed for ${table}`);
-        console.warn('Make sure Realtime is enabled in Supabase Dashboard → Database → Replication');
+        logger.error(`❌ [useRealtime] Subscription failed for ${table}`);
+        logger.warn('Make sure Realtime is enabled in Supabase Dashboard → Database → Replication');
       }
 
       // Call custom status handler
@@ -168,7 +169,7 @@ export const useRealtime = () => {
     const channel = channels.value.get(channelId);
 
     if (channel) {
-      if (debug) console.log(`[useRealtime] Unsubscribing from ${channelId}`);
+      if (debug) logger.log(`[useRealtime] Unsubscribing from ${channelId}`);
 
       supabase.removeChannel(channel);
       channels.value.delete(channelId);
@@ -180,7 +181,7 @@ export const useRealtime = () => {
    * Unsubscribe from all channels
    */
   function unsubscribeAll(debug = false): void {
-    if (debug) console.log(`[useRealtime] Unsubscribing from all channels (${channels.value.size})`);
+    if (debug) logger.log(`[useRealtime] Unsubscribing from all channels (${channels.value.size})`);
 
     channels.value.forEach((channel, channelId) => {
       supabase.removeChannel(channel);

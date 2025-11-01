@@ -46,7 +46,7 @@ export default defineEventHandler(async (event): Promise<FamilyMembersResponse> 
       .order('joined_at', { ascending: true });
 
     if (membersError) {
-      console.error('Error fetching family members:', membersError);
+      logger.error('Error fetching family members:', membersError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to fetch family members',
@@ -72,7 +72,7 @@ export default defineEventHandler(async (event): Promise<FamilyMembersResponse> 
       count: membersWithUserData.length,
     };
   } catch (error) {
-    console.error('Error in members list:', error);
+    logger.error('Error in members list:', error);
 
     // Re-throw createError instances
     if (error && typeof error === 'object' && 'statusCode' in error) {

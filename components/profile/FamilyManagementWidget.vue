@@ -428,6 +428,7 @@
 </template>
 
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   import type {
     FamilyWithMembers,
     FamilyMember,
@@ -473,7 +474,7 @@
 
   // Watch for userId changes and log for debugging
   watch(userId, (newUserId) => {
-    console.log('User ID changed:', newUserId);
+    logger.log('User ID changed:', newUserId);
   }, { immediate: true });
 
   // Fetch families
@@ -487,7 +488,7 @@
 
       families.value = response.data;
     } catch (error) {
-      console.error('Error fetching families:', error);
+      logger.error('Error fetching families:', error);
       toast.add({
         title: 'Error',
         description: 'Gagal memuat data. Periksa koneksi internet Anda',
@@ -590,7 +591,7 @@
       closeFamilyDialog();
       fetchFamilies();
     } catch (error) {
-      console.error('Error saving family:', error);
+      logger.error('Error saving family:', error);
       toast.add({
         title: 'Error',
         description: 'Gagal menyimpan keluarga',
@@ -632,7 +633,7 @@
       closeDeleteDialog();
       fetchFamilies();
     } catch (error) {
-      console.error('Error deleting family:', error);
+      logger.error('Error deleting family:', error);
       toast.add({
         title: 'Error',
         description: 'Gagal menghapus keluarga',
@@ -670,7 +671,7 @@
         credentials: 'include',
       });
 
-      console.log('Add member response:', response);
+      logger.log('Add member response:', response);
 
       toast.add({
         title: 'Berhasil!',
@@ -682,7 +683,7 @@
       closeAddMemberDialog();
       fetchFamilies();
     } catch (error) {
-      console.error('Error adding member:', error);
+      logger.error('Error adding member:', error);
 
       const errorMessage = error && typeof error === 'object' && 'data' in error && error.data &&
         typeof error.data === 'object' && 'statusMessage' in error.data
@@ -733,7 +734,7 @@
       closeRemoveMemberDialog();
       fetchFamilies();
     } catch (error) {
-      console.error('Error removing member:', error);
+      logger.error('Error removing member:', error);
 
       const errorMessage = error && typeof error === 'object' && 'data' in error && error.data &&
         typeof error.data === 'object' && 'message' in error.data

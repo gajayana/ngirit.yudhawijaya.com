@@ -49,7 +49,7 @@ export default defineEventHandler(async event => {
       data,
     };
   } catch (error: unknown) {
-    console.error('Error fetching asset:', error);
+    logger.error('Error fetching asset:', error);
     const err = error as { statusCode?: number; statusMessage?: string };
     throw createError({
       statusCode: err.statusCode || 500,

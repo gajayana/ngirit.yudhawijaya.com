@@ -52,7 +52,7 @@ export default defineEventHandler(async event => {
       .single();
 
     if (error) {
-      console.error('Database error creating asset:', error);
+      logger.error('Database error creating asset:', error);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to create asset',
@@ -64,7 +64,7 @@ export default defineEventHandler(async event => {
       data,
     };
   } catch (error: unknown) {
-    console.error('Error creating asset:', error);
+    logger.error('Error creating asset:', error);
     const err = error as { statusCode?: number; statusMessage?: string };
     throw createError({
       statusCode: err.statusCode || 500,

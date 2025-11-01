@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { UserRole } from '~/utils/constants/user';
 import { USER_ROLE } from '~/utils/constants/user';
+import { logger } from '~/utils/logger';
 
 /**
  * Pinia store for user authentication and role management
@@ -79,7 +80,7 @@ export const useAuthStore = defineStore('auth', () => {
       return;
     }
 
-    console.log('👤 User data changed in realtime:', userData);
+    logger.log('👤 User data changed in realtime:', userData);
 
     const oldRole = userRole.value;
     const wasBlocked = isBlocked.value;
@@ -90,17 +91,17 @@ export const useAuthStore = defineStore('auth', () => {
 
     // Log significant changes
     if (oldRole !== userData.role) {
-      console.log(`  🔄 Role changed: ${oldRole} → ${userData.role}`);
+      logger.log(`  🔄 Role changed: ${oldRole} → ${userData.role}`);
     }
 
     if (wasBlocked !== userData.is_blocked) {
-      console.log(`  🔄 Block status changed: ${wasBlocked} → ${userData.is_blocked}`);
+      logger.log(`  🔄 Block status changed: ${wasBlocked} → ${userData.is_blocked}`);
 
       if (userData.is_blocked) {
-        console.warn('  ⚠️  Your account has been blocked');
+        logger.warn('  ⚠️  Your account has been blocked');
         // Optionally: Show notification or redirect
       } else {
-        console.log('  ✅ Your account has been unblocked');
+        logger.log('  ✅ Your account has been unblocked');
       }
     }
   }
@@ -113,7 +114,7 @@ export const useAuthStore = defineStore('auth', () => {
       return;
     }
 
-    console.log('🔄 Subscribing to user_data changes...');
+    logger.log('🔄 Subscribing to user_data changes...');
 
     // Subscribe to user_data table with filter for current user
     userDataChannelId = subscribe({
@@ -123,9 +124,9 @@ export const useAuthStore = defineStore('auth', () => {
       onUpdate: (payload) => handleUserDataUpdate(payload as { new: { user_id: string; role: UserRole; is_blocked: boolean } }),
       onStatusChange: (status) => {
         if (status === 'SUBSCRIBED') {
-          console.log('✅ Subscribed to user_data changes');
+          logger.log('✅ Subscribed to user_data changes');
         } else if (status === 'CHANNEL_ERROR') {
-          console.warn('⚠️  User data realtime failed');
+          logger.warn('⚠️  User data realtime failed');
         }
       },
       debug: true,
@@ -137,7 +138,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function cleanupRealtimeSubscription() {
     if (userDataChannelId) {
-      console.log('🧹 Cleaning up user_data subscription...');
+      logger.log('🧹 Cleaning up user_data subscription...');
       unsubscribe(userDataChannelId, true);
       userDataChannelId = '';
     }
