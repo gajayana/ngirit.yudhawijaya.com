@@ -189,6 +189,53 @@ Application (Store):
 
 ---
 
+### Regular Users Cannot Soft Delete Their Own Transactions (RLS Error 42501)
+
+**Date:** 2025-11-01
+
+**Issue:**
+Users with role 'user' get an RLS policy violation error when trying to delete their own transactions:
+
+```
+Error deleting transaction: { code: '42501',
+  message: 'new row violates row-level security policy for table "transactions"' }
+```
+
+**Root Cause:**
+The UPDATE policy for regular users had `deleted_at IS NULL` filter:
+
+```sql
+CREATE POLICY "Users can update their own transactions"
+  USING (auth.uid() = created_by AND deleted_at IS NULL);
+```
+
+When performing a soft delete (UPDATE to set `deleted_at = NOW()`), PostgreSQL checks the policy against the **new row state**. Since the new row has `deleted_at` set, it fails the `deleted_at IS NULL` check, blocking the UPDATE.
+
+**Solution:**
+Remove `deleted_at IS NULL` from the UPDATE policy's USING and WITH CHECK clauses:
+
+```sql
+CREATE POLICY "Users can update their own transactions"
+  ON transactions FOR UPDATE
+  USING (auth.uid() = created_by)
+  WITH CHECK (auth.uid() = created_by);
+```
+
+**Changes Made:**
+- `supabase/migrations/20251101000009_fix_rls_for_realtime_soft_deletes.sql:60-74`: Dropped and recreated UPDATE policy without `deleted_at` filter
+- Updated migration description to cover both SELECT and UPDATE policy fixes
+
+**PostgreSQL Policy Evaluation:**
+- **USING clause**: Checked against existing row before UPDATE
+- **WITH CHECK clause**: Checked against new row after UPDATE
+- Having `deleted_at IS NULL` in either clause blocks soft deletes
+
+**Related Files:**
+- `supabase/migrations/20251101000009_fix_rls_for_realtime_soft_deletes.sql` - RLS policy fix for SELECT and UPDATE
+- `server/api/v1/transactions/[id].delete.ts:56` - Soft delete implementation
+
+---
+
 ### Regular Users Cannot See Edit/Delete Buttons on Their Own Transactions
 
 **Date:** 2025-11-01

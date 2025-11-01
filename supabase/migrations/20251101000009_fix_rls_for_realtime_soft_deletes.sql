@@ -1,13 +1,15 @@
 -- Migration: Fix RLS policies to allow realtime events for soft-deleted transactions
 -- Created: 2025-11-01
--- Description: Remove deleted_at IS NULL from SELECT policies to allow realtime UPDATE events
---              when transactions are soft-deleted. The application layer filters soft-deletes.
+-- Description: Remove deleted_at IS NULL from SELECT and UPDATE policies to allow:
+--              1. Realtime UPDATE events when transactions are soft-deleted
+--              2. Users to actually perform soft deletes (UPDATE deleted_at)
+--              The application layer filters soft-deletes in the UI.
 
 -- ============================================================================
 -- Drop and Recreate SELECT Policies Without deleted_at Filter
 -- ============================================================================
 
--- Drop existing policies
+-- Drop existing SELECT policies
 DROP POLICY IF EXISTS "Users can view their own non-deleted transactions" ON transactions;
 DROP POLICY IF EXISTS "Users can view family members' transactions" ON transactions;
 DROP POLICY IF EXISTS "Managers can view all non-deleted transactions" ON transactions;
@@ -50,3 +52,23 @@ COMMENT ON POLICY "Users can view family members' transactions" ON transactions 
 
 COMMENT ON POLICY "Managers can view all transactions" ON transactions IS
   'Allows managers to view all transactions (including soft-deleted) for realtime sync. Application layer filters deleted_at.';
+
+-- ============================================================================
+-- Drop and Recreate UPDATE Policies Without deleted_at Filter
+-- ============================================================================
+
+-- Drop existing UPDATE policy
+DROP POLICY IF EXISTS "Users can update their own transactions" ON transactions;
+
+-- Recreate: Users can update their own transactions (including soft delete)
+CREATE POLICY "Users can update their own transactions"
+  ON transactions FOR UPDATE
+  USING (
+    (SELECT auth.uid()) = created_by
+  )
+  WITH CHECK (
+    (SELECT auth.uid()) = created_by
+  );
+
+COMMENT ON POLICY "Users can update their own transactions" ON transactions IS
+  'Allows users to update their own transactions, including soft deletes (setting deleted_at). Removed deleted_at IS NULL to allow soft delete operations.';
