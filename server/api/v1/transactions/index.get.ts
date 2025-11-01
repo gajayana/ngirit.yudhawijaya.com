@@ -1,19 +1,20 @@
 import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
+import { logger } from '~/utils/logger';
 
 type Transaction = Database['public']['Tables']['transactions']['Row'];
 
 export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
   const userId = await getAuthenticatedUserId(event);
-  console.log({ userId });
+  logger.log({ userId });
 
   if (!userId) {
-    console.error('No user or user ID found');
+    logger.error('No user or user ID found');
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
 
-  console.log('Fetching transactions for user:', userId);
+  logger.log('Fetching transactions for user:', userId);
 
   // Get query params
   const query = getQuery(event);
@@ -23,7 +24,7 @@ export default defineEventHandler(async event => {
   const limit = query.limit ? parseInt(query.limit as string) : undefined;
   const offset = query.offset ? parseInt(query.offset as string) : 0;
 
-  console.log('Query params:', { start, end, includeFamily, limit, offset });
+  logger.log('Query params:', { start, end, includeFamily, limit, offset });
 
   // Determine which user IDs to query
   let userIds = [userId]; // Default: only current user
@@ -36,7 +37,7 @@ export default defineEventHandler(async event => {
       .is('deleted_at', null);
 
     if (familyError) {
-      console.error('Error fetching family members:', familyError);
+      logger.error('Error fetching family members:', familyError);
     } else if (familyMembers && familyMembers.length > 0) {
       // Find all families the user belongs to
       const userFamilyIds = familyMembers
@@ -50,7 +51,7 @@ export default defineEventHandler(async event => {
 
       // Use unique user IDs
       userIds = Array.from(new Set(allFamilyMemberIds));
-      console.log('Including family members:', userIds.length, 'users');
+      logger.log('Including family members:', userIds.length, 'users');
     }
   }
 
@@ -77,7 +78,7 @@ export default defineEventHandler(async event => {
   const { data, error, count } = await queryBuilder;
 
   if (error) {
-    console.error('Error fetching transactions:', error);
+    logger.error('Error fetching transactions:', error);
     throw createError({
       statusCode: 500,
       statusMessage: 'Failed to fetch transactions',

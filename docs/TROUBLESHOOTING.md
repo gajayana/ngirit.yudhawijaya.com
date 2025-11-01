@@ -287,6 +287,69 @@ Always use the Pinia auth store for user data instead of `useSupabaseUser()` dir
 
 ## Architecture Decisions
 
+### Development-Only Logger Implementation
+
+**Date:** 2025-11-01
+
+**Context:**
+The codebase had 222 console statements scattered across components, stores, API endpoints, and pages. These logs are useful for development but pollute production environments and can impact performance.
+
+**Decision:**
+Created a development-only logger utility (`utils/logger.ts`) that wraps console methods and only outputs in development mode.
+
+**Implementation:**
+
+```typescript
+// utils/logger.ts
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+export const logger = {
+  log: (...args) => isDevelopment && console.log(...args),
+  error: (...args) => console.error(...args), // Always log errors
+  warn: (...args) => isDevelopment && console.warn(...args),
+  info: (...args) => isDevelopment && console.info(...args),
+  debug: (...args) => isDevelopment && console.debug(...args),
+};
+```
+
+**Changes Made:**
+- Created `utils/logger.ts` with environment-aware logging
+- Replaced 222 console statements across 36 files:
+  - `stores/` - transaction-store.ts (48), auth-store.ts (9)
+  - `composables/` - useRealtime.ts (14)
+  - `components/` - 7 components
+  - `pages/` - 3 pages (dashboard, index, confirm)
+  - `server/api/` - 21 API endpoints
+- Added logger imports to all affected files
+
+**Rationale:**
+- **Performance**: No logging overhead in production
+- **Clean console**: Production logs only show errors
+- **Developer experience**: Full logging in development
+- **Centralized control**: Easy to add features (log levels, file output, etc.)
+
+**Exceptions:**
+- `console.error` always logs (even in production) for critical error tracking
+- `scripts/` folder keeps console (utility scripts, not application code)
+- `utils/logger.ts` contains actual console calls (implementation)
+
+**Usage:**
+```typescript
+import { logger } from '~/utils/logger';
+
+logger.log('User logged in');           // Dev only
+logger.error('Failed to fetch', err);   // Always logged
+logger.warn('Deprecated API');           // Dev only
+logger.info('Transaction created');     // Dev only
+logger.debug('State:', state);          // Dev only
+```
+
+**Related Files:**
+- `utils/logger.ts` - Logger implementation
+- All `.ts` and `.vue` files in `stores/`, `composables/`, `components/`, `pages/`, `server/api/`
+
+---
+
 ### Removing Category Selection from Add and Edit Dialogs
 
 **Date:** 2025-11-01

@@ -16,7 +16,7 @@ export default defineEventHandler(async event => {
     } as any);
 
     if (error) {
-      console.error('Database error fetching assets by type:', error);
+      logger.error('Database error fetching assets by type:', error);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to fetch assets by type',
@@ -28,7 +28,7 @@ export default defineEventHandler(async event => {
       data: data || [],
     };
   } catch (error: unknown) {
-    console.error('Error fetching assets by type:', error);
+    logger.error('Error fetching assets by type:', error);
     const err = error as { statusCode?: number; statusMessage?: string };
     throw createError({
       statusCode: err.statusCode || 500,

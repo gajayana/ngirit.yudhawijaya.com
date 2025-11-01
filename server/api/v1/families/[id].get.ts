@@ -44,7 +44,7 @@ export default defineEventHandler(async (event): Promise<FamilyDetailResponse> =
       .is('deleted_at', null);
 
     if (membersFetchError) {
-      console.error('Error fetching members:', membersFetchError);
+      logger.error('Error fetching members:', membersFetchError);
     }
 
     // Check if user is a member
@@ -64,7 +64,7 @@ export default defineEventHandler(async (event): Promise<FamilyDetailResponse> =
       .in('user_id', userIds);
 
     if (usersError) {
-      console.error('Error fetching user data:', usersError);
+      logger.error('Error fetching user data:', usersError);
     }
 
     // Combine data
@@ -81,7 +81,7 @@ export default defineEventHandler(async (event): Promise<FamilyDetailResponse> =
       } as any,
     };
   } catch (error) {
-    console.error('Error fetching family:', error);
+    logger.error('Error fetching family:', error);
 
     // Re-throw createError instances
     if (error && typeof error === 'object' && 'statusCode' in error) {

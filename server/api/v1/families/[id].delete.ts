@@ -45,7 +45,7 @@ export default defineEventHandler(async (event): Promise<FamilyDeleteResponse> =
       .is('deleted_at', null);
 
     if (deleteError) {
-      console.error('Error deleting family:', deleteError);
+      logger.error('Error deleting family:', deleteError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to delete family',
@@ -60,7 +60,7 @@ export default defineEventHandler(async (event): Promise<FamilyDeleteResponse> =
       .is('deleted_at', null);
 
     if (membersDeleteError) {
-      console.error('Error deleting family members:', membersDeleteError);
+      logger.error('Error deleting family members:', membersDeleteError);
       // Continue anyway, family is already deleted
     }
 
@@ -69,7 +69,7 @@ export default defineEventHandler(async (event): Promise<FamilyDeleteResponse> =
       message: 'Family deleted successfully',
     };
   } catch (error) {
-    console.error('Error in family deletion:', error);
+    logger.error('Error in family deletion:', error);
 
     // Re-throw createError instances
     if (error && typeof error === 'object' && 'statusCode' in error) {

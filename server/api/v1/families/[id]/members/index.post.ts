@@ -101,7 +101,7 @@ export default defineEventHandler(async (event): Promise<AddFamilyMemberResponse
         .single();
 
       if (restoreError) {
-        console.error('Error restoring member:', restoreError);
+        logger.error('Error restoring member:', restoreError);
         throw createError({
           statusCode: 500,
           statusMessage: 'Failed to restore member',
@@ -136,7 +136,7 @@ export default defineEventHandler(async (event): Promise<AddFamilyMemberResponse
       .single();
 
     if (addError) {
-      console.error('Error adding member:', addError);
+      logger.error('Error adding member:', addError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to add member',
@@ -159,7 +159,7 @@ export default defineEventHandler(async (event): Promise<AddFamilyMemberResponse
       message: 'Member added successfully',
     };
   } catch (error) {
-    console.error('Error in add member:', error);
+    logger.error('Error in add member:', error);
 
     // Re-throw createError instances
     if (error && typeof error === 'object' && 'statusCode' in error) {

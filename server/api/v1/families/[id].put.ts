@@ -76,7 +76,7 @@ export default defineEventHandler(async (event): Promise<FamilyUpdateResponse> =
       .single();
 
     if (updateError) {
-      console.error('Error updating family:', updateError);
+      logger.error('Error updating family:', updateError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to update family',
@@ -91,7 +91,7 @@ export default defineEventHandler(async (event): Promise<FamilyUpdateResponse> =
       .single();
 
     if (fetchError) {
-      console.error('Error fetching updated family:', fetchError);
+      logger.error('Error fetching updated family:', fetchError);
       throw createError({
         statusCode: 500,
         statusMessage: 'Family updated but failed to fetch details',
@@ -126,7 +126,7 @@ export default defineEventHandler(async (event): Promise<FamilyUpdateResponse> =
       } as any,
     };
   } catch (error) {
-    console.error('Error in family update:', error);
+    logger.error('Error in family update:', error);
 
     // Re-throw createError instances
     if (error && typeof error === 'object' && 'statusCode' in error) {

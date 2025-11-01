@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   import { PAGE_SEO, getCanonicalUrl, getOpenGraphTags, getTwitterCardTags } from '~/utils/constants/seo';
 
   const config = useRuntimeConfig();
@@ -50,10 +51,10 @@
       });
 
       if (error) {
-        console.error('Authentication error:', error);
+        logger.error('Authentication error:', error);
       }
     } catch (err) {
-      console.error('Sign-in failed:', err);
+      logger.error('Sign-in failed:', err);
     }
   };
 </script>

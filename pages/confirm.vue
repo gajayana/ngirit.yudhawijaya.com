@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   // This page handles the OAuth callback redirects
   const router = useRouter();
   const supabase = useSupabaseClient();
@@ -13,22 +14,22 @@
       const { data: { session }, error } = await supabase.auth.getSession();
 
       if (error) {
-        console.error('Session error:', error);
+        logger.error('Session error:', error);
         router.push('/');
         return;
       }
 
       if (session?.user) {
         // User authenticated successfully, go to dashboard
-        console.log('User authenticated, redirecting to dashboard');
+        logger.log('User authenticated, redirecting to dashboard');
         router.push('/dashboard');
       } else {
         // No session found, back to login
-        console.log('No session, redirecting to login');
+        logger.log('No session, redirecting to login');
         router.push('/');
       }
     } catch (err) {
-      console.error('Confirm page error:', err);
+      logger.error('Confirm page error:', err);
       router.push('/');
     }
   });

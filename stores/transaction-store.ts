@@ -6,6 +6,7 @@ import type {
 } from '~/utils/constants/transaction';
 import { TRANSACTION_TYPE } from '~/utils/constants/transaction';
 import type { Database } from '~/utils/constants/database';
+import { logger } from '~/utils/logger';
 
 /**
  * Pinia store for transaction management
@@ -232,7 +233,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    */
   async function fetchFamilyMembers() {
     try {
-      console.log('Fetching family members...');
+      logger.log('Fetching family members...');
       const response = await $fetch<{
         success: boolean;
         data: Array<{
@@ -246,22 +247,22 @@ export const useTransactionStore = defineStore('transaction', () => {
         credentials: 'include',
       });
 
-      console.log('API response:', response);
-      console.log('Families count:', response.data.length);
+      logger.log('API response:', response);
+      logger.log('Families count:', response.data.length);
 
       // Extract all unique user IDs from all families
       const allMemberIds = new Set<string>();
       response.data.forEach(family => {
-        console.log('Family:', family.id, 'Members:', family.members.length);
+        logger.log('Family:', family.id, 'Members:', family.members.length);
         family.members.forEach(member => {
           allMemberIds.add(member.user_id);
         });
       });
 
       familyMemberIds.value = Array.from(allMemberIds);
-      console.log('✅ Fetched family members:', familyMemberIds.value.length, familyMemberIds.value);
+      logger.log('✅ Fetched family members:', familyMemberIds.value.length, familyMemberIds.value);
     } catch (err) {
-      console.error('❌ Error fetching family members:', err);
+      logger.error('❌ Error fetching family members:', err);
       familyMemberIds.value = [];
     }
   }
@@ -281,9 +282,9 @@ export const useTransactionStore = defineStore('transaction', () => {
       const start = startOfMonth(now);
       const end = endOfMonth(now);
 
-      console.log('Fetching transactions for month:', currentMonth.value);
-      console.log('Date range (UTC):', start.toISOString(), 'to', end.toISOString());
-      console.log('Include family:', includeFamily.value);
+      logger.log('Fetching transactions for month:', currentMonth.value);
+      logger.log('Date range (UTC):', start.toISOString(), 'to', end.toISOString());
+      logger.log('Include family:', includeFamily.value);
 
       // Fetch via API endpoint with proper auth handling
       const response = await $fetch<{
@@ -300,11 +301,11 @@ export const useTransactionStore = defineStore('transaction', () => {
         credentials: 'include',
       });
 
-      console.log('✅ Fetched transactions:', response.count);
+      logger.log('✅ Fetched transactions:', response.count);
       transactions.value = response.data;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to fetch transactions');
-      console.error('❌ Error fetching transactions:', err);
+      logger.error('❌ Error fetching transactions:', err);
     } finally {
       isLoading.value = false;
     }
@@ -315,7 +316,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    */
   async function addTransaction(newTransactions: TransactionInput[]) {
     try {
-      console.log('Adding transactions via API endpoint...');
+      logger.log('Adding transactions via API endpoint...');
 
       // Call API endpoint - it will handle user auth and created_by
       const response = await $fetch<{
@@ -330,7 +331,7 @@ export const useTransactionStore = defineStore('transaction', () => {
         credentials: 'include',
       });
 
-      console.log('✅ Inserted transactions:', response.count);
+      logger.log('✅ Inserted transactions:', response.count);
 
       // Optimistically add to store for instant feedback
       // Duplicate check in handleTransactionInsert will prevent realtime from adding duplicates
@@ -341,12 +342,12 @@ export const useTransactionStore = defineStore('transaction', () => {
 
       // Prepend to transactions array
       transactions.value.unshift(...currentMonthTransactions);
-      console.log('  ✅ Optimistically added', currentMonthTransactions.length, 'transactions');
+      logger.log('  ✅ Optimistically added', currentMonthTransactions.length, 'transactions');
 
       return response;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to add transaction');
-      console.error('❌ Error adding transaction:', err);
+      logger.error('❌ Error adding transaction:', err);
       throw err;
     }
   }
@@ -356,7 +357,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    */
   async function updateTransaction(id: string, updateData: Partial<TransactionInput>) {
     try {
-      console.log('Updating transaction via API:', id);
+      logger.log('Updating transaction via API:', id);
 
       // Call API endpoint - it will handle user auth and permissions
       const response = await $fetch<{
@@ -368,7 +369,7 @@ export const useTransactionStore = defineStore('transaction', () => {
         credentials: 'include',
       });
 
-      console.log('✅ Updated transaction');
+      logger.log('✅ Updated transaction');
 
       // Update in local state
       const index = transactions.value.findIndex(t => t.id === id);
@@ -379,7 +380,7 @@ export const useTransactionStore = defineStore('transaction', () => {
       return response;
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to update transaction');
-      console.error('❌ Error updating transaction:', err);
+      logger.error('❌ Error updating transaction:', err);
       throw err;
     }
   }
@@ -391,7 +392,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    */
   async function deleteTransaction(id: string) {
     try {
-      console.log('Deleting transaction via API:', id);
+      logger.log('Deleting transaction via API:', id);
 
       // Call API endpoint - it will handle user auth and permissions
       await $fetch(`/api/v1/transactions/${id}`, {
@@ -399,7 +400,7 @@ export const useTransactionStore = defineStore('transaction', () => {
         credentials: 'include',
       });
 
-      console.log('✅ Soft deleted transaction');
+      logger.log('✅ Soft deleted transaction');
 
       // Optimistically mark as deleted in local state
       const index = transactions.value.findIndex(t => t.id === id);
@@ -409,11 +410,11 @@ export const useTransactionStore = defineStore('transaction', () => {
           deleted_at: new Date().toISOString(),
         } as TransactionWithCategory;
         transactions.value[index] = updatedTransaction;
-        console.log('  ⏳ Marked as deleted locally, waiting for realtime UPDATE...');
+        logger.log('  ⏳ Marked as deleted locally, waiting for realtime UPDATE...');
       }
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to delete transaction');
-      console.error('❌ Error deleting transaction:', err);
+      logger.error('❌ Error deleting transaction:', err);
       throw err;
     }
   }
@@ -425,12 +426,12 @@ export const useTransactionStore = defineStore('transaction', () => {
     payload: { new: TransactionWithCategory }
   ) {
     const transaction = payload.new;
-    console.log('🔵 Realtime INSERT:', transaction.id);
+    logger.log('🔵 Realtime INSERT:', transaction.id);
 
     // Only add if it belongs to current month
     const transactionMonth = getMonthFromDate(transaction.created_at);
     if (transactionMonth !== currentMonth.value) {
-      console.log('  ⏭️  Skipping - different month:', transactionMonth);
+      logger.log('  ⏭️  Skipping - different month:', transactionMonth);
       return;
     }
 
@@ -439,14 +440,14 @@ export const useTransactionStore = defineStore('transaction', () => {
       // Family mode ON: Only show transactions from family members
       const isFromFamily = familyMemberIds.value.includes(transaction.created_by);
       if (!isFromFamily) {
-        console.log('  ⏭️  Skipping - not from family member');
+        logger.log('  ⏭️  Skipping - not from family member');
         return;
       }
     } else {
       // Family mode OFF: Only show current user's transactions
       const isOwnTransaction = transaction.created_by === user.value?.sub;
       if (!isOwnTransaction) {
-        console.log('  ⏭️  Skipping - family mode OFF, not own transaction');
+        logger.log('  ⏭️  Skipping - family mode OFF, not own transaction');
         return;
       }
     }
@@ -454,7 +455,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     // Avoid duplicates
     const exists = transactions.value.some(t => t.id === transaction.id);
     if (exists) {
-      console.log('  ⏭️  Skipping - already exists');
+      logger.log('  ⏭️  Skipping - already exists');
       return;
     }
 
@@ -469,10 +470,10 @@ export const useTransactionStore = defineStore('transaction', () => {
       if (data) {
         // Add to beginning of array
         transactions.value.unshift(data as TransactionWithCategory);
-        console.log('  ✅ Added to store');
+        logger.log('  ✅ Added to store');
       }
     } catch (err) {
-      console.error('  ❌ Error fetching full transaction:', err);
+      logger.error('  ❌ Error fetching full transaction:', err);
       // Fallback: add the transaction without full category data
       transactions.value.unshift(transaction);
     }
@@ -486,12 +487,12 @@ export const useTransactionStore = defineStore('transaction', () => {
     payload: { new: TransactionWithCategory }
   ) {
     const transaction = payload.new;
-    console.log('🟡 Realtime UPDATE:', transaction.id);
+    logger.log('🟡 Realtime UPDATE:', transaction.id);
 
     const index = transactions.value.findIndex(t => t.id === transaction.id);
 
     if (index === -1) {
-      console.log('  ⏭️  Skipping - not in current list');
+      logger.log('  ⏭️  Skipping - not in current list');
       return;
     }
 
@@ -506,13 +507,13 @@ export const useTransactionStore = defineStore('transaction', () => {
       if (data) {
         transactions.value[index] = data as TransactionWithCategory;
         if (data.deleted_at) {
-          console.log('  🗑️  Soft delete - will be filtered by activeTransactions');
+          logger.log('  🗑️  Soft delete - will be filtered by activeTransactions');
         } else {
-          console.log('  ✅ Updated in store');
+          logger.log('  ✅ Updated in store');
         }
       }
     } catch (err) {
-      console.error('  ❌ Error fetching full transaction:', err);
+      logger.error('  ❌ Error fetching full transaction:', err);
       // Fallback: update with payload data
       transactions.value[index] = transaction;
     }
@@ -525,14 +526,14 @@ export const useTransactionStore = defineStore('transaction', () => {
     payload: { old: { id: string } }
   ) {
     const transactionId = payload.old.id;
-    console.log('🔴 Realtime DELETE:', transactionId);
+    logger.log('🔴 Realtime DELETE:', transactionId);
 
     const index = transactions.value.findIndex(t => t.id === transactionId);
     if (index !== -1) {
       transactions.value.splice(index, 1);
-      console.log('  ✅ Removed from store');
+      logger.log('  ✅ Removed from store');
     } else {
-      console.log('  ⏭️  Skipping - not in current list');
+      logger.log('  ⏭️  Skipping - not in current list');
     }
   }
 
@@ -540,7 +541,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    * Handle family member changes
    */
   async function handleFamilyMemberChange() {
-    console.log('👨‍👩‍👧‍👦 Family members changed - refreshing...');
+    logger.log('👨‍👩‍👧‍👦 Family members changed - refreshing...');
 
     // Refetch family members
     await fetchFamilyMembers();
@@ -548,7 +549,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     // Refetch transactions with updated family filter
     await fetchCurrentMonth();
 
-    console.log('  ✅ Refreshed family data');
+    logger.log('  ✅ Refreshed family data');
   }
 
   /**
@@ -558,7 +559,7 @@ export const useTransactionStore = defineStore('transaction', () => {
   function initRealtimeSubscription() {
     if (isSubscribed.value || !import.meta.client) return;
 
-    console.log('🔄 Initializing realtime subscriptions...');
+    logger.log('🔄 Initializing realtime subscriptions...');
 
     // Subscribe to transactions table
     transactionChannelId = subscribe({
@@ -570,10 +571,10 @@ export const useTransactionStore = defineStore('transaction', () => {
       onStatusChange: (status) => {
         if (status === 'SUBSCRIBED') {
           isSubscribed.value = true;
-          console.log('✅ Subscribed to transactions');
+          logger.log('✅ Subscribed to transactions');
         } else if (status === 'CHANNEL_ERROR') {
-          console.warn('⚠️  Transactions realtime failed');
-          console.warn('Enable in: Supabase Dashboard → Database → Replication');
+          logger.warn('⚠️  Transactions realtime failed');
+          logger.warn('Enable in: Supabase Dashboard → Database → Replication');
         }
       },
       debug: true,
@@ -588,22 +589,22 @@ export const useTransactionStore = defineStore('transaction', () => {
       onDelete: () => handleFamilyMemberChange(),
       onStatusChange: (status) => {
         if (status === 'SUBSCRIBED') {
-          console.log('✅ Subscribed to family_members');
+          logger.log('✅ Subscribed to family_members');
         } else if (status === 'CHANNEL_ERROR') {
-          console.warn('⚠️  Family members realtime failed');
+          logger.warn('⚠️  Family members realtime failed');
         }
       },
       debug: true,
     });
 
-    console.log('🎯 Realtime subscriptions initialized');
+    logger.log('🎯 Realtime subscriptions initialized');
   }
 
   /**
    * Clean up realtime subscriptions
    */
   function cleanupRealtimeSubscription() {
-    console.log('🧹 Cleaning up realtime subscriptions...');
+    logger.log('🧹 Cleaning up realtime subscriptions...');
 
     if (transactionChannelId) {
       unsubscribe(transactionChannelId, true);
@@ -616,7 +617,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
 
     isSubscribed.value = false;
-    console.log('✅ Cleanup complete');
+    logger.log('✅ Cleanup complete');
   }
 
   /**

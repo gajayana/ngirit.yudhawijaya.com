@@ -118,6 +118,7 @@
 </template>
 
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   import type { TransactionWithCategory } from '~/utils/constants/transaction';
 
   const props = defineProps<{
@@ -170,7 +171,7 @@
 
       transaction.value = tx;
     } catch (err) {
-      console.error('Error loading transaction:', err);
+      logger.error('Error loading transaction:', err);
       error.value = 'Gagal memuat data. Coba tutup dan buka lagi';
     } finally {
       isLoading.value = false;
@@ -192,7 +193,7 @@
       emit('deleted');
       closeDialog();
     } catch (err) {
-      console.error('Error deleting transaction:', err);
+      logger.error('Error deleting transaction:', err);
       error.value = 'Gagal menghapus transaksi';
       isDeleting.value = false;
     }

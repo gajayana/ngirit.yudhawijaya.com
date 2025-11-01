@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   import type { DropdownMenuItem } from '@nuxt/ui';
 
   const authStore = useAuthStore();
@@ -10,7 +11,7 @@
       await authStore.signOut();
       router.push('/');
     } catch (error) {
-      console.error('Sign out error:', error);
+      logger.error('Sign out error:', error);
     }
   };
 

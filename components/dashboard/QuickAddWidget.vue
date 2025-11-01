@@ -162,6 +162,7 @@
 </template>
 
 <script setup lang="ts">
+  import { logger } from '~/utils/logger';
   import { TRANSACTION_TYPE } from '~/utils/constants/transaction';
 
   const { formatCurrency, isValidAmount, sum } = useFinancial();
@@ -274,12 +275,12 @@
         category: null, // Category not used for now
       }));
 
-      console.log(`Submitting ${transactions.length} expense(s):`, transactions);
+      logger.log(`Submitting ${transactions.length} expense(s):`, transactions);
 
       // Call store action to add transactions
       await transactionStore.addTransaction(transactions);
 
-      console.log('✅ Transactions added successfully');
+      logger.log('✅ Transactions added successfully');
 
       // Show success message
       showSuccess.value = true;
@@ -289,7 +290,7 @@
         closeDialog();
       }, 1500);
     } catch (error) {
-      console.error('❌ Failed to add expense:', error);
+      logger.error('❌ Failed to add expense:', error);
       // TODO: Show error toast to user
     } finally {
       isSubmitting.value = false;
