@@ -68,26 +68,30 @@ The transaction store was using BOTH optimistic updates AND realtime subscriptio
 Since realtime was not working in local dev (due to outdated Supabase CLI), the duplicate was only visible in production where realtime was properly configured.
 
 **Solution:**
-Remove optimistic updates and rely solely on realtime subscriptions to add transactions. This provides a single source of truth and prevents race conditions.
+Keep optimistic updates for immediate UI feedback and add de-duplication logic to the realtime INSERT handler. This prevents the same transaction from being added twice when the realtime event arrives.
 
 **Changes Made:**
-- `stores/transaction-store.ts:327-329`: Removed optimistic update logic from `addTransaction()` function
-- Let realtime subscription handle all transaction inserts via `handleTransactionInsert()`
+- `stores/transaction-store.ts:327-344`: Kept optimistic update in `addTransaction()` with clear comment about deduplication
+- `stores/transaction-store.ts:455-459`: Added duplicate check in `handleTransactionInsert()` to skip if transaction already exists
 
-**Code Change:**
+**Code Changes:**
 ```typescript
-// Before (causing duplicates):
+// In addTransaction() - optimistic update KEPT for instant feedback
 transactions.value.unshift(...currentMonthTransactions);
+logger.log('  ✅ Optimistically added', currentMonthTransactions.length, 'transactions');
 
-// After (fixed):
-// Don't add optimistically - let realtime subscription handle it
-console.log('  ⏳ Waiting for realtime to add transactions...');
+// In handleTransactionInsert() - de-duplication logic ADDED
+const exists = transactions.value.some(t => t.id === transaction.id);
+if (exists) {
+  logger.log('  ⏭️  Skipping - already exists');
+  return;
+}
 ```
 
 **Trade-offs:**
-- **Pros**: Eliminates duplicates, single source of truth, simpler state management
-- **Cons**: Slight delay before transaction appears (waiting for realtime event instead of immediate optimistic update)
-- **Note**: The delay is minimal (typically <100ms) and provides more reliable state consistency
+- **Pros**: Instant UI feedback with optimistic updates, no perceived delay, duplicates prevented by deduplication
+- **Cons**: Slightly more complex logic (need to check for duplicates), relies on unique transaction IDs
+- **Note**: Best of both worlds - instant feedback for the user who created it, reliable sync for other users
 
 **Related Files:**
 - `stores/transaction-store.ts` - Transaction store with realtime subscriptions
