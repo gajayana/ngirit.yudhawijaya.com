@@ -99,8 +99,7 @@
 
   // Consume data from store
   const { todayTransactions } = storeToRefs(transactionStore);
-  const { isAdmin } = storeToRefs(authStore);
-  const user = useSupabaseUser();
+  const { isAdmin, userId } = storeToRefs(authStore);
 
   // Dialog states
   const isEditDialogOpen = ref(false);
@@ -117,7 +116,7 @@
     if (isAdmin.value) return true;
 
     // Regular users can only modify their own transactions
-    return user.value?.id === transactionCreatedBy;
+    return userId.value === transactionCreatedBy;
   }
 
   // Transform transactions for display

@@ -72,10 +72,18 @@ export const useTransactionStore = defineStore('transaction', () => {
   // ============================================================================
 
   /**
+   * Get active (non-deleted) transactions
+   * Filters out soft-deleted transactions (deleted_at is not null)
+   */
+  const activeTransactions = computed(() => {
+    return transactions.value.filter(t => !t.deleted_at);
+  });
+
+  /**
    * Get today's transactions
    */
   const todayTransactions = computed(() => {
-    return transactions.value.filter(t => isToday(t.created_at));
+    return activeTransactions.value.filter(t => isToday(t.created_at));
   });
 
   /**
@@ -100,7 +108,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    * Get monthly total amount
    */
   const monthlyTotal = computed(() => {
-    const amounts = transactions.value
+    const amounts = activeTransactions.value
       .filter(t => t.transaction_type === TRANSACTION_TYPE.EXPENSE)
       .map(t => t.amount);
     return sum(amounts);
@@ -110,14 +118,14 @@ export const useTransactionStore = defineStore('transaction', () => {
    * Get monthly transaction count
    */
   const monthlyCount = computed(() => {
-    return transactions.value.filter(t => t.transaction_type === TRANSACTION_TYPE.EXPENSE).length;
+    return activeTransactions.value.filter(t => t.transaction_type === TRANSACTION_TYPE.EXPENSE).length;
   });
 
   /**
    * Get monthly summary grouped by category
    */
   const monthlySummaryByCategory = computed(() => {
-    const expenseTransactions = transactions.value.filter(
+    const expenseTransactions = activeTransactions.value.filter(
       t => t.transaction_type === TRANSACTION_TYPE.EXPENSE
     );
 
@@ -171,7 +179,7 @@ export const useTransactionStore = defineStore('transaction', () => {
    * Get monthly summary grouped by description (case insensitive)
    */
   const monthlySummaryByDescription = computed(() => {
-    const expenseTransactions = transactions.value.filter(
+    const expenseTransactions = activeTransactions.value.filter(
       t => t.transaction_type === TRANSACTION_TYPE.EXPENSE
     );
 
@@ -325,7 +333,7 @@ export const useTransactionStore = defineStore('transaction', () => {
       console.log('✅ Inserted transactions:', response.count);
 
       // Optimistically add to store for instant feedback
-      // Only add if they belong to current month
+      // Duplicate check in handleTransactionInsert will prevent realtime from adding duplicates
       const currentMonthString = getCurrentMonthString();
       const currentMonthTransactions = response.data.filter(
         t => getMonthFromDate(t.created_at) === currentMonthString
@@ -333,6 +341,7 @@ export const useTransactionStore = defineStore('transaction', () => {
 
       // Prepend to transactions array
       transactions.value.unshift(...currentMonthTransactions);
+      console.log('  ✅ Optimistically added', currentMonthTransactions.length, 'transactions');
 
       return response;
     } catch (err) {
@@ -377,6 +386,8 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   /**
    * Delete transaction (soft delete) via API endpoint
+   * Note: The transaction will be updated with deleted_at, not removed from the array
+   * It will be filtered out by activeTransactions computed
    */
   async function deleteTransaction(id: string) {
     try {
@@ -388,10 +399,18 @@ export const useTransactionStore = defineStore('transaction', () => {
         credentials: 'include',
       });
 
-      console.log('✅ Deleted transaction');
+      console.log('✅ Soft deleted transaction');
 
-      // Remove from local state
-      transactions.value = transactions.value.filter(t => t.id !== id);
+      // Optimistically mark as deleted in local state
+      const index = transactions.value.findIndex(t => t.id === id);
+      if (index !== -1) {
+        const updatedTransaction = {
+          ...transactions.value[index],
+          deleted_at: new Date().toISOString(),
+        } as TransactionWithCategory;
+        transactions.value[index] = updatedTransaction;
+        console.log('  ⏳ Marked as deleted locally, waiting for realtime UPDATE...');
+      }
     } catch (err) {
       error.value = err instanceof Error ? err : new Error('Failed to delete transaction');
       console.error('❌ Error deleting transaction:', err);
@@ -461,6 +480,7 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   /**
    * Handle transaction update event
+   * Note: Soft deletes (deleted_at is set) will be filtered out by activeTransactions computed
    */
   async function handleTransactionUpdate(
     payload: { new: TransactionWithCategory }
@@ -485,7 +505,11 @@ export const useTransactionStore = defineStore('transaction', () => {
 
       if (data) {
         transactions.value[index] = data as TransactionWithCategory;
-        console.log('  ✅ Updated in store');
+        if (data.deleted_at) {
+          console.log('  🗑️  Soft delete - will be filtered by activeTransactions');
+        } else {
+          console.log('  ✅ Updated in store');
+        }
       }
     } catch (err) {
       console.error('  ❌ Error fetching full transaction:', err);
@@ -608,7 +632,8 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   return {
     // State
-    transactions,
+    transactions: activeTransactions, // Export filtered transactions (without soft-deleted)
+    allTransactions: transactions, // Export all transactions including soft-deleted (for debugging)
     currentMonth,
     isLoading,
     error,

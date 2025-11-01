@@ -87,26 +87,6 @@
                 </p>
               </div>
 
-              <!-- Category (Optional) -->
-              <div class="mb-6">
-                <label for="category" class="mb-2 block text-sm font-medium">
-                  Kategori <span class="text-xs text-gray-400">(opsional)</span>
-                </label>
-                <select
-                  id="category"
-                  v-model="form.category"
-                  class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                  :disabled="isSaving"
-                >
-                  <option :value="null">🚫 Tanpa Kategori</option>
-                  <option value="food">🍔 Makanan & Minuman</option>
-                  <option value="transport">🚗 Transportasi</option>
-                  <option value="shopping">🛍️ Belanja</option>
-                  <option value="bills">💰 Tagihan</option>
-                  <option value="other">📦 Lainnya</option>
-                </select>
-              </div>
-
               <!-- Action Buttons -->
               <div class="flex gap-3">
                 <UButton
@@ -170,7 +150,6 @@
   const form = ref({
     description: '',
     amount: '',
-    category: null as string | null,
   });
 
   // Parsed amount
@@ -218,7 +197,6 @@
       form.value = {
         description: tx.description,
         amount: tx.amount.toString(),
-        category: tx.category?.id || null,
       };
     } catch (err) {
       console.error('Error loading transaction:', err);
@@ -238,7 +216,6 @@
       await transactionStore.updateTransaction(props.transactionId, {
         description: form.value.description.trim(),
         amount: parsedAmount.value,
-        category: form.value.category,
       });
 
       // Reset saving state before closing (important for closeDialog check)
@@ -262,7 +239,6 @@
       form.value = {
         description: '',
         amount: '',
-        category: null,
       };
       error.value = null;
       transaction.value = null;

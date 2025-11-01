@@ -105,29 +105,6 @@
                   </div>
                 </div>
 
-                <!-- Category Select (Optional) -->
-                <div class="mb-6">
-                  <label
-                    for="category"
-                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    Kategori (Opsional)
-                  </label>
-                  <select
-                    id="category"
-                    v-model="form.category"
-                    class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                  >
-                    <option value="">Pilih kategori...</option>
-                    <option value="food">🍔 Makanan & Minuman</option>
-                    <option value="transport">🚗 Transportasi</option>
-                    <option value="shopping">🛒 Belanja</option>
-                    <option value="entertainment">🎬 Hiburan</option>
-                    <option value="bills">💡 Tagihan</option>
-                    <option value="other">📦 Lainnya</option>
-                  </select>
-                </div>
-
                 <!-- Action Buttons -->
                 <div class="flex gap-3">
                   <UButton
@@ -198,7 +175,6 @@
   // Form state
   const form = ref({
     quickInput: '',
-    category: '',
   });
 
   const isSubmitting = ref(false);
@@ -276,7 +252,6 @@
     // Reset form after animation
     setTimeout(() => {
       form.value.quickInput = '';
-      form.value.category = '';
       showSuccess.value = false;
     }, 300);
   };
@@ -296,7 +271,7 @@
         description: e.description,
         amount: e.amount,
         transaction_type: TRANSACTION_TYPE.EXPENSE,
-        category: form.value.category || null,
+        category: null, // Category not used for now
       }));
 
       console.log(`Submitting ${transactions.length} expense(s):`, transactions);
