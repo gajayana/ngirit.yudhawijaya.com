@@ -113,6 +113,93 @@ const activeTransactions = computed(() => {
 
 ---
 
+### Production Error: ReferenceError - logger is not defined
+
+**Date:** 2025-11-02
+
+**Issue:**
+Production server crashed with `ReferenceError: logger is not defined` when POST request was made to `/api/v1/transactions`.
+
+**Symptoms:**
+- Error only appeared in production, not in development
+- Error occurred in server API endpoints
+- Stack trace pointed to: `file:///var/task/chunks/routes/api/v1/index.post3.mjs:16:3`
+
+**Root Cause:**
+Server-side API endpoints (`server/api/*`) do NOT have access to Nuxt's auto-imports. The `logger` utility was auto-imported for client-side code but NOT for server-side code:
+
+```typescript
+// .nuxt/imports.d.ts:33
+export { logger } from '../utils/logger';
+```
+
+This auto-import only works on the client. Server endpoints must explicitly import utilities.
+
+**Solution:**
+Add explicit `import { logger } from '~/utils/logger';` to all server API endpoints that use it.
+
+**Changes Made:**
+- Added logger import to 20 server API endpoint files:
+  - `server/api/v1/transactions/*.ts` (4 files)
+  - `server/api/v1/assets/**/*.ts` (7 files)
+  - `server/api/v1/families/**/*.ts` (8 files)
+  - `server/api/v1/user/me/*.ts` (1 file)
+
+**Prevention - Build-Time Type Checking:**
+
+Enhanced the build process to catch these errors before deployment:
+
+**1. Added TypeScript type checking to build:**
+```json
+// package.json
+{
+  "scripts": {
+    "build": "pnpm typecheck && nuxt build",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  }
+}
+```
+
+**2. Enhanced ESLint configuration:**
+```javascript
+// eslint.config.mjs
+{
+  rules: {
+    'no-undef': 'error',  // Catch undefined variables
+    '@typescript-eslint/no-unused-vars': ['error', {
+      argsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+    }],
+  }
+}
+```
+
+**Key Lessons:**
+- **Auto-imports are client-only**: Server API code must use explicit imports
+- **Development ≠ Production**: Always test in production-like environment
+- **Type checking saves lives**: `pnpm build` now catches these errors early
+- **Build pipeline matters**: Type checking BEFORE build prevents broken deployments
+
+**Workflow Now:**
+```bash
+# Before committing
+pnpm typecheck  # Catches type errors
+pnpm lint       # Catches undefined variables
+
+# Before deploying
+pnpm build      # Runs typecheck automatically, fails if errors
+```
+
+**Related Files:**
+- `utils/logger.ts` - Logger utility (client AND server compatible)
+- `server/api/v1/**/*.ts` - All server endpoints now have explicit imports
+- `package.json` - Enhanced build scripts
+- `eslint.config.mjs` - Enhanced linting rules
+
+---
+
 ### Realtime DELETE Not Syncing Across Users
 
 **Date:** 2025-11-01

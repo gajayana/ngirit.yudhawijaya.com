@@ -4,6 +4,56 @@ All notable completed features and changes to this project are documented here.
 
 ---
 
+## Version 4.0.3 (Nov 2, 2025)
+
+### Bug Fixes & Build Improvements
+
+**Critical Production Fix:**
+- 🐛 Fixed `ReferenceError: logger is not defined` in production server API endpoints
+  - Added explicit logger imports to 20 server API endpoint files
+  - Root cause: Server-side code doesn't have access to Nuxt auto-imports
+  - Affected endpoints: transactions, assets, families, user APIs
+
+**Duplicate Transaction Fix:**
+- 🐛 Fixed duplicate transaction display on first transaction of the day
+  - Root cause: Race condition between optimistic updates and realtime subscriptions
+  - Solution: De-duplication in `activeTransactions` computed getter using `Set<string>`
+  - Simple, foolproof approach - handles ALL edge cases in one place
+  - Related: `stores/transaction-store.ts:80-93`
+
+**Build Pipeline Enhancements:**
+- ✅ Added TypeScript type checking to build process
+  - `pnpm build` now runs `pnpm typecheck` first
+  - Build fails immediately if type errors exist
+  - Prevents broken code from reaching production
+- ✅ Added new npm scripts:
+  - `pnpm typecheck` - Run TypeScript type checking
+  - `pnpm lint` - Run ESLint
+  - `pnpm lint:fix` - Auto-fix linting errors
+- ✅ Enhanced ESLint configuration:
+  - Added `no-undef` rule to catch undefined variables
+  - Added `@typescript-eslint/no-unused-vars` with ignore patterns
+
+**Type System Fixes:**
+- 🔧 Fixed `scripts/find-duplicates.ts` - Added null check for `firstRecord`
+- 🔧 Fixed `scripts/mysql.ts` - Added comprehensive null checks for regex matches
+- 🔧 Fixed `utils/constants/category.ts` - Changed from non-existent enum to explicit union type
+  - Before: `Database['public']['Enums']['category_type']` (doesn't exist)
+  - After: `type CategoryType = 'income' | 'expense'`
+
+**Code Quality:**
+- 🧹 Removed unused `checkSubscribed` variable from transaction store
+- 📝 Updated `TROUBLESHOOTING.md` with detailed documentation of all fixes
+- 📝 Added prevention strategies and workflow improvements
+
+**Key Lessons:**
+- Auto-imports are client-only - server API code needs explicit imports
+- Type checking in build pipeline catches errors before deployment
+- De-duplication in computed getters is simpler than preventing duplicates at insertion
+- Always test in production-like environments
+
+---
+
 ## Version 4.0.0 (Oct 26, 2025)
 
 ### Phase 2 Completion
