@@ -1,4 +1,5 @@
 import { serverSupabaseClient } from '#supabase/server';
+import { logger } from '~/utils/logger';
 
 /**
  * DELETE /api/assets/[id]

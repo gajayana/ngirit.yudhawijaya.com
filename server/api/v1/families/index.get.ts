@@ -6,6 +6,7 @@
 import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
 import type { FamilyListResponse } from '~/utils/constants/family';
+import { logger } from '~/utils/logger';
 
 export default defineEventHandler(async (event): Promise<FamilyListResponse> => {
   const supabase = await serverSupabaseClient<Database>(event);

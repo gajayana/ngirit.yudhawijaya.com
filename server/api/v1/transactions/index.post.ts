@@ -1,5 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
+import { logger } from '~/utils/logger';
 
 type TransactionInsert = Database['public']['Tables']['transactions']['Insert'];
 

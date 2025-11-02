@@ -1,5 +1,6 @@
 import type { UserData } from '~/utils/constants/user';
 import { serverSupabaseClient } from '#supabase/server';
+import { logger } from '~/utils/logger';
 
 interface ApiError {
   statusCode?: number;

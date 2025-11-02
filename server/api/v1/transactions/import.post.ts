@@ -1,5 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server';
 import type { UserData } from '~/utils/constants/user';
+import { logger } from '~/utils/logger';
 
 interface FirebaseSpending {
   id: string;

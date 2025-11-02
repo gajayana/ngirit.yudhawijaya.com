@@ -1,5 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server';
 import type { UpdateAssetPayload } from '~/utils/types/assets';
+import { logger } from '~/utils/logger';
 
 /**
  * PUT /api/assets/[id]
