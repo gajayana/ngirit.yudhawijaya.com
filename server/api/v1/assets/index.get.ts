@@ -1,4 +1,5 @@
 import { serverSupabaseClient } from '#supabase/server';
+import { logger } from '~/utils/logger';
 
 /**
  * GET /api/v1/assets

@@ -32,7 +32,7 @@ function parseInsertStatement(line: string): MySQLSpending[] {
 
   // Match INSERT INTO pattern
   const insertMatch = line.match(/INSERT INTO `tblspending` VALUES (.+);/);
-  if (!insertMatch) return records;
+  if (!insertMatch || !insertMatch[1]) return records;
 
   const valuesString = insertMatch[1];
 
@@ -46,7 +46,7 @@ function parseInsertStatement(line: string): MySQLSpending[] {
     // Parse values: (ID, id_limit, 'dt', 'event', spending)
     const match = cleaned.match(/^(\d+),\d+,'([^']+)','([^']+)',(\d+)$/);
 
-    if (match) {
+    if (match && match[1] && match[2] && match[3] && match[4]) {
       records.push({
         ID: parseInt(match[1], 10),
         dt: match[2],

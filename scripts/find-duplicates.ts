@@ -70,6 +70,8 @@ async function main(): Promise<void> {
 
     duplicates.forEach(([key, records], index) => {
       const firstRecord = records[0];
+      if (!firstRecord) return; // Skip if no records (shouldn't happen)
+
       const date = new Date(firstRecord.created_at * 1000).toLocaleDateString('id-ID');
 
       console.log(`\n${index + 1}. Duplicate Group:`);

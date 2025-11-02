@@ -1,5 +1,6 @@
 import { serverSupabaseClient } from '#supabase/server';
 import type { CreateAssetPayload } from '~/utils/types/assets';
+import { logger } from '~/utils/logger';
 
 /**
  * POST /api/assets

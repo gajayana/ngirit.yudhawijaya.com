@@ -4,7 +4,8 @@
 
 import type { Database } from './database';
 
-export type CategoryType = Database['public']['Enums']['category_type'];
+// Category type is stored as a string in the database
+export type CategoryType = 'income' | 'expense';
 
 export const CATEGORY_TYPE = {
   INCOME: 'income',

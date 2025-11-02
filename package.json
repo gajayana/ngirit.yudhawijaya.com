@@ -4,11 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
+    "build": "pnpm typecheck && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "firestore:fetch": "tsx scripts/firestore.ts",
     "mysql:fetch": "tsx scripts/mysql.ts",
     "data:merge": "tsx scripts/merge.ts"

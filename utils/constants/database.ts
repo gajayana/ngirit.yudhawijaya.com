@@ -387,10 +387,7 @@ export type Database = {
         Args: { p_transaction_created_by: string; p_user_id: string }
         Returns: boolean
       }
-      is_superadmin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_superadmin: { Args: never; Returns: boolean }
       update_user_blocked_status: {
         Args: { blocked: boolean; target_user_id: string }
         Returns: boolean
