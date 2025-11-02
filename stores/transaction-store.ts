@@ -27,7 +27,7 @@ export const useTransactionStore = defineStore('transaction', () => {
   const includeFamily = ref(true); // Toggle for showing family transactions (default: true)
 
   // Realtime subscriptions
-  const { subscribe, unsubscribe, isSubscribed: checkSubscribed } = useRealtime();
+  const { subscribe, unsubscribe } = useRealtime();
   let transactionChannelId = '';
   let familyMemberChannelId = '';
 
@@ -75,9 +75,21 @@ export const useTransactionStore = defineStore('transaction', () => {
   /**
    * Get active (non-deleted) transactions
    * Filters out soft-deleted transactions (deleted_at is not null)
+   * De-duplicates by ID to handle race conditions between optimistic updates and realtime
    */
   const activeTransactions = computed(() => {
-    return transactions.value.filter(t => !t.deleted_at);
+    const seen = new Set<string>();
+    const unique: TransactionWithCategory[] = [];
+
+    for (const t of transactions.value) {
+      // Skip deleted and duplicates
+      if (t.deleted_at || seen.has(t.id)) continue;
+
+      seen.add(t.id);
+      unique.push(t);
+    }
+
+    return unique;
   });
 
   /**
