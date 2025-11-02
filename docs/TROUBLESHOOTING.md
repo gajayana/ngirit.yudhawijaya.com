@@ -48,10 +48,10 @@ brew update && brew upgrade
 
 ### Duplicate Transactions After Submission
 
-**Date:** 2025-11-01
+**Date:** 2025-11-01 (Updated: 2025-11-02)
 
 **Issue:**
-When adding a new expense through the QuickAddWidget, the transaction appears twice in the UI. This only happens in production, not in local development.
+When adding a new expense through the QuickAddWidget, the transaction appears twice in the UI, especially on the first transaction of the day. This happens due to race conditions between optimistic updates and realtime subscriptions.
 
 **Symptoms:**
 - User clicks submit button
@@ -60,41 +60,55 @@ When adding a new expense through the QuickAddWidget, the transaction appears tw
 - Duplicate appears immediately after submission
 
 **Root Cause:**
-The transaction store was using BOTH optimistic updates AND realtime subscriptions:
+Race condition between three concurrent operations:
 
-1. **Optimistic update**: After API call returns, transactions were immediately added to the local state (`transaction-store.ts:335`)
-2. **Realtime subscription**: When the INSERT event fires, the same transaction is added again via the realtime handler (`transaction-store.ts:452`)
+1. **Optimistic update**: After API call returns, transactions are immediately added to local state for instant feedback
+2. **Realtime INSERT event**: When database INSERT completes, realtime fires and adds the transaction again
+3. **Timing variance**: Sometimes realtime arrives before optimistic update completes, sometimes after
 
 Since realtime was not working in local dev (due to outdated Supabase CLI), the duplicate was only visible in production where realtime was properly configured.
 
-**Solution:**
-Keep optimistic updates for immediate UI feedback and add de-duplication logic to the realtime INSERT handler. This prevents the same transaction from being added twice when the realtime event arrives.
+**Solution Evolution:**
+
+❌ **Initial approach**: Add duplicate checks in `handleTransactionInsert()` - Complex, error-prone, multiple code paths to maintain
+
+✅ **Final approach**: De-duplicate in the `activeTransactions` computed getter - Simple, handles ALL cases in one place
 
 **Changes Made:**
-- `stores/transaction-store.ts:327-344`: Kept optimistic update in `addTransaction()` with clear comment about deduplication
-- `stores/transaction-store.ts:455-459`: Added duplicate check in `handleTransactionInsert()` to skip if transaction already exists
+- `stores/transaction-store.ts:80-93`: Added de-duplication logic using `Set<string>` to track seen IDs in `activeTransactions` computed
 
 **Code Changes:**
 ```typescript
-// In addTransaction() - optimistic update KEPT for instant feedback
-transactions.value.unshift(...currentMonthTransactions);
-logger.log('  ✅ Optimistically added', currentMonthTransactions.length, 'transactions');
+const activeTransactions = computed(() => {
+  const seen = new Set<string>();
+  const unique: TransactionWithCategory[] = [];
 
-// In handleTransactionInsert() - de-duplication logic ADDED
-const exists = transactions.value.some(t => t.id === transaction.id);
-if (exists) {
-  logger.log('  ⏭️  Skipping - already exists');
-  return;
-}
+  for (const t of transactions.value) {
+    // Skip deleted and duplicates
+    if (t.deleted_at || seen.has(t.id)) continue;
+
+    seen.add(t.id);
+    unique.push(t);
+  }
+
+  return unique;
+});
 ```
 
+**Why This Works Better:**
+- **Single source of truth**: All duplicate handling in ONE place (the computed getter)
+- **Handles ALL cases**: Optimistic updates, realtime inserts, race conditions - doesn't matter
+- **Dead simple**: Track seen IDs, skip duplicates
+- **Reactive**: Automatically updates when anything changes
+- **No complex logic**: Don't need to prevent duplicates at insertion time
+
 **Trade-offs:**
-- **Pros**: Instant UI feedback with optimistic updates, no perceived delay, duplicates prevented by deduplication
-- **Cons**: Slightly more complex logic (need to check for duplicates), relies on unique transaction IDs
-- **Note**: Best of both worlds - instant feedback for the user who created it, reliable sync for other users
+- **Pros**: Foolproof deduplication, simple to understand, works for all edge cases, minimal performance impact
+- **Cons**: Slightly more iteration (negligible for typical transaction volumes)
+- **Note**: Performance is O(n) where n = number of transactions, but with Set lookup being O(1), this is very fast
 
 **Related Files:**
-- `stores/transaction-store.ts` - Transaction store with realtime subscriptions
+- `stores/transaction-store.ts` - Transaction store with realtime subscriptions and de-duplication
 - `components/dashboard/QuickAddWidget.vue` - Add expense form component
 
 ---
