@@ -2,8 +2,6 @@ import { serverSupabaseClient } from '#supabase/server';
 import type { Database } from '~/utils/constants/database';
 import { logger } from '~/utils/logger';
 
-type Transaction = Database['public']['Tables']['transactions']['Row'];
-
 export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
   const userId = await getAuthenticatedUserId(event);
@@ -13,8 +11,8 @@ export default defineEventHandler(async event => {
   const start = query.start as string | undefined; // ISO 8601 datetime
   const end = query.end as string | undefined; // ISO 8601 datetime
   const includeFamily = query.include_family === 'true' || query.include_family === true;
-  const limit = query.limit ? parseInt(query.limit as string) : undefined;
-  const offset = query.offset ? parseInt(query.offset as string) : 0;
+  const limit = query.limit ? Number.parseInt(query.limit as string) : undefined;
+  const offset = query.offset ? Number.parseInt(query.offset as string) : 0;
 
   // Determine which user IDs to query
   let userIds = [userId]; // Default: only current user
@@ -30,13 +28,15 @@ export default defineEventHandler(async event => {
       logger.error('Error fetching family members:', familyError);
     } else if (familyMembers && familyMembers.length > 0) {
       // Find all families the user belongs to
-      const userFamilyIds = familyMembers
-        .filter(m => m.user_id === userId)
-        .map(m => m.family_id);
+      const userFamilyIds = new Set(
+        familyMembers
+          .filter(m => m.user_id === userId)
+          .map(m => m.family_id)
+      );
 
       // Get all member IDs from those families
       const allFamilyMemberIds = familyMembers
-        .filter(m => userFamilyIds.includes(m.family_id))
+        .filter(m => userFamilyIds.has(m.family_id))
         .map(m => m.user_id);
 
       // Use unique user IDs
@@ -76,7 +76,7 @@ export default defineEventHandler(async event => {
 
   return {
     success: true,
-    data: data as Transaction[],
+    data,
     count: count || data?.length || 0,
   };
 });

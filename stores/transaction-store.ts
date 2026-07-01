@@ -9,6 +9,39 @@ import type { Database } from '~/utils/constants/database';
 import { logger } from '~/utils/logger';
 
 /**
+ * Get current month in YYYY-MM format
+ */
+function getCurrentMonthString(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  return `${year}-${month}`;
+}
+
+/**
+ * Get month from date string in YYYY-MM format
+ */
+function getMonthFromDate(dateString: string): string {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${year}-${month}`;
+}
+
+/**
+ * Check if date is today
+ */
+function isToday(dateString: string): boolean {
+  const date = new Date(dateString);
+  const today = new Date();
+  return (
+    date.getDate() === today.getDate() &&
+    date.getMonth() === today.getMonth() &&
+    date.getFullYear() === today.getFullYear()
+  );
+}
+
+/**
  * Pinia store for transaction management
  * Manages current month's transactions with realtime subscriptions
  */
@@ -30,43 +63,6 @@ export const useTransactionStore = defineStore('transaction', () => {
   const { subscribe, unsubscribe } = useRealtime();
   let transactionChannelId = '';
   let familyMemberChannelId = '';
-
-  // ============================================================================
-  // Helper Functions
-  // ============================================================================
-
-  /**
-   * Get current month in YYYY-MM format
-   */
-  function getCurrentMonthString(): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    return `${year}-${month}`;
-  }
-
-  /**
-   * Get month from date string in YYYY-MM format
-   */
-  function getMonthFromDate(dateString: string): string {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    return `${year}-${month}`;
-  }
-
-  /**
-   * Check if date is today
-   */
-  function isToday(dateString: string): boolean {
-    const date = new Date(dateString);
-    const today = new Date();
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    );
-  }
 
   // ============================================================================
   // Getters (Computed)
@@ -541,11 +537,11 @@ export const useTransactionStore = defineStore('transaction', () => {
     logger.log('🔴 Realtime DELETE:', transactionId);
 
     const index = transactions.value.findIndex(t => t.id === transactionId);
-    if (index !== -1) {
+    if (index === -1) {
+      logger.log('  ⏭️  Skipping - not in current list');
+    } else {
       transactions.value.splice(index, 1);
       logger.log('  ✅ Removed from store');
-    } else {
-      logger.log('  ⏭️  Skipping - not in current list');
     }
   }
 
