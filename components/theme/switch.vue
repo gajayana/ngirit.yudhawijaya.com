@@ -19,6 +19,10 @@
       colorMode.preference = _isDark ? 'dark' : 'light';
     },
   });
+
+  function toggleDark() {
+    isDark.value = !isDark.value;
+  }
 </script>
 
 <template>
@@ -27,7 +31,7 @@
       :icon="isDark ? 'i-lucide-moon' : 'i-lucide-sun'"
       color="neutral"
       variant="ghost"
-      @click="isDark = !isDark"
+      @click="toggleDark"
     />
   </ClientOnly>
 </template>

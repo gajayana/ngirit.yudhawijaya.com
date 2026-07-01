@@ -66,7 +66,7 @@
           v-else
           class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-800 flex items-center justify-center mr-2"
         >
-          {{ user.email?.[0].toUpperCase() || 'U' }}
+          {{ user.email?.[0]?.toUpperCase() || 'U' }}
         </span>
 
         <span class="hidden sm:inline text-sm truncate max-w-[100px]">
