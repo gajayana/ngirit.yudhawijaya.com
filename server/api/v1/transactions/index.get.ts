@@ -7,14 +7,6 @@ type Transaction = Database['public']['Tables']['transactions']['Row'];
 export default defineEventHandler(async event => {
   const supabase = await serverSupabaseClient<Database>(event);
   const userId = await getAuthenticatedUserId(event);
-  logger.log({ userId });
-
-  if (!userId) {
-    logger.error('No user or user ID found');
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
-  }
-
-  logger.log('Fetching transactions for user:', userId);
 
   // Get query params
   const query = getQuery(event);
@@ -23,8 +15,6 @@ export default defineEventHandler(async event => {
   const includeFamily = query.include_family === 'true' || query.include_family === true;
   const limit = query.limit ? parseInt(query.limit as string) : undefined;
   const offset = query.offset ? parseInt(query.offset as string) : 0;
-
-  logger.log('Query params:', { start, end, includeFamily, limit, offset });
 
   // Determine which user IDs to query
   let userIds = [userId]; // Default: only current user
@@ -51,7 +41,6 @@ export default defineEventHandler(async event => {
 
       // Use unique user IDs
       userIds = Array.from(new Set(allFamilyMemberIds));
-      logger.log('Including family members:', userIds.length, 'users');
     }
   }
 
