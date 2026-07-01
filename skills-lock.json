@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "nuxtjs-vue-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nuxtjs-vue-typescript/SKILL.md",
+      "computedHash": "e032d20773061d7956882da83c014fef22c24466ecbe9e20ee8ff1d244d59d04"
+    },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
