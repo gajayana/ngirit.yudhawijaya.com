@@ -390,6 +390,98 @@ Always use the Pinia auth store for user data instead of `useSupabaseUser()` dir
 
 ---
 
+### `sharp` Install Fails on Machines with a Global Homebrew `libvips`
+
+**Date:** 2026-07-01
+
+**Issue:**
+After bumping `@nuxt/image` from 1.x to 2.0 (which pulls in `sharp` transitively via `ipx`), `pnpm install` fails:
+
+```
+sharp: Attempting to build from source via node-gyp
+sharp: Please add node-gyp to your dependencies
+Failed
+```
+
+**Root Cause:**
+`sharp`'s installer checks for a globally-installed `libvips` (via `pkg-config`) before deciding whether to use its prebuilt binary. If a global `libvips` is found (e.g. installed via `brew install vips` for some other tool), `sharp` assumes it should build from source against that version instead of using the bundled prebuilt binary — and building from source requires `node-gyp`, which isn't part of this project's toolchain.
+
+**Solution:**
+Set `SHARP_IGNORE_GLOBAL_LIBVIPS=1` when installing, forcing `sharp` to use its prebuilt binary regardless of any global `libvips`:
+
+```bash
+SHARP_IGNORE_GLOBAL_LIBVIPS=1 pnpm install
+```
+
+**Prevention:**
+- If `pnpm install` ever fails on `sharp` again with a `node-gyp` error, re-run with `SHARP_IGNORE_GLOBAL_LIBVIPS=1`.
+- Check `pkg-config --exists vips-cpp && pkg-config --modversion vips-cpp` to confirm whether a global `libvips` is present on the machine.
+
+**Related Files:**
+- `pnpm-workspace.yaml` - `onlyBuiltDependencies` list (had to add `sharp`, `@parcel/watcher`, `protobufjs`, `unrs-resolver` so their install scripts run at all under pnpm)
+- `package.json` - `@nuxt/image` dependency
+
+---
+
+### `nuxt typecheck` Fails After Upgrading to TypeScript 6 — Missing `vue-tsc`
+
+**Date:** 2026-07-01
+
+**Issue:**
+After upgrading `typescript` 5.9→6.0 (and other majors: `nuxt` 4.1→4.4, `vue-router` 4→5, `@unhead/vue` 2→3, `eslint` 9→10, `@nuxt/image` 1→2, `@nuxt/test-utils` 3→4, `@nuxt/scripts` 0.13→1.3), `pnpm typecheck` failed immediately:
+
+```
+■  vue-tsc is required for nuxt typecheck. Install it as a devDependency:
+│    pnpm add -D vue-tsc
+```
+
+**Root Cause:**
+`vue-tsc` is a peer dependency needed by `nuxt typecheck` but was never declared in `package.json` — it had apparently been resolved incidentally via some other package's peer dependency chain before, and the dependency graph shifted enough during the major-version bump that it stopped being available.
+
+**Solution:**
+```bash
+pnpm add -D vue-tsc@latest
+```
+
+**Two real type errors surfaced after `vue-tsc`/TS6 became stricter** (both fixed):
+- `components/auth/action-button.vue` — `user.email?.[0].toUpperCase()` broke the optional chain (`?.[0]` can be `undefined`, but `.toUpperCase()` wasn't optional). Fixed to `user.email?.[0]?.toUpperCase()`.
+- `components/theme/switch.vue` — inline `@click="isDark = !isDark"` handler resolved to type `(event: MouseEvent) => boolean`, which no longer satisfied Nuxt UI's `(event: MouseEvent) => void | Promise<void>` prop type. Extracted to a named `toggleDark()` function instead.
+
+**Prevention:**
+- Whenever bumping `typescript` or `nuxt` majors, run `pnpm typecheck` immediately and treat a missing-`vue-tsc` error as expected — just add it as a devDependency at `latest`.
+- Don't write inline template handlers that are assignment/boolean expressions if the receiving prop is typed as returning `void` — extract to a named function instead.
+
+**Related Files:**
+- `package.json` - Added `vue-tsc` devDependency
+- `components/auth/action-button.vue`
+- `components/theme/switch.vue`
+
+---
+
+### SonarLint False Positives on Supabase/Vue `ref` Type Assertions
+
+**Date:** 2026-07-01
+
+**Issue:**
+SonarLint (`typescript:S4325`, "This assertion is unnecessary since the receiver accepts the original type of the expression") flagged several `as TransactionWithCategory` casts in `stores/transaction-store.ts` and `server/api/v1/transactions/index.get.ts` as removable.
+
+**Root Cause:**
+SonarLint's TypeScript analysis doesn't fully resolve Supabase's generated query-builder return types or Vue's `ref`/`UnwrapRef` array-index spread behavior. In both real cases tested:
+- Supabase's `.select('*, categories(...)')` join returns `category: string | null` before narrowing to the richer `TransactionWithCategory['category']` object shape — the assertion is required.
+- Spreading `transactions.value[index]` (a `ref<TransactionWithCategory[]>` element) widens all properties to optional in the resulting object literal type — the assertion is required there too.
+
+**Solution:**
+Verified every flagged assertion with `pnpm typecheck` (the real `tsc` compiler, not SonarLint) before removing anything. All three flagged `as TransactionWithCategory` casts turned out to be genuinely required — removing any of them broke the build with real type errors. Left them in place. The other SonarQube findings in the same pass (`parseInt` → `Number.parseInt`, array `.includes()` → `Set.has()`, moving pure helper functions to module scope, flipping a negated `if` condition) were legitimate and were applied.
+
+**Prevention:**
+- Never remove a SonarLint "unnecessary assertion" without first confirming with `pnpm typecheck` — SonarLint's type resolution for Supabase-generated types and Vue's reactivity-wrapped types is unreliable.
+
+**Related Files:**
+- `stores/transaction-store.ts`
+- `server/api/v1/transactions/index.get.ts`
+
+---
+
 ## Architecture Decisions
 
 ### Development-Only Logger Implementation
