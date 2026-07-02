@@ -13,8 +13,26 @@
       </span>
     </div>
 
+    <!-- Loading Skeleton -->
+    <div v-if="isLoading" class="space-y-3">
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="rounded-lg border border-gray-100 p-3 dark:border-gray-800"
+      >
+        <div class="mb-2 flex items-start justify-between">
+          <div class="min-w-0 flex-1 space-y-2">
+            <USkeleton class="h-4 w-28" />
+            <USkeleton class="h-3 w-16" />
+          </div>
+          <USkeleton class="ml-4 h-4 w-16" />
+        </div>
+        <USkeleton class="h-2 w-full rounded-full" />
+      </div>
+    </div>
+
     <!-- Empty State -->
-    <div v-if="summaries.length === 0" class="py-8 text-center">
+    <div v-else-if="summaries.length === 0" class="py-8 text-center">
       <UIcon
         name="i-heroicons-chart-bar-square"
         class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700"
@@ -70,7 +88,7 @@
   const transactionStore = useTransactionStore();
 
   // Consume data from store - grouped by description instead of category
-  const { monthlySummaryByDescription, monthlyTotal } = storeToRefs(transactionStore);
+  const { monthlySummaryByDescription, monthlyTotal, isLoading } = storeToRefs(transactionStore);
 
   // Use the store's summary data directly
   const summaries = monthlySummaryByDescription;

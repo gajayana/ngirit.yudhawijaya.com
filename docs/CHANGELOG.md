@@ -4,6 +4,92 @@ All notable completed features and changes to this project are documented here.
 
 ---
 
+## Version 4.0.4 (Jul 1, 2026)
+
+### Dependency Upgrade & Code Quality Cleanup
+
+**Full Dependency Update (including majors):**
+- ⬆️ `nuxt` 4.1.3 → 4.4.8
+- ⬆️ `@nuxt/ui` 4.1.0 → 4.9.0
+- ⬆️ `@nuxt/image` 1.11.0 → 2.0.0 (major)
+- ⬆️ `@unhead/vue` 2.0.19 → 3.1.7 (major)
+- ⬆️ `vue-router` 4.6.3 → 5.1.0 (major)
+- ⬆️ `typescript` 5.9.3 → 6.0.3 (major)
+- ⬆️ `eslint` 9.38.0 → 10.6.0 (major)
+- ⬆️ `@nuxt/test-utils` 3.19.2 → 4.0.3 (major)
+- ⬆️ `@nuxt/scripts` 0.13.0 → 1.3.0 (major)
+- ⬆️ `vue`, `pinia`, `firebase`, `date-fns`, `@nuxtjs/supabase`, `@supabase/supabase-js`, `@nuxt/eslint`, `@nuxt/icon`, `@nuxt/fonts`, `tailwindcss`, `@types/node`, `dotenv`, `tsx` — patch/minor bumps
+- ➕ Added `vue-tsc` as an explicit devDependency (required by `nuxt typecheck`, previously resolved incidentally and broke after the major bump)
+
+**Fixes required by the upgrade:**
+- 🐛 `components/auth/action-button.vue` — fixed unsafe optional chaining (`user.email?.[0].toUpperCase()` → `?.[0]?.toUpperCase()`) caught by stricter TypeScript 6 checks
+- 🐛 `components/theme/switch.vue` — inline `@click` handler returned `boolean` instead of `void`; extracted to a named `toggleDark()` function
+- 🔧 `pnpm-workspace.yaml` — added `sharp`, `@parcel/watcher`, `protobufjs`, `unrs-resolver` to `onlyBuiltDependencies` so their install scripts run under pnpm
+
+**SonarQube Cleanup:**
+- 🧹 `server/api/v1/transactions/index.get.ts`: `parseInt` → `Number.parseInt`, array `.includes()` → `Set.has()`, removed unnecessary `as Transaction[]` assertion, removed dead `if (!userId)` check (the `getAuthenticatedUserId()` helper already throws), removed leftover debug `logger.log()` calls
+- 🧹 `stores/transaction-store.ts`: moved `getCurrentMonthString`, `getMonthFromDate`, `isToday` out of the store setup function to module scope (they're pure, don't need recreating per store instance); flipped a negated `if (index !== -1) {...} else {...}` condition for readability
+- ⚠️ Verified (and left in place) three SonarLint "unnecessary assertion" flags on `as TransactionWithCategory` casts — all three are genuinely required by `tsc`; see `docs/TROUBLESHOOTING.md` for details
+
+**Not touched:**
+- `utils/constants/database.ts` — SonarQube flag on auto-generated Supabase codegen boilerplate; per project convention this file is never hand-edited
+- Pre-existing `eslint` errors (`no-explicit-any`, unused vars) in `server/api/v1/families/**` and `composables/useRealtime.ts` — confirmed identical before/after the dependency bump, out of scope for this pass
+
+**Related Files:**
+- `docs/TROUBLESHOOTING.md` - New entries: sharp/libvips install failure, missing vue-tsc, SonarLint false positives
+
+---
+
+## Version 4.0.3 (Nov 2, 2025)
+
+### Bug Fixes & Build Improvements
+
+**Critical Production Fix:**
+- 🐛 Fixed `ReferenceError: logger is not defined` in production server API endpoints
+  - Added explicit logger imports to 20 server API endpoint files
+  - Root cause: Server-side code doesn't have access to Nuxt auto-imports
+  - Affected endpoints: transactions, assets, families, user APIs
+
+**Duplicate Transaction Fix:**
+- 🐛 Fixed duplicate transaction display on first transaction of the day
+  - Root cause: Race condition between optimistic updates and realtime subscriptions
+  - Solution: De-duplication in `activeTransactions` computed getter using `Set<string>`
+  - Simple, foolproof approach - handles ALL edge cases in one place
+  - Related: `stores/transaction-store.ts:80-93`
+
+**Build Pipeline Enhancements:**
+- ✅ Added TypeScript type checking to build process
+  - `pnpm build` now runs `pnpm typecheck` first
+  - Build fails immediately if type errors exist
+  - Prevents broken code from reaching production
+- ✅ Added new npm scripts:
+  - `pnpm typecheck` - Run TypeScript type checking
+  - `pnpm lint` - Run ESLint
+  - `pnpm lint:fix` - Auto-fix linting errors
+- ✅ Enhanced ESLint configuration:
+  - Added `no-undef` rule to catch undefined variables
+  - Added `@typescript-eslint/no-unused-vars` with ignore patterns
+
+**Type System Fixes:**
+- 🔧 Fixed `scripts/find-duplicates.ts` - Added null check for `firstRecord`
+- 🔧 Fixed `scripts/mysql.ts` - Added comprehensive null checks for regex matches
+- 🔧 Fixed `utils/constants/category.ts` - Changed from non-existent enum to explicit union type
+  - Before: `Database['public']['Enums']['category_type']` (doesn't exist)
+  - After: `type CategoryType = 'income' | 'expense'`
+
+**Code Quality:**
+- 🧹 Removed unused `checkSubscribed` variable from transaction store
+- 📝 Updated `TROUBLESHOOTING.md` with detailed documentation of all fixes
+- 📝 Added prevention strategies and workflow improvements
+
+**Key Lessons:**
+- Auto-imports are client-only - server API code needs explicit imports
+- Type checking in build pipeline catches errors before deployment
+- De-duplication in computed getters is simpler than preventing duplicates at insertion
+- Always test in production-like environments
+
+---
+
 ## Version 4.0.0 (Oct 26, 2025)
 
 ### Phase 2 Completion

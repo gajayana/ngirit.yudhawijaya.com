@@ -48,10 +48,10 @@ brew update && brew upgrade
 
 ### Duplicate Transactions After Submission
 
-**Date:** 2025-11-01
+**Date:** 2025-11-01 (Updated: 2025-11-02)
 
 **Issue:**
-When adding a new expense through the QuickAddWidget, the transaction appears twice in the UI. This only happens in production, not in local development.
+When adding a new expense through the QuickAddWidget, the transaction appears twice in the UI, especially on the first transaction of the day. This happens due to race conditions between optimistic updates and realtime subscriptions.
 
 **Symptoms:**
 - User clicks submit button
@@ -60,42 +60,143 @@ When adding a new expense through the QuickAddWidget, the transaction appears tw
 - Duplicate appears immediately after submission
 
 **Root Cause:**
-The transaction store was using BOTH optimistic updates AND realtime subscriptions:
+Race condition between three concurrent operations:
 
-1. **Optimistic update**: After API call returns, transactions were immediately added to the local state (`transaction-store.ts:335`)
-2. **Realtime subscription**: When the INSERT event fires, the same transaction is added again via the realtime handler (`transaction-store.ts:452`)
+1. **Optimistic update**: After API call returns, transactions are immediately added to local state for instant feedback
+2. **Realtime INSERT event**: When database INSERT completes, realtime fires and adds the transaction again
+3. **Timing variance**: Sometimes realtime arrives before optimistic update completes, sometimes after
 
 Since realtime was not working in local dev (due to outdated Supabase CLI), the duplicate was only visible in production where realtime was properly configured.
 
-**Solution:**
-Keep optimistic updates for immediate UI feedback and add de-duplication logic to the realtime INSERT handler. This prevents the same transaction from being added twice when the realtime event arrives.
+**Solution Evolution:**
+
+❌ **Initial approach**: Add duplicate checks in `handleTransactionInsert()` - Complex, error-prone, multiple code paths to maintain
+
+✅ **Final approach**: De-duplicate in the `activeTransactions` computed getter - Simple, handles ALL cases in one place
 
 **Changes Made:**
-- `stores/transaction-store.ts:327-344`: Kept optimistic update in `addTransaction()` with clear comment about deduplication
-- `stores/transaction-store.ts:455-459`: Added duplicate check in `handleTransactionInsert()` to skip if transaction already exists
+- `stores/transaction-store.ts:80-93`: Added de-duplication logic using `Set<string>` to track seen IDs in `activeTransactions` computed
 
 **Code Changes:**
 ```typescript
-// In addTransaction() - optimistic update KEPT for instant feedback
-transactions.value.unshift(...currentMonthTransactions);
-logger.log('  ✅ Optimistically added', currentMonthTransactions.length, 'transactions');
+const activeTransactions = computed(() => {
+  const seen = new Set<string>();
+  const unique: TransactionWithCategory[] = [];
 
-// In handleTransactionInsert() - de-duplication logic ADDED
-const exists = transactions.value.some(t => t.id === transaction.id);
-if (exists) {
-  logger.log('  ⏭️  Skipping - already exists');
-  return;
+  for (const t of transactions.value) {
+    // Skip deleted and duplicates
+    if (t.deleted_at || seen.has(t.id)) continue;
+
+    seen.add(t.id);
+    unique.push(t);
+  }
+
+  return unique;
+});
+```
+
+**Why This Works Better:**
+- **Single source of truth**: All duplicate handling in ONE place (the computed getter)
+- **Handles ALL cases**: Optimistic updates, realtime inserts, race conditions - doesn't matter
+- **Dead simple**: Track seen IDs, skip duplicates
+- **Reactive**: Automatically updates when anything changes
+- **No complex logic**: Don't need to prevent duplicates at insertion time
+
+**Trade-offs:**
+- **Pros**: Foolproof deduplication, simple to understand, works for all edge cases, minimal performance impact
+- **Cons**: Slightly more iteration (negligible for typical transaction volumes)
+- **Note**: Performance is O(n) where n = number of transactions, but with Set lookup being O(1), this is very fast
+
+**Related Files:**
+- `stores/transaction-store.ts` - Transaction store with realtime subscriptions and de-duplication
+- `components/dashboard/QuickAddWidget.vue` - Add expense form component
+
+---
+
+### Production Error: ReferenceError - logger is not defined
+
+**Date:** 2025-11-02
+
+**Issue:**
+Production server crashed with `ReferenceError: logger is not defined` when POST request was made to `/api/v1/transactions`.
+
+**Symptoms:**
+- Error only appeared in production, not in development
+- Error occurred in server API endpoints
+- Stack trace pointed to: `file:///var/task/chunks/routes/api/v1/index.post3.mjs:16:3`
+
+**Root Cause:**
+Server-side API endpoints (`server/api/*`) do NOT have access to Nuxt's auto-imports. The `logger` utility was auto-imported for client-side code but NOT for server-side code:
+
+```typescript
+// .nuxt/imports.d.ts:33
+export { logger } from '../utils/logger';
+```
+
+This auto-import only works on the client. Server endpoints must explicitly import utilities.
+
+**Solution:**
+Add explicit `import { logger } from '~/utils/logger';` to all server API endpoints that use it.
+
+**Changes Made:**
+- Added logger import to 20 server API endpoint files:
+  - `server/api/v1/transactions/*.ts` (4 files)
+  - `server/api/v1/assets/**/*.ts` (7 files)
+  - `server/api/v1/families/**/*.ts` (8 files)
+  - `server/api/v1/user/me/*.ts` (1 file)
+
+**Prevention - Build-Time Type Checking:**
+
+Enhanced the build process to catch these errors before deployment:
+
+**1. Added TypeScript type checking to build:**
+```json
+// package.json
+{
+  "scripts": {
+    "build": "pnpm typecheck && nuxt build",
+    "typecheck": "nuxt typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  }
 }
 ```
 
-**Trade-offs:**
-- **Pros**: Instant UI feedback with optimistic updates, no perceived delay, duplicates prevented by deduplication
-- **Cons**: Slightly more complex logic (need to check for duplicates), relies on unique transaction IDs
-- **Note**: Best of both worlds - instant feedback for the user who created it, reliable sync for other users
+**2. Enhanced ESLint configuration:**
+```javascript
+// eslint.config.mjs
+{
+  rules: {
+    'no-undef': 'error',  // Catch undefined variables
+    '@typescript-eslint/no-unused-vars': ['error', {
+      argsIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
+    }],
+  }
+}
+```
+
+**Key Lessons:**
+- **Auto-imports are client-only**: Server API code must use explicit imports
+- **Development ≠ Production**: Always test in production-like environment
+- **Type checking saves lives**: `pnpm build` now catches these errors early
+- **Build pipeline matters**: Type checking BEFORE build prevents broken deployments
+
+**Workflow Now:**
+```bash
+# Before committing
+pnpm typecheck  # Catches type errors
+pnpm lint       # Catches undefined variables
+
+# Before deploying
+pnpm build      # Runs typecheck automatically, fails if errors
+```
 
 **Related Files:**
-- `stores/transaction-store.ts` - Transaction store with realtime subscriptions
-- `components/dashboard/QuickAddWidget.vue` - Add expense form component
+- `utils/logger.ts` - Logger utility (client AND server compatible)
+- `server/api/v1/**/*.ts` - All server endpoints now have explicit imports
+- `package.json` - Enhanced build scripts
+- `eslint.config.mjs` - Enhanced linting rules
 
 ---
 
@@ -286,6 +387,98 @@ Always use the Pinia auth store for user data instead of `useSupabaseUser()` dir
 **Related Files:**
 - `components/dashboard/TodayExpensesWidget.vue:114-120` - Permission check function
 - `stores/auth-store.ts:170` - userId computed property definition
+
+---
+
+### `sharp` Install Fails on Machines with a Global Homebrew `libvips`
+
+**Date:** 2026-07-01
+
+**Issue:**
+After bumping `@nuxt/image` from 1.x to 2.0 (which pulls in `sharp` transitively via `ipx`), `pnpm install` fails:
+
+```
+sharp: Attempting to build from source via node-gyp
+sharp: Please add node-gyp to your dependencies
+Failed
+```
+
+**Root Cause:**
+`sharp`'s installer checks for a globally-installed `libvips` (via `pkg-config`) before deciding whether to use its prebuilt binary. If a global `libvips` is found (e.g. installed via `brew install vips` for some other tool), `sharp` assumes it should build from source against that version instead of using the bundled prebuilt binary — and building from source requires `node-gyp`, which isn't part of this project's toolchain.
+
+**Solution:**
+Set `SHARP_IGNORE_GLOBAL_LIBVIPS=1` when installing, forcing `sharp` to use its prebuilt binary regardless of any global `libvips`:
+
+```bash
+SHARP_IGNORE_GLOBAL_LIBVIPS=1 pnpm install
+```
+
+**Prevention:**
+- If `pnpm install` ever fails on `sharp` again with a `node-gyp` error, re-run with `SHARP_IGNORE_GLOBAL_LIBVIPS=1`.
+- Check `pkg-config --exists vips-cpp && pkg-config --modversion vips-cpp` to confirm whether a global `libvips` is present on the machine.
+
+**Related Files:**
+- `pnpm-workspace.yaml` - `onlyBuiltDependencies` list (had to add `sharp`, `@parcel/watcher`, `protobufjs`, `unrs-resolver` so their install scripts run at all under pnpm)
+- `package.json` - `@nuxt/image` dependency
+
+---
+
+### `nuxt typecheck` Fails After Upgrading to TypeScript 6 — Missing `vue-tsc`
+
+**Date:** 2026-07-01
+
+**Issue:**
+After upgrading `typescript` 5.9→6.0 (and other majors: `nuxt` 4.1→4.4, `vue-router` 4→5, `@unhead/vue` 2→3, `eslint` 9→10, `@nuxt/image` 1→2, `@nuxt/test-utils` 3→4, `@nuxt/scripts` 0.13→1.3), `pnpm typecheck` failed immediately:
+
+```
+■  vue-tsc is required for nuxt typecheck. Install it as a devDependency:
+│    pnpm add -D vue-tsc
+```
+
+**Root Cause:**
+`vue-tsc` is a peer dependency needed by `nuxt typecheck` but was never declared in `package.json` — it had apparently been resolved incidentally via some other package's peer dependency chain before, and the dependency graph shifted enough during the major-version bump that it stopped being available.
+
+**Solution:**
+```bash
+pnpm add -D vue-tsc@latest
+```
+
+**Two real type errors surfaced after `vue-tsc`/TS6 became stricter** (both fixed):
+- `components/auth/action-button.vue` — `user.email?.[0].toUpperCase()` broke the optional chain (`?.[0]` can be `undefined`, but `.toUpperCase()` wasn't optional). Fixed to `user.email?.[0]?.toUpperCase()`.
+- `components/theme/switch.vue` — inline `@click="isDark = !isDark"` handler resolved to type `(event: MouseEvent) => boolean`, which no longer satisfied Nuxt UI's `(event: MouseEvent) => void | Promise<void>` prop type. Extracted to a named `toggleDark()` function instead.
+
+**Prevention:**
+- Whenever bumping `typescript` or `nuxt` majors, run `pnpm typecheck` immediately and treat a missing-`vue-tsc` error as expected — just add it as a devDependency at `latest`.
+- Don't write inline template handlers that are assignment/boolean expressions if the receiving prop is typed as returning `void` — extract to a named function instead.
+
+**Related Files:**
+- `package.json` - Added `vue-tsc` devDependency
+- `components/auth/action-button.vue`
+- `components/theme/switch.vue`
+
+---
+
+### SonarLint False Positives on Supabase/Vue `ref` Type Assertions
+
+**Date:** 2026-07-01
+
+**Issue:**
+SonarLint (`typescript:S4325`, "This assertion is unnecessary since the receiver accepts the original type of the expression") flagged several `as TransactionWithCategory` casts in `stores/transaction-store.ts` and `server/api/v1/transactions/index.get.ts` as removable.
+
+**Root Cause:**
+SonarLint's TypeScript analysis doesn't fully resolve Supabase's generated query-builder return types or Vue's `ref`/`UnwrapRef` array-index spread behavior. In both real cases tested:
+- Supabase's `.select('*, categories(...)')` join returns `category: string | null` before narrowing to the richer `TransactionWithCategory['category']` object shape — the assertion is required.
+- Spreading `transactions.value[index]` (a `ref<TransactionWithCategory[]>` element) widens all properties to optional in the resulting object literal type — the assertion is required there too.
+
+**Solution:**
+Verified every flagged assertion with `pnpm typecheck` (the real `tsc` compiler, not SonarLint) before removing anything. All three flagged `as TransactionWithCategory` casts turned out to be genuinely required — removing any of them broke the build with real type errors. Left them in place. The other SonarQube findings in the same pass (`parseInt` → `Number.parseInt`, array `.includes()` → `Set.has()`, moving pure helper functions to module scope, flipping a negated `if` condition) were legitimate and were applied.
+
+**Prevention:**
+- Never remove a SonarLint "unnecessary assertion" without first confirming with `pnpm typecheck` — SonarLint's type resolution for Supabase-generated types and Vue's reactivity-wrapped types is unreliable.
+
+**Related Files:**
+- `stores/transaction-store.ts`
+- `server/api/v1/transactions/index.get.ts`
 
 ---
 

@@ -13,8 +13,26 @@
       </span>
     </div>
 
+    <!-- Loading Skeleton -->
+    <div v-if="isLoading" class="space-y-3">
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="flex items-center gap-3 rounded-lg border border-gray-100 p-3 dark:border-gray-800"
+      >
+        <div class="min-w-0 flex-1 space-y-2">
+          <USkeleton class="h-4 w-32" />
+          <USkeleton class="h-3 w-16" />
+        </div>
+        <div class="space-y-2 text-right">
+          <USkeleton class="ml-auto h-4 w-20" />
+          <USkeleton class="ml-auto h-3 w-14" />
+        </div>
+      </div>
+    </div>
+
     <!-- Empty State -->
-    <div v-if="expenses.length === 0" class="py-8 text-center">
+    <div v-else-if="expenses.length === 0" class="py-8 text-center">
       <UIcon name="i-heroicons-inbox" class="mx-auto h-12 w-12 text-gray-300 dark:text-gray-700" />
       <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Belum ada pengeluaran hari ini 🎉</p>
       <p class="mt-1 text-xs text-gray-500 dark:text-gray-500">
@@ -98,7 +116,7 @@
   const toast = useToast();
 
   // Consume data from store
-  const { todayTransactions } = storeToRefs(transactionStore);
+  const { todayTransactions, isLoading } = storeToRefs(transactionStore);
   const { isAdmin, userId } = storeToRefs(authStore);
 
   // Dialog states
