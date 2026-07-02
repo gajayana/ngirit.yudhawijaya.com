@@ -1,7 +1,26 @@
 <template>
   <div class="grid gap-4 sm:grid-cols-2">
+    <!-- Loading Skeleton -->
+    <template v-if="isLoading">
+      <div
+        v-for="i in 2"
+        :key="i"
+        class="rounded-lg border border-gray-200 p-5 dark:border-gray-800"
+      >
+        <div class="flex items-center gap-2">
+          <USkeleton class="h-9 w-9 rounded-full" />
+          <USkeleton class="h-4 w-16" />
+        </div>
+        <div class="mt-3 space-y-2">
+          <USkeleton class="h-7 w-32" />
+          <USkeleton class="h-3 w-20" />
+        </div>
+      </div>
+    </template>
+
     <!-- Today's Total -->
     <div
+      v-else
       class="rounded-lg border border-gray-200 bg-gradient-to-br from-red-50 to-red-100 p-5 dark:border-red-900/30 dark:from-red-950/50 dark:to-red-900/30"
     >
       <div class="flex items-center justify-between">
@@ -24,6 +43,7 @@
 
     <!-- Monthly Total -->
     <div
+      v-if="!isLoading"
       class="rounded-lg border border-gray-200 bg-gradient-to-br from-primary-50 to-primary-100 p-5 dark:border-primary-900/30 dark:from-primary-950/50 dark:to-primary-900/30"
     >
       <div class="flex items-center justify-between">
@@ -69,7 +89,7 @@
   const transactionStore = useTransactionStore();
 
   // Consume data from store
-  const { todayTotal, todayCount, monthlyTotal, monthlyCount } = storeToRefs(transactionStore);
+  const { todayTotal, todayCount, monthlyTotal, monthlyCount, isLoading } = storeToRefs(transactionStore);
 
   // Comparison with last month (positive = higher, negative = lower)
   // TODO: Implement last month comparison in future phase

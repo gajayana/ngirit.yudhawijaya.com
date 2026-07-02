@@ -82,6 +82,9 @@
     if (user.value) {
       logger.log('Dashboard mounted - user:', user.value.id);
 
+      // Set loading state immediately so widgets show skeletons from the start
+      transactionStore.isLoading = true;
+
       // Fetch family members first to determine if toggle should be shown
       await transactionStore.fetchFamilyMembers();
 
