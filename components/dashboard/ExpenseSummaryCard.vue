@@ -62,6 +62,10 @@
           {{ monthlyCount }} transaksi
         </p>
       </div>
+      <!-- Last Input Info -->
+      <p class="mt-2 text-xs text-primary-700 dark:text-primary-300">
+        {{ lastInputLabel }}
+      </p>
       <!-- Comparison with last month -->
       <div v-if="comparisonPercentage !== 0" class="mt-3 flex items-center gap-1">
         <UIcon
@@ -85,13 +89,28 @@
 </template>
 
 <script setup lang="ts">
+  import { formatDistanceToNow } from 'date-fns';
+  import { id } from 'date-fns/locale';
+
   const { formatCurrency } = useFinancial();
   const transactionStore = useTransactionStore();
 
   // Consume data from store
-  const { todayTotal, todayCount, monthlyTotal, monthlyCount, isLoading } = storeToRefs(transactionStore);
+  const { todayTotal, todayCount, monthlyTotal, monthlyCount, lastInputAt, isLoading } =
+    storeToRefs(transactionStore);
 
   // Comparison with last month (positive = higher, negative = lower)
   // TODO: Implement last month comparison in future phase
   const comparisonPercentage = ref(0);
+
+  // Label for when the user last recorded a transaction this month
+  const lastInputLabel = computed(() => {
+    if (!lastInputAt.value) return 'Anda belum mencatat apa pun bulan ini';
+
+    const relative = formatDistanceToNow(new Date(lastInputAt.value), {
+      addSuffix: true,
+      locale: id,
+    });
+    return `Terakhir input ${relative}`;
+  });
 </script>

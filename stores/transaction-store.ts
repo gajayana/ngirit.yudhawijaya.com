@@ -131,6 +131,16 @@ export const useTransactionStore = defineStore('transaction', () => {
   });
 
   /**
+   * Get timestamp of the most recent transaction recorded this month
+   * Returns null if nothing has been recorded in the current month yet
+   */
+  const lastInputAt = computed(() => {
+    return activeTransactions.value.reduce<string | null>((latest, t) => {
+      return !latest || t.created_at > latest ? t.created_at : latest;
+    }, null);
+  });
+
+  /**
    * Get monthly summary grouped by category
    */
   const monthlySummaryByCategory = computed(() => {
@@ -656,6 +666,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     todayCount,
     monthlyTotal,
     monthlyCount,
+    lastInputAt,
     monthlySummaryByCategory,
     monthlySummaryByDescription,
     hasFamilyMembers,
