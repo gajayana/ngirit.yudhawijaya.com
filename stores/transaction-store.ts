@@ -131,11 +131,14 @@ export const useTransactionStore = defineStore('transaction', () => {
   });
 
   /**
-   * Get timestamp of the most recent transaction recorded this month
-   * Returns null if nothing has been recorded in the current month yet
+   * Get timestamp of the current user's most recent transaction recorded this month
+   * Scoped to the logged-in user only, regardless of the family toggle
+   * Returns null if the user hasn't recorded anything in the current month yet
    */
   const lastInputAt = computed(() => {
-    return activeTransactions.value.reduce<string | null>((latest, t) => {
+    const ownTransactions = activeTransactions.value.filter(t => t.created_by === user.value?.sub);
+
+    return ownTransactions.reduce<string | null>((latest, t) => {
       return !latest || t.created_at > latest ? t.created_at : latest;
     }, null);
   });
