@@ -89,13 +89,19 @@ client bundle served via Workers Static Assets). Worker config lives in
 `wrangler.jsonc`; `main` and `assets` are injected by Nitro and must not be set
 there.
 
-**Environment variables split into two moments:**
+**Environment variables.** `NUXT_PUBLIC_SUPABASE_URL` and
+`NUXT_PUBLIC_SUPABASE_KEY` are set in the Cloudflare dashboard (deliberately not
+committed); `NUXT_PUBLIC_HOST` lives in `wrangler.jsonc` `vars`. This only works
+because `wrangler.jsonc` sets `"keep_vars": true` — without it `wrangler deploy`
+deletes dashboard-only vars and the app silently falls back to the local `.env`
+value baked in at build time (e.g. `http://127.0.0.1:54321` for Supabase).
+**Do not remove `keep_vars`.**
 
-- `NUXT_PUBLIC_*` are baked into the client bundle at **build time** — they must
-  be set wherever `nuxt build` runs (locally via `.env`, or in Cloudflare Workers
-  Builds settings).
-- Server-only values resolve at **runtime** from the Worker env. `SUPABASE_SECRET_KEY`
-  is overridden by a Worker secret named `NUXT_SUPABASE_SECRET_KEY`.
+`NUXT_`-prefixed vars are re-applied to `runtimeConfig` on every request, and
+the `public` half is serialized into the SSR payload — so they reach the browser
+too, since every route here is server-rendered. `SUPABASE_SECRET_KEY` is
+overridden by a Worker **secret** named `NUXT_SUPABASE_SECRET_KEY` (secrets
+survive deploys and must not go in `wrangler.jsonc`).
 
 Server code must stay on Web APIs — no `fs`, no native modules, no long-lived
 connections. **See `docs/DEPLOYMENT_CLOUDFLARE.md` for full details.**

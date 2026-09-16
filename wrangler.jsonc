@@ -22,11 +22,21 @@
       "custom_domain": true
     }
   ],
+  // Keeps vars set in the Cloudflare dashboard instead of deleting them on
+  // deploy. Without this, `wrangler deploy` treats this file as the sole source
+  // of truth and wipes anything set in the dashboard.
+  "keep_vars": true,
+
+  // Only non-sensitive values live here. The Supabase URL and publishable key
+  // are set in the dashboard (Worker -> Settings -> Variables and Secrets) and
+  // preserved across deploys by `keep_vars` above:
+  //   NUXT_PUBLIC_SUPABASE_URL
+  //   NUXT_PUBLIC_SUPABASE_KEY
+  //
+  // Nuxt maps NUXT_* env vars onto runtimeConfig on every request and puts the
+  // `public` half into the SSR payload, so these reach the browser too and
+  // override whatever the local .env baked in at build time.
   "vars": {
-    // Server-side runtime config overrides. Nuxt maps NUXT_* env vars onto
-    // runtimeConfig at request time, so these can be changed without a rebuild.
-    // Public values (NUXT_PUBLIC_*) are baked into the client bundle at BUILD
-    // time — setting them here only affects the server half.
     "NUXT_PUBLIC_HOST": "https://ngirit.yudhawijaya.com"
   }
   // Secrets are NOT stored here. Set them with:
