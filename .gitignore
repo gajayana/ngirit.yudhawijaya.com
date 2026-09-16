@@ -6,6 +6,10 @@
 .cache
 dist
 
+# Cloudflare Workers / Wrangler
+.wrangler
+worker-configuration.d.ts
+
 # Node dependencies
 node_modules
 

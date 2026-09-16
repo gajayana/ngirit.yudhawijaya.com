@@ -73,7 +73,32 @@ pnpm firestore:fetch
 
 # Generate TypeScript types from Supabase
 supabase gen types typescript --local > utils/constants/database.ts
+
+# Deploy to Cloudflare Workers (build + wrangler deploy)
+# NOTE: named cf:deploy because bare `pnpm deploy` is a pnpm builtin
+pnpm cf:deploy
+
+# Preview the built Worker locally on workerd (port 8787)
+pnpm build && pnpm preview
 ```
+
+## Deployment
+
+The app is hosted on **Cloudflare Workers** (Nitro `cloudflare_module` preset,
+client bundle served via Workers Static Assets). Worker config lives in
+`wrangler.jsonc`; `main` and `assets` are injected by Nitro and must not be set
+there.
+
+**Environment variables split into two moments:**
+
+- `NUXT_PUBLIC_*` are baked into the client bundle at **build time** — they must
+  be set wherever `nuxt build` runs (locally via `.env`, or in Cloudflare Workers
+  Builds settings).
+- Server-only values resolve at **runtime** from the Worker env. `SUPABASE_SECRET_KEY`
+  is overridden by a Worker secret named `NUXT_SUPABASE_SECRET_KEY`.
+
+Server code must stay on Web APIs — no `fs`, no native modules, no long-lived
+connections. **See `docs/DEPLOYMENT_CLOUDFLARE.md` for full details.**
 
 ## Troubleshooting
 

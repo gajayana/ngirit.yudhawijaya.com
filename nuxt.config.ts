@@ -27,6 +27,18 @@ export default defineNuxtConfig({
     key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
   },
 
+  nitro: {
+    // Cloudflare Workers (with Workers Static Assets for the client bundle).
+    preset: 'cloudflare_module',
+    cloudflare: {
+      // Merges the root wrangler.jsonc into .output/server/wrangler.json and
+      // writes .wrangler/deploy/config.json so `wrangler deploy` works from the root.
+      deployConfig: true,
+      // Enables the nodejs_compat polyfills the Nitro server bundle needs.
+      nodeCompat: true,
+    },
+  },
+
   runtimeConfig: {
     // Private keys that are only available on the server
     SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY,

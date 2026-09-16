@@ -1,0 +1,34 @@
+/**
+ * Cloudflare Workers config for ngirit.
+ *
+ * Nitro merges this file into `.output/server/wrangler.json` at build time and
+ * injects `main` + the `ASSETS` binding itself — do not set those here.
+ *
+ * Docs: https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "com-yudhawijaya-ngirit",
+  "compatibility_date": "2025-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  // Binds the Worker to the apex-zone subdomain. Wrangler creates the DNS
+  // record on deploy, so the zone must have NO existing record for this name.
+  "routes": [
+    {
+      "pattern": "ngirit.yudhawijaya.com",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    // Server-side runtime config overrides. Nuxt maps NUXT_* env vars onto
+    // runtimeConfig at request time, so these can be changed without a rebuild.
+    // Public values (NUXT_PUBLIC_*) are baked into the client bundle at BUILD
+    // time — setting them here only affects the server half.
+    "NUXT_PUBLIC_HOST": "https://ngirit.yudhawijaya.com"
+  }
+  // Secrets are NOT stored here. Set them with:
+  //   pnpm wrangler secret put NUXT_SUPABASE_SECRET_KEY
+}
