@@ -49,28 +49,61 @@ Tail production logs:
 pnpm cf:tail
 ```
 
-## Environment variables — build time vs runtime
+## Environment variables
 
-This is the one thing that bites on Workers. There are two distinct moments:
+`nuxt build` bakes whatever is in your local `.env` into the bundle — including
+`http://127.0.0.1:54321` if your `.env` points at the local Supabase CLI. That
+is expected; the Worker's `vars` override it.
 
-**Build time.** `nuxt build` inlines everything under `runtimeConfig.public` into
-the client bundle. Those values come from `process.env` when the build runs, so
-`NUXT_PUBLIC_HOST`, `NUXT_PUBLIC_SUPABASE_URL` and `NUXT_PUBLIC_SUPABASE_KEY`
-must be present **at build time**:
+Nuxt re-applies `NUXT_`-prefixed env vars onto `runtimeConfig` on **every
+request**, and serializes the `public` half into the SSR payload. Because every
+route in this app is server-rendered, the browser receives the overridden values
+too — so `NUXT_PUBLIC_SUPABASE_URL` set in `wrangler.jsonc` `vars` genuinely
+fixes the client, not just the server. (This would *not* hold for a prerendered
+or `ssr: false` route, which would keep the baked-in value. Keep that in mind
+before adding `nitro.prerender` routes.)
 
-- Building locally: they are read from `.env` automatically.
-- Building in Cloudflare Workers Builds (git-connected CI): add them under
-  *Settings → Build → Variables and Secrets*, or they will be baked in empty.
+The mapping is positional: `NUXT_PUBLIC_SUPABASE_URL` → `public.supabase.url`,
+`NUXT_SUPABASE_SECRET_KEY` → `SUPABASE_SECRET_KEY`.
 
-**Runtime.** Anything under the private half of `runtimeConfig` is resolved per
-request from the Worker's env. Nuxt maps `NUXT_`-prefixed vars onto the config
-tree, so `SUPABASE_SECRET_KEY` is overridden by a Worker secret named
-`NUXT_SUPABASE_SECRET_KEY`. Rotating it needs no rebuild.
+### Where each variable is set
 
-`NUXT_PUBLIC_HOST` is set in `wrangler.jsonc` `vars` as well, because the server
-half of the config reads it at runtime (used for OAuth `redirectTo` and canonical
-URLs). Change the value there if the domain changes — and rebuild, since the
-client half was baked in.
+| Variable | Where | Why |
+| --- | --- | --- |
+| `NUXT_PUBLIC_HOST` | `wrangler.jsonc` `vars` | Not sensitive, useful in git |
+| `NUXT_PUBLIC_SUPABASE_URL` | Cloudflare dashboard | Kept out of the repo |
+| `NUXT_PUBLIC_SUPABASE_KEY` | Cloudflare dashboard | Kept out of the repo |
+| `NUXT_SUPABASE_SECRET_KEY` | `wrangler secret put` | Genuinely secret |
+
+By default `wrangler deploy` treats `wrangler.jsonc` as the sole source of truth
+and **deletes** any var set only in the dashboard — the app then silently falls
+back to the local value baked in at build time. `"keep_vars": true` in
+`wrangler.jsonc` disables that deletion, which is what makes the dashboard rows
+above survive deploys. Do not remove it.
+
+Set the dashboard rows under *Worker → Settings → Variables and Secrets*. On a
+brand-new Worker they do not exist until you add them, so the first deploy will
+come up pointing at the baked-in local Supabase; adding the vars triggers a new
+version and fixes it.
+
+Because `keep_vars` lets deployed state drift from the repo, `wrangler.jsonc` no
+longer tells you the full picture. Check the live state with:
+
+```bash
+pnpm wrangler versions view --latest   # shows bindings on the deployed version
+pnpm wrangler secret list
+```
+
+**Alternative:** setting them as secrets instead (`pnpm wrangler secret put
+NUXT_PUBLIC_SUPABASE_URL`) also keeps them out of git and survives deploys
+without `keep_vars`. They reach the Worker env identically, so Nuxt maps them
+the same way. The trade-off is that secret values cannot be read back afterwards.
+
+### Verifying what actually shipped
+
+```bash
+curl -s https://ngirit.yudhawijaya.com/ | grep -o 'supabase:{url:"[^"]*"'
+```
 
 ## Why Workers and not Pages
 
