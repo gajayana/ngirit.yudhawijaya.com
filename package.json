@@ -8,6 +8,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "cf:deploy": "pnpm build && wrangler deploy",
+    "cf:typegen": "wrangler types",
+    "cf:tail": "wrangler tail",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck",
     "lint": "eslint .",
@@ -27,7 +30,6 @@
     "@unhead/vue": "^3.1.7",
     "date-fns": "^4.4.0",
     "decimal.js": "^10.6.0",
-    "firebase": "^12.15.0",
     "nuxt": "^4.4.8",
     "pinia": "^3.0.4",
     "vue": "^3.5.39",
@@ -41,9 +43,11 @@
     "@types/node": "^26.0.1",
     "dotenv": "^17.4.2",
     "eslint": "^10.6.0",
+    "firebase": "^12.15.0",
     "tailwindcss": "^4.3.2",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
-    "vue-tsc": "^3.3.6"
+    "vue-tsc": "^3.3.6",
+    "wrangler": "^4.45.0"
   }
 }
